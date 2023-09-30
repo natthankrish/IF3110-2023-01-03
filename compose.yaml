@@ -1,0 +1,45 @@
+# Define a Docker Compose configuration for two services: web and mysql
+
+services:
+  # Configuration for the web service
+  web:
+    # Use the 'moments:latest' image for the web service
+    image: moments:latest
+
+    # Map host port 8080 to container port 80 for incoming HTTP traffic
+    ports:
+      - 8080:80
+
+    # Set a custom hostname for the web service
+    hostname: web-moments
+
+    # Load environment variables from the .env file
+    env_file: .env
+
+    # Mount the local './src' directory into '/var/www/html' in the container
+    volumes:
+      - ./src:/var/www/html
+
+  # Configuration for the mysql service
+  mysql:
+    # Use the 'mysql:latest' image for the mysql service
+    image: mysql:latest
+
+    # Map host port 3307 to container port 3306 for MySQL traffic
+    ports:
+      - 3307:3306
+
+    # Set a custom hostname for the mysql service
+    hostname: db-moments
+
+    # Load environment variables from the .env file
+    env_file: .env
+
+    # Mount the local './mysql' directory into '/var/lib/mysql' in the container
+    volumes:
+      - ./mysql:/var/lib/mysql
+
+# Define a custom network called 'web-mysql' with the 'bridge' driver
+networks:
+  web-mysql:
+    driver: bridge
