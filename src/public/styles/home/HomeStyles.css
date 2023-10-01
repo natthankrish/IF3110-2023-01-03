@@ -19,7 +19,7 @@ body {
 
 .navbar-container {
     width: 100%;
-    padding-top: 60px;
+    padding-top: 1%;
     position: absolute;
     display: flex;
     justify-content: center;
@@ -42,6 +42,7 @@ body {
 .navbar-item {
     margin: 0 1%;
 
+    color: black;
     display: flex;
     flex-direction: row;
     align-items: center;
