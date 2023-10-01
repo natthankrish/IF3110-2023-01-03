@@ -11,7 +11,6 @@ class UserController extends Controller implements ControllerInterface
                     $loginView->render();
                     exit;
 
-                    break;
                 default:
                     throw new LoggedException('Method Not Allowed', 405);
             }
@@ -30,7 +29,6 @@ class UserController extends Controller implements ControllerInterface
                     $loginView->render();
                     exit;
 
-                    break;
                 default:
                     throw new LoggedException('Method Not Allowed', 405);
             }
@@ -49,7 +47,6 @@ class UserController extends Controller implements ControllerInterface
                     $registerView->render();
                     exit;
 
-                    break;
                 default:
                     throw new LoggedException('Method Not Allowed', 405);
             }
