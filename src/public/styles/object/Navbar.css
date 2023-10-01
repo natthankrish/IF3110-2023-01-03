@@ -8,7 +8,7 @@
 }
 
 .navbar {
-    width: 645px;
+    width: max-content;
     height: 68px;
     background-color: white;
     border: 3px solid black;

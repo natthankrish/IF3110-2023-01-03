@@ -2,15 +2,15 @@
     <div class="navbar-container">
         <div class="navbar">
             <a class="navbar-item">
-                <img src="user.png"/>
+                <img src="<?= BASE_URL ?>/assets/icons/photos.png"/>
                 <p class="navbar-item-desc">User</p>
             </a>
             <a class="navbar-item">
-                <img src="admin.png"/>
+                <img src="<?= BASE_URL ?>/assets/icons/admin.png"/>
                 <p class="navbar-item-desc">Admin</p>
             </a>
             <a class="navbar-item">
-                <img src="assets/profile.png"/>
+                <img src="<?= BASE_URL ?>/assets/icons/profile.png"/>
                 <p class="navbar-item-desc">Profile</p>
             </a>
         </div>
