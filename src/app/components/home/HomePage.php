@@ -6,12 +6,10 @@
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/home/HomeStyles.css">
     </head>
     <body>
-        <?php 
-            include(dirname(__DIR__) . '/navbar/Navbar.php');
-            echo createHeader();
-        ?>
-        <div class="hello-text">   
-            <h1>View your moments in one view</h1>
-        </div>
+        <?php include(dirname(__DIR__) . '/navbar/Navbar.php') ?>
+        <div class="wrapper">
+            <div class="hello-text">   
+                <h1>View your moments in one view</h1>
+            </div>
     </body>
 </html>
