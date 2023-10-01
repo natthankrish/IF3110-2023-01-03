@@ -1,0 +1,95 @@
+body {
+    margin: 0 auto;
+    font-family: sans-serif;
+
+    display: flex;
+    justify-content: center;
+}
+
+.content {
+    width: 80%;
+    height: 100%;
+    margin-top: 8%;
+}
+
+.title {
+    font-size: 40px;
+    margin-right: 20px;
+}
+
+.title-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.item-settings-container {
+    margin: 10px 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    align-items: center;
+    gap:10px
+}
+
+table {
+    border-collapse: collapse;
+}
+
+.table-header {
+    text-align: left;
+}
+
+tr {
+    border-bottom: 1px solid black;
+}
+    
+td, th {
+    padding: 10px;
+}
+
+.textfield {
+    height: 45px;
+    width: 220px;
+    padding: 0 20px;
+    border-radius: 25px;
+}
+
+.button {
+    color: white;
+    background-color: black;
+    font-size: 16px;
+    padding: 5px 20px;
+    border-radius: 15px;
+}
+
+.button2 {
+    height: max-content;
+    font-weight: bold;
+    color: white;
+    padding: 10px 20px;
+    background-color: black;
+    font-size: 20px;
+    border-radius: 15px;
+}
+
+.button:hover, .button2:hover {
+    color: black;
+    background-color: white;
+}
+
+.button-column {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    vertical-align: middle;
+}

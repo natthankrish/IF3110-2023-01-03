@@ -1,12 +1,30 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Manage My Account</title>
-        <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/user/ManageMyAccount.css">
-        <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/object/Navbar.css">
+        <title>Home</title>
+        <link rel="stylesheet" href="manage-account-style.css">
     </head>
     <body>
-        <?php include(dirname(__DIR__) . '/object/UserNavbar.php') ?>
+        <div class="navbar-container">
+            <div class="navbar">
+                <a class="navbar-item">
+                    <img src="assets/photos.png"/>
+                    <p class="navbar-item-desc">My Photos</p>
+                </a>
+                <a class="navbar-item">
+                    <img src="assets/search.png"/>
+                    <p class="navbar-item-desc">Search</p>
+                </a>
+                <a class="navbar-item">
+                    <img src="assets/feeds.png"/>
+                    <p class="navbar-item-desc">Feeds</p>
+                </a>
+                <a class="navbar-item">
+                    <img src="assets/profile.png"/>
+                    <p class="navbar-item-desc">Profile</p>
+                </a>
+            </div>
+        </div>
         <div class="content">
             <div class="item-settings-container">
                 <h1 class="title">Manage My Account</h1>
