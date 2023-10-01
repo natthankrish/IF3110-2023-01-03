@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Home</title>
-        <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/admin/UserDashboardStyles.css">
+        <title>Manage Users</title>
+        <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/admin/DashboardStyles.css">
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/object/Navbar.css">
     </head>
     <body>
