@@ -6,7 +6,6 @@
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/user/UserStyles.css">
     </head>
     <body>
-        <?php include(dirname(__DIR__) . '/navbar/Navbar.php') ?>
         <div class="wrapper">
             <div class="content">
                 <div class="left">

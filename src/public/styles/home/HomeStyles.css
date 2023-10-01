@@ -17,50 +17,6 @@ body {
     align-items: center;
 }
 
-.navbar-container {
-    width: 100%;
-    padding-top: 1%;
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    z-index: 1; 
-}
-
-.navbar {
-    width: 645px;
-    height: 68px;
-    background-color: white;
-    border: 3px solid black;
-    border-radius: 50px;
-
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-}
-
-.navbar-item {
-    margin: 0 1%;
-
-    color: black;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-
-.navbar-item-desc {
-    text-decoration: none;
-    font-size: 16px;
-}
-
-.navbar-item:hover .navbar-item-desc {
-    text-decoration: underline;
-    font-size: 20px;
-    font-weight: bold;
-}
-
 h1 {
     max-width: 620px;
     font-size: 64px;

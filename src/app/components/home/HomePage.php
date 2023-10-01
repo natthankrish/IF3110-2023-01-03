@@ -4,9 +4,10 @@
         <title>Home Page</title>
         <link rel="icon" href="<?= BASE_URL ?>/assets/icons/photos.png">
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/home/HomeStyles.css">
+        <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/object/UserNavbar.css">
     </head>
     <body>
-        <?php include(dirname(__DIR__) . '/navbar/Navbar.php') ?>
+    <?php include(dirname(__DIR__) . '/object/UserNavbar.php') ?>
         <div class="wrapper">
             <div class="hello-text">   
                 <h1>View your moments in one view</h1>
