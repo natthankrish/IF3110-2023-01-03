@@ -137,7 +137,7 @@ body {
     width: 18vw;
     height: 18vw;
 
-    transition: 0.1s;
+    transition: 0.3s;
 }
 
 .photo-popup-close {
@@ -154,7 +154,7 @@ body {
 .photo-popup-close > img:hover {
     height: 40px;
     width: 40px;
-    transition: 0.1s;
+    transition: 0.3s;
 }
 
 .photo-popup-name-container {
