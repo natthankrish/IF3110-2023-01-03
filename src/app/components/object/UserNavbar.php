@@ -13,7 +13,7 @@
                 <img src="<?= BASE_URL ?>/assets/icons/feeds.png" alt="Feeds">
                 <p class="navbar-item-desc">Feeds</p>
             </a>
-            <a href="/public/user/login" class="navbar-item">
+            <a href="/public/user/profile" class="navbar-item">
                 <img src="<?= BASE_URL ?>/assets/icons/profile.png" alt="Profile">
                 <p class="navbar-item-desc">Profile</p>
             </a>

@@ -114,7 +114,7 @@ class UserController extends Controller implements ControllerInterface
         try {
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
-                    $registerView = $this->view('user', 'FeedsView', []);
+                    $registerView = $this->view('user', 'ProfileView', []);
                     $registerView->render();
                     exit;
 
