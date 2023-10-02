@@ -39,6 +39,14 @@
             function closePopUp(object) {
                 object.parentElement.parentElement.parentElement.parentElement.parentElement.children[1].style.display = "none";
             }
+
+            function changeLike(object) {
+                if (object.src == "<?= BASE_URL ?>/assets/icons/liked.png") {
+                    object.src = "<?= BASE_URL ?>/assets/icons/heart.png";
+                } else {
+                    object.src = "<?= BASE_URL ?>/assets/icons/liked.png";
+                }          
+            }
         </script>
     </body>
 </html>

@@ -22,7 +22,7 @@
                         <p class="photo-popup-property-desc">User</p>
                     </div>
                     <div class="photo-popup-info-property">
-                        <img src="<?= BASE_URL ?>/assets/icons/heart.png" class="photo-popup-property-icon"/>
+                        <img src="<?= BASE_URL ?>/assets/icons/heart.png" class="photo-popup-property-icon" onclick="changeLike(this)"/>
                         <p class="photo-popup-property-desc">Like</p>
                     </div>
                     <div class="photo-popup-info-property">

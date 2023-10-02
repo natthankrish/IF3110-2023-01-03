@@ -181,6 +181,14 @@ body {
 .photo-popup-property-icon {
     height: 26px;
     width: 26px;
+    margin: 2px;
+}
+
+.photo-popup-property-icon:hover {
+    height: 28px;
+    width: 28px;
+    margin: 0;
+    transition: 0.3s;
 }
 
 .photo-popup-property-desc {
