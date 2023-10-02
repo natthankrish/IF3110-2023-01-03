@@ -4,6 +4,7 @@
         <title>Manage Users</title>
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/admin/DashboardStyles.css">
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/object/Navbar.css">
+        <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/object/Pagination.css">
     </head>
     <body>
         <?php include(dirname(__DIR__) . '/object/AdminNavbar.php') ?>
@@ -36,6 +37,7 @@
                 <?php include(dirname(__DIR__) . '/object/UserItem.php') ?>
                 <?php include(dirname(__DIR__) . '/object/UserItem.php') ?>
               </table>
+              <?php include(dirname(__DIR__) . '/object/Pagination.php') ?>
         </div>
     </body>
 </html>

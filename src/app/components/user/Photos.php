@@ -4,6 +4,7 @@
         <title>Photos</title>
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/user/PhotosStyles.css">
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/object/Navbar.css">
+        <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/object/Pagination.css">
     </head>
     <body>
         <?php include(dirname(__DIR__) . '/object/UserNavbar.php') ?>
@@ -27,6 +28,7 @@
                 <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
                 <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
             </div>
+            <?php include(dirname(__DIR__) . '/object/Pagination.php') ?>
         </div>
         <script>
             function openPopUp(object) {
