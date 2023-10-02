@@ -52,6 +52,11 @@ table {
 tr {
     border-bottom: 1px solid black;
 }
+
+td:hover {
+
+    transition: 0.3s;
+}
     
 td, th {
     padding: 10px;

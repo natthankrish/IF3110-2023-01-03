@@ -11,7 +11,7 @@
             <div class="item-settings-container">
                 <h1 class="title">User</h1>
                 <form action="/action_page.php" class="form">
-                    <img src="assets/search.png"/>
+                    <img src="<?= BASE_URL ?>/assets/icons/search.png"/>
                     <input type="text" id="fname" name="fname" class="textfield" placeholder="Type Username, ID, Name"><br>    
                 </form>
             </div>
@@ -25,76 +25,16 @@
                   <th>Storage Usage</th>
                   <th></th>
                 </tr>
-                <tr>
-                  <td>1</td>
-                  <td>Maria Anders</td>
-                  <td>Germany</td>
-                  <td>Alfreds Futterkiste</td>
-                  <td class="button-column"><button class="button">Manage Account</button></td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Francisco Chang</td>
-                  <td>Alfreds Futterkiste</td>
-                  <td>Mexico</td>
-                  <td class="button-column"><button class="button">Manage Account</button></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Francisco Chang</td>
-                    <td>Alfreds Futterkiste</td>
-                    <td>Mexico</td>
-                    <td class="button-column"><button class="button">Manage Account</button></td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Francisco Chang</td>
-                    <td>Alfreds Futterkiste</td>
-                    <td>Mexico</td>
-                    <td class="button-column"><button class="button">Manage Account</button></td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Francisco Chang</td>
-                    <td>Alfreds Futterkiste</td>
-                    <td>Mexico</td>
-                    <td class="button-column"><button class="button">Manage Account</button></td>
-                </tr>
-                <tr>
-                    <td>6</td>
-                    <td>Francisco Chang</td>
-                    <td>Alfreds Futterkiste</td>
-                    <td>Mexico</td>
-                    <td class="button-column"><button class="button">Manage Account</button></td>
-                </tr>
-                <tr>
-                    <td>7</td>
-                    <td>Francisco Chang</td>
-                    <td>Alfreds Futterkiste</td>
-                    <td>Mexico</td>
-                    <td class="button-column"><button class="button">Manage Account</button></td>
-                </tr>
-                <tr>
-                    <td>8</td>
-                    <td>Francisco Chang</td>
-                    <td>Alfreds Futterkiste</td>
-                    <td>Mexico</td>
-                    <td class="button-column"><button class="button">Manage Account</button></td>
-                </tr>
-                <tr>
-                    <td>9</td>
-                    <td>Francisco Chang</td>
-                    <td>Alfreds Futterkiste</td>
-                    <td>Mexico</td>
-                    <td class="button-column"><button class="button">Manage Account</button></td>
-                </tr>
-                <tr>
-                    <td>10</td>
-                    <td>Francisco Chang</td>
-                    <td>Alfreds Futterkiste</td>
-                    <td>Mexico</td>
-                    <td class="button-column"><button class="button">Manage Account</button></td>
-                </tr>
+                <?php include(dirname(__DIR__) . '/object/UserItem.php') ?>
+                <?php include(dirname(__DIR__) . '/object/UserItem.php') ?>
+                <?php include(dirname(__DIR__) . '/object/UserItem.php') ?>
+                <?php include(dirname(__DIR__) . '/object/UserItem.php') ?>
+                <?php include(dirname(__DIR__) . '/object/UserItem.php') ?>
+                <?php include(dirname(__DIR__) . '/object/UserItem.php') ?>
+                <?php include(dirname(__DIR__) . '/object/UserItem.php') ?>
+                <?php include(dirname(__DIR__) . '/object/UserItem.php') ?>
+                <?php include(dirname(__DIR__) . '/object/UserItem.php') ?>
+                <?php include(dirname(__DIR__) . '/object/UserItem.php') ?>
               </table>
         </div>
     </body>
