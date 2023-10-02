@@ -65,17 +65,19 @@ h3 {
     font-weight: bold;
 }
 
-.button {
+.button-black {
     height: max-content;
     font-weight: bold;
     color: white;
-    padding: 10px 20px;
+    padding: 8px 18px;
+    margin: 2px;
     background-color: black;
     font-size: 20px;
     border-radius: 15px;
 }
 
-.button:hover {
-    color: black;
-    background-color: white;
+.button-black:hover {
+    padding: 10px 20px;
+    margin: 0;
+    transition: 0.3s;
 }

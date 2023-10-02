@@ -11,7 +11,7 @@
             <div class="item-settings-container">
                 <h1 class="title">Manage My Account</h1>
                 <a href="/public/user/manage">
-                    <button class="button">Back</button>
+                    <button class="button-black">Back</button>
                 </a>
             </div>
             <br>
@@ -23,7 +23,7 @@
                 </div>
                 <form action="/action_page.php" class="form">
                     <input type="text" id="fname" name="fname" class="textfield" placeholder="Username"><br>    
-                    <input type="submit" value="Confirm" class="button">
+                    <input type="submit" value="Confirm" class="button-black">
                 </form>
             </div>
 
@@ -34,7 +34,7 @@
                 </div>
                 <form action="/action_page.php" class="form">
                     <input type="text" id="fname2" name="fname" class="textfield" placeholder="Name"><br>    
-                    <input type="submit" value="Confirm" class="button">
+                    <input type="submit" value="Confirm" class="button-black">
                 </form>
             </div>
 
@@ -45,7 +45,7 @@
                 <form action="/action_page.php" class="form">
                     <input type="text" id="fname3" name="fname" class="textfield" placeholder="New Password"><br>  
                     <input type="text" id="fname4" name="fname" class="textfield" placeholder="Confirm Password"><br>    
-                    <input type="submit" value="Confirm" class="button">
+                    <input type="submit" value="Confirm" class="button-black">
                 </form>
             </div>
 
