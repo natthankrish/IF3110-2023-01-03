@@ -36,6 +36,17 @@
             function closePopUp(object) {
                 object.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.children[1].style.display = "none";
             }
+
+            function changeStatus(object) {
+                let stat = object.parentElement.children[8];
+                if (object.innerText == "Show in My Profile") {
+                    object.innerText = "Hide from My Profile";
+                    stat.innerText = "Others can see this picture"
+                } else {
+                    object.innerText = "Show in My Profile";
+                    stat.innerText = "Others can't see this picture"
+                }
+            }
         </script>
     </body>
 </html>

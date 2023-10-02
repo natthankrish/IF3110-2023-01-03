@@ -214,6 +214,7 @@ body {
 .button-black:hover {
     color: black;
     background-color: white;
+    transition: 0.3s;
 }
 
 .textfield {

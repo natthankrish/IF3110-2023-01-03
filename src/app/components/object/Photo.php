@@ -32,7 +32,7 @@
                     </div>
                     <br>
                     <h1 class="visibility-status">Others can't see this photos</h1>
-                    <button class="button-black">Show in My Profile</button>
+                    <button class="button-black" onclick="changeStatus(this)">Show in My Profile</button>
                 </div>
                 <button class="button-white">Delete This Photo</button>
             </div>
