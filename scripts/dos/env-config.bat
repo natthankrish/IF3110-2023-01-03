@@ -7,7 +7,7 @@ set /p "PASSWORD=Enter a password for mysql environment: "
 REM Create a new .env file with the entered password
 (
   echo # Environment variables for mysql
-  echo MYSQL_USER=root
+  echo MYSQL_USER=moments
   echo MYSQL_ROOT_PASSWORD=!PASSWORD!
   echo MYSQL_PORT=3306
   echo MYSQL_HOST=db-moments
