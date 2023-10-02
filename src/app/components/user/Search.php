@@ -33,7 +33,7 @@
         </div>
         <script>
             function openPopUp(object) {
-                object.parentElement.children[1].style.display = "flex";
+                object.parentElement.parentElement.children[1].style.display = "flex";
             }
 
             function closePopUp(object) {

@@ -118,10 +118,26 @@ body {
     justify-content: space-between;
 }
 
-.photo-thumbnail {
+.photo-thumbnail-container {
     width: 18vw;
     height: 18vw;
     margin-bottom: 15%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.photo-thumbnail {
+    width: 17vw;
+    height: 17vw;
+}
+
+.photo-thumbnail:hover {
+    width: 18vw;
+    height: 18vw;
+
+    transition: 0.1s;
 }
 
 .photo-popup-close {

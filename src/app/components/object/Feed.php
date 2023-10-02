@@ -1,5 +1,7 @@
 <div class="photo-card">
-    <img src="<?= BASE_URL ?>/assets/icons/photo-th.png" class="photo-thumbnail" onclick="openPopUp(this)"/>
+    <div class="photo-thumbnail-container">
+        <img src="<?= BASE_URL ?>/assets/icons/photo-th.png" class="photo-thumbnail" onclick="openPopUp(this)"/>
+    </div>
     <div class="photo-popup-container">
         <div class="photo-popup">
             <div class="photo-popup-img-container">
