@@ -55,4 +55,40 @@ class UserController extends Controller implements ControllerInterface
             exit;
         }
     }
+
+    public function photos()
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'GET':
+                    $registerView = $this->view('user', 'PhotosView', []);
+                    $registerView->render();
+                    exit;
+
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
+
+    public function manage()
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'GET':
+                    $manageView = $this->view('user', 'ManageMyAccountUserView', []);
+                    $manageView->render();
+                    exit;
+
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
 }

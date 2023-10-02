@@ -3,7 +3,7 @@
         <div class="navbar">
             <a href="photos.php" class="navbar-item">
                 <img src="<?= BASE_URL ?>/assets/icons/photos.png" alt="My Photos">
-                <p class="navbar-item-desc">My Photos</p>
+                <p class="navbar-item-desc">Photos</p>
             </a>
             <a href="search.php" class="navbar-item">
                 <img src="<?= BASE_URL ?>/assets/icons/search.png" alt="Search">

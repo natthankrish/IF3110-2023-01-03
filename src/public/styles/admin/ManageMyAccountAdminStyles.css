@@ -1,0 +1,108 @@
+body {
+    margin: 0 auto;
+    font-family: sans-serif;
+
+    display: flex;
+    justify-content: center;
+}
+
+.content {
+    width: 80%;
+    height: 100%;
+    margin-top: 8%;
+}
+
+.title {
+    font-size: 40px;
+    margin-bottom: 0;
+    
+}
+
+.item-settings-container {
+    margin: 10px 0px;
+    display: flex;
+
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.left1 {
+    margin-right: 20px;
+}
+
+.left {
+    margin: 5px 1px;
+    display: flex;
+    align-items: center;
+}
+
+h2 {
+    font-size: 24px;
+    margin: 0;
+}
+
+h3 {
+    font-size: 24px;
+    font-weight: 100;
+    margin: 0;
+}
+
+.textfield {
+    height: 45px;
+    width: 220px;
+    padding: 0 20px;
+    border-radius: 25px;
+}
+
+.form {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    align-items: center;
+    gap:10px
+}
+
+.form-password {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap:10px
+}
+
+.usage {
+    margin-top: 10px ;
+    font-size: 96px;
+    font-weight: bold;
+}
+
+.button {
+    height: max-content;
+    font-weight: bold;
+    color: white;
+    padding: 10px 20px;
+    background-color: black;
+    font-size: 20px;
+    border-radius: 15px;
+}
+
+.button:hover {
+    color: black;
+    background-color: white;
+}
+
+.button-white {
+    height: max-content;
+    font-weight: bold;
+    color: black;
+    padding: 10px 20px;
+    background-color: white;
+    font-size: 20px;
+    border-radius: 15px;
+}
+
+.button-white:hover {
+    color: white;
+    background-color: black;
+}
