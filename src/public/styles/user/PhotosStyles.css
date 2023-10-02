@@ -187,3 +187,17 @@ body {
     color: black;
     background-color: white;
 }
+
+.textfield {
+    height: 55px;
+    padding: 0 10%;
+    border-radius: 25px;
+}
+
+.form {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    align-items: center;
+    gap:10px
+}

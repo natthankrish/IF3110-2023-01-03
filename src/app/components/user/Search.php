@@ -9,8 +9,11 @@
         <?php include(dirname(__DIR__) . '/object/UserNavbar.php') ?>
         <div class="content">
             <div class="item-settings-container">
-                <h1 class="title">My Photos</h1>
-                <button class="button-white">Add Photos</button>
+                <h1 class="title">Search</h1>
+                <form action="/action_page.php" class="form">
+                    <img src="<?= BASE_URL ?>/assets/icons/search.png"/>
+                    <input type="text" id="fname" name="fname" class="textfield" placeholder="Type Username, ID, Name"><br>    
+                </form>
             </div>
             <br>
             <div class="photo-container">
