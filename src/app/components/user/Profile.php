@@ -13,7 +13,9 @@
                     <div class="left1">
                         <h1 class="profile-name">Natthan Krish</h1>
                         <h2 class="profile-username">@natthankrish</h3>
-                        <button class="button-white">Manage Account</button>
+                        <a href="/public/user/manage">
+                            <button class="button-white">Manage Account</button>
+                        </a>
                     </div>
                 </div>
                 <button class="button-white">Logout</button>

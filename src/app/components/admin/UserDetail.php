@@ -16,7 +16,9 @@
                     </div>
                     <button class="button2">Delete Account</button>
                 </div>
-                <button class="button">Back</button>
+                <a href="/public/admin/admins">
+                    <button class="button">Back</button>
+                </a>
             </div>
             <br>
 

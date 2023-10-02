@@ -10,7 +10,9 @@
         <div class="content">
             <div class="item-settings-container">
                 <h1 class="title">Manage My Account</h1>
-                <button class="button">Back</button>
+                <a href="/public/user/manage">
+                    <button class="button">Back</button>
+                </a>
             </div>
             <br>
 
