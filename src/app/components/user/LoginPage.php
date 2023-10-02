@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Login Page</title>
+        <title>Login</title>
         <link rel="icon" href="<?= BASE_URL ?>/assets/icons/profile.png">
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/user/UserStyles.css">
     </head>

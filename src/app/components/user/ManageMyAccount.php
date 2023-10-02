@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>Manage My Account</title>
-        <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/user/ManageMyAccount.css">
+        <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/user/ManageMyAccountStyles.css">
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/object/Navbar.css">
     </head>
     <body>

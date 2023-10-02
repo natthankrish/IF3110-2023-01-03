@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Register Page</title>
+        <title>Register</title>
         <link rel="icon" href="<?= BASE_URL ?>/assets/icons/profile.png">
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/user/UserStyles.css">
     </head>
