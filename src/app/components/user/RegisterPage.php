@@ -20,7 +20,7 @@
                             <input type="text" id="lname" name="lname" class="textfield" placeholder="Password">
                             <input type="text" id="lname" name="lname" class="textfield" placeholder="Confirm Password">
                             <p>Have an account? <span><a href="/public/user/login" class="link">LOGIN</a></span></p>
-                            <input type="submit" value="REGISTER" class="button">
+                            <input type="submit" value="REGISTER" class="button-black">
                         </form>
                     </div>
                 </div>   

@@ -20,7 +20,7 @@
                                 <input type="text" id="fname" name="fname" class="textfield" placeholder="Username"><br>    
                                 <input type="text" id="lname" name="lname" class="textfield" placeholder="Password">
                                 <p>Do not have an account? <span><a href="/public/user/register" class="link">REGISTER</a></span></p>
-                                <input type="submit" value="LOGIN" class="button">
+                                <input type="submit" value="LOGIN" class="button-black">
                             </form>
                         </div>
                     </div>   

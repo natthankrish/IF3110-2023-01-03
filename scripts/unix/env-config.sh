@@ -6,7 +6,7 @@ read -s -p "Enter a password for mysql environment: " PASSWORD
 # Create a new .env file with the entered password
 cat <<EOL > .env
 # Environment variables for mysql
-MYSQL_USER=root
+MYSQL_USER=moments
 MYSQL_ROOT_PASSWORD=$PASSWORD
 MYSQL_PORT=3306
 MYSQL_HOST=db-moments

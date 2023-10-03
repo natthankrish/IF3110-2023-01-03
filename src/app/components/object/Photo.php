@@ -1,5 +1,7 @@
 <div class="photo-card">
-    <img src="<?= BASE_URL ?>/assets/icons/photo-th.png" class="photo-thumbnail" onclick="openPopUp(this)"/>
+    <div class="photo-thumbnail-container">
+        <img src="<?= BASE_URL ?>/assets/icons/photo-th.png" class="photo-thumbnail" onclick="openPopUp(this)"/>
+    </div>
     <div class="photo-popup-container">
         <div class="photo-popup">
             <div class="photo-popup-img-container">
@@ -30,7 +32,7 @@
                     </div>
                     <br>
                     <h1 class="visibility-status">Others can't see this photos</h1>
-                    <button class="button-black">Show in My Profile</button>
+                    <button class="button-black" onclick="changeStatus(this)">Show in My Profile</button>
                 </div>
                 <button class="button-white">Delete This Photo</button>
             </div>
