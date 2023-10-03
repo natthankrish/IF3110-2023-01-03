@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Home</title>
+        <title>Manage My Account</title>
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/admin/ManageMyAccountAdminStyles.css">
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/object/Navbar.css">
     </head>

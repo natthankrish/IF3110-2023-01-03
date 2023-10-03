@@ -9,7 +9,7 @@
 
 .navbar {
     height: 68px;
-    padding: 0 2%;
+    padding: 0 3%;
 
     background-color: white;
     border: 3px solid black;
@@ -41,4 +41,5 @@
     text-decoration: underline;
     font-size: 20px;
     font-weight: bold;
+    transition: 0.3s;
 }

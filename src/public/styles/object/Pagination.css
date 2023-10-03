@@ -1,0 +1,29 @@
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 5%;
+}
+
+.page-button {
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+}
+
+.page-button:hover {
+    width: 45px;
+    height: 45px;
+    margin: 0;
+}
+
+.page-item {
+    font-size: 36px;
+    padding: 0 2%;
+}
+
+.page-item:hover {
+    font-size: 38px;
+    font-weight: bold;
+    padding: 0 2%;
+}

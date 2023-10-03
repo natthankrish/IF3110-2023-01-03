@@ -43,6 +43,7 @@ body {
 
 table {
     border-collapse: collapse;
+    margin-bottom: 2%;
 }
 
 .table-header {
@@ -51,6 +52,12 @@ table {
 
 tr {
     border-bottom: 1px solid black;
+}
+
+tr:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+
+    transition: 0.3s;
 }
     
 td, th {

@@ -73,6 +73,59 @@ class UserController extends Controller implements ControllerInterface
             exit;
         }
     }
+    public function search()
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'GET':
+                    $registerView = $this->view('user', 'SearchView', []);
+                    $registerView->render();
+                    exit;
+
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
+
+    public function feeds()
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'GET':
+                    $registerView = $this->view('user', 'FeedsView', []);
+                    $registerView->render();
+                    exit;
+
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
+
+    public function profile()
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'GET':
+                    $registerView = $this->view('user', 'ProfileView', []);
+                    $registerView->render();
+                    exit;
+
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
 
     public function manage()
     {
