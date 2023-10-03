@@ -2,11 +2,11 @@
 
 class Database
 {
-    private $host = db-moments;
-    private $db_name = moments;
-    private $user = root;
-    private $password = 12345678;
-    private $port = 3306;
+    private $host = HOST;
+    private $db_name = DBNAME;
+    private $user = USER;
+    private $password = PASSWORD;
+    private $port = PORT;
 
     private $db_connection;
     private $statement;
@@ -27,8 +27,9 @@ class Database
 
         try {
             $this->db_connection->exec(Tables::USER_TABLE);
-            $this->db_connection->exec(Tables::ALBUM_TABLE);
-            $this->db_connection->exec(Tables::SONG_TABLE);
+            $this->db_connection->exec(Tables::OBJECT_TABLE);
+            $this->db_connection->exec(Tables::COMMENT_TABLE);
+            $this->db_connection->exec(Tables::LIKE_TABLE);
         } catch (PDOException) {
             throw new LoggedException('Internal Server Error', 500);
         }
