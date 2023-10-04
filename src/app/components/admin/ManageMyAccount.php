@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>Manage My Account</title>
+        <link rel="icon" href="<?= BASE_URL ?>/assets/icons/logo.png">
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/admin/ManageMyAccountAdminStyles.css">
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/object/Navbar.css">
     </head>

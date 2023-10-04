@@ -2,7 +2,6 @@
 <html>
     <head>
         <title>Home Page</title>
-        <link rel="icon" href="<?= BASE_URL ?>/assets/icons/photos.png">
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/home/HomeStyles.css">
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/object/Navbar.css">
     </head>

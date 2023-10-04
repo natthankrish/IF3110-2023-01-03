@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>Manage Admins</title>
+        <link rel="icon" href="<?= BASE_URL ?>/assets/icons/logo.png">
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/admin/Dashboard.css">
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/object/Navbar.css">
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/object/Pagination.css">

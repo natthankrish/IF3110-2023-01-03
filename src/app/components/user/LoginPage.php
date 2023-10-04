@@ -4,8 +4,8 @@
         <title>Login</title>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <link rel="icon" href="<?= BASE_URL ?>/assets/icons/profile.png">
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/user/User.css">
+        <link rel="icon" href="<?= BASE_URL ?>/assets/icons/logo.png">
 
         <!-- JavaScript Constant and Variables -->
         <script type="text/javascript" defer>

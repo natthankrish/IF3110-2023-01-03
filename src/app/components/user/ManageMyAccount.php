@@ -4,6 +4,7 @@
         <title>Manage My Account</title>
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/user/ManageMyAccountStyles.css">
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/object/Navbar.css">
+        <link rel="icon" href="<?= BASE_URL ?>/assets/icons/logo.png">
     </head>
     <body>
         <?php include(dirname(__DIR__) . '/object/UserNavbar.php') ?>
