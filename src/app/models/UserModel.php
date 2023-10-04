@@ -98,4 +98,16 @@ class UserModel
 
         return $user->is_admin;
     }
+
+    public function getUserById($id)
+    {
+        $query = 'SELECT * FROM user WHERE user_id = :id';
+
+        $this->database->query($query);
+        $this->database->bind('id', $id);
+
+        $user = $this->database->fetch();
+
+        return $user;
+    }
 }

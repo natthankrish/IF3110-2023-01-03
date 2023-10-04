@@ -33,7 +33,6 @@ class UserController extends Controller implements ControllerInterface
                     $loginView->render();
                     exit;
 
-                    break;
                 case 'POST':
                     // Prevent CSRF Attacks
                     $tokenMiddleware = $this->middleware('TokenMiddleware');
@@ -54,7 +53,6 @@ class UserController extends Controller implements ControllerInterface
                     }
                     exit;
 
-                    break;
                 default:
                     throw new LoggedException('Method Not Allowed', 405);
             }
@@ -77,7 +75,6 @@ class UserController extends Controller implements ControllerInterface
                     $registerView->render();
                     exit;
 
-                    break;
                 case 'POST':
                     // Prevent CSRF Attacks
                     $tokenMiddleware = $this->middleware('TokenMiddleware');
@@ -92,7 +89,6 @@ class UserController extends Controller implements ControllerInterface
                     echo json_encode(["redirect_url" => BASE_URL . "/user/login"]);
                     exit;
 
-                    break;
                 default:
                     throw new LoggedException('Method Not Allowed', 405);
             }
@@ -121,7 +117,6 @@ class UserController extends Controller implements ControllerInterface
                     http_response_code(200);
                     exit;
 
-                    break;
                 default:
                     throw new LoggedException('Method Not Allowed', 405);
             }
@@ -150,7 +145,6 @@ class UserController extends Controller implements ControllerInterface
                     http_response_code(200);
                     exit;
 
-                    break;
                 default:
                     throw new LoggedException('Method Not Allowed', 405);
             }
@@ -238,6 +232,27 @@ class UserController extends Controller implements ControllerInterface
                 case 'GET':
                     $manageView = $this->view('user', 'ManageMyAccountUserView', []);
                     $manageView->render();
+                    exit;
+
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
+
+    public function data()
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'GET':
+                    $userModel = $this->model('UserModel');
+                    $user = $userModel->getUserById($_SESSION['user_id']);
+                    header('Content-Type: application/json');
+                    http_response_code(201);
+                    echo json_encode(["fullname" => $user->fullname, "username" => $user->username]);
                     exit;
 
                 default:
