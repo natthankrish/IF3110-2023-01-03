@@ -32,18 +32,6 @@ class UserController extends Controller implements ControllerInterface
                     $loginView = $this->view('user', 'LoginView');
                     $loginView->render();
                     exit;
-                case 'POST':
-                    // $userModel = $this->model('UserModel');
-                    // $userId = $userModel->login($_POST['username'], $_POST['password']);
-                    // $_SESSION['user_id'] = $userId;
-
-                    // Kembalikan redirect_url
-                    header('Content-Type: application/json');
-                    http_response_code(201);
-                    echo json_encode(["user_id" => "123"]);
-                    exit;
-
-                    break;
 
                     break;
                 case 'POST':
