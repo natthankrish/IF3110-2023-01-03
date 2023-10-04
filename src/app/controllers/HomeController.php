@@ -7,8 +7,15 @@ class HomeController extends Controller implements ControllerInterface
         try {
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
-                    $homeView = $this->view('home', 'HomeView', []);
-                    $homeView->render();
+                    // Cari user ID
+                    if (isset($_SESSION['user_id'])) {
+                        // Ada data user_id, tampilkan default home page
+                        $homeView = $this->view('home', 'HomeView', []);
+                    } else {
+                        // Tampilkan home page untuk user yang belum login
+                        $homeView = $this->view('home', 'UnauthorizedHomeView', []);
+                    }
+                    $homeView->render(); 
 
                     break;
                 default:
@@ -18,5 +25,4 @@ class HomeController extends Controller implements ControllerInterface
             http_response_code($e->getCode());
         }
     }
-    
 }

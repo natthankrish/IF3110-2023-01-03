@@ -8,8 +8,6 @@ class App
 
     public function __construct()
     {
-        // require_once __DIR__ . '/../controllers/HomeController.php';
-        // $this->controller = new HomeController();
         $this->method = 'index';
 
         $url = $this->parseURL();
