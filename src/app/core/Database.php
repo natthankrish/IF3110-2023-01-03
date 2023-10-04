@@ -38,9 +38,9 @@ class Database
 
             // Create new admin
             $this->admin_bcrypt_password = password_hash($this->admin_password, PASSWORD_BCRYPT, ['cost' => BCRYPT_COST]);
-            
+
             $this->db_connection->exec(
-                "INSERT INTO user (
+                "INSERT IGNORE INTO user (
                     email, username, fullname, password, is_admin, storage, storage_left) 
                     VALUES ('" . $this->admin_email . "','" .$this->admin_username . "','" . $this->admin_username . "','" . $this->admin_bcrypt_password . "', true, 0, 0
                 );"
