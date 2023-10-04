@@ -8,6 +8,11 @@ class Database
     private $password = PASSWORD;
     private $port = PORT;
 
+    private $admin_email = ADMIN_EMAIL;
+    private $admin_username = ADMIN_USERNAME;
+    private $admin_password = ADMIN_PASSWORD;
+    private $admin_bcrypt_password;
+
     private $db_connection;
     private $statement;
 
@@ -30,6 +35,16 @@ class Database
             $this->db_connection->exec(Tables::OBJECT_TABLE);
             $this->db_connection->exec(Tables::COMMENT_TABLE);
             $this->db_connection->exec(Tables::LIKE_TABLE);
+
+            // Create new admin
+            $this->admin_bcrypt_password = password_hash($this->admin_password, PASSWORD_BCRYPT, ['cost' => BCRYPT_COST]);
+            
+            $this->db_connection->exec(
+                "INSERT INTO user (
+                    email, username, fullname, password, is_admin, storage, storage_left) 
+                    VALUES ('" . $this->admin_email . "','" .$this->admin_username . "','" . $this->admin_username . "','" . $this->admin_bcrypt_password . "', true, 0, 0
+                );"
+            );
         } catch (PDOException) {
             throw new LoggedException('Internal Server Error', 500);
         }
