@@ -43,10 +43,15 @@ class UserController extends Controller implements ControllerInterface
                     $userId = $userModel->login($_POST['username'], $_POST['password']);
                     $_SESSION['user_id'] = $userId;
 
-                    // Kembalikan redirect_url
+                    // Kembalikan redirect_url berdasarkan user privileged
+                    $isAdmin = $userModel->isAdmin($_POST['username']);
                     header('Content-Type: application/json');
                     http_response_code(201);
-                    echo json_encode(["redirect_url" => BASE_URL . "/home"]);
+                    if ($isAdmin) {
+                        echo json_encode(["redirect_url" => BASE_URL . "/admin/users"]);
+                    } else {
+                        echo json_encode(["redirect_url" => BASE_URL . "/user/photos"]);
+                    }
                     exit;
 
                     break;

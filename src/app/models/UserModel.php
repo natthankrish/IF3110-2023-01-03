@@ -86,4 +86,16 @@ class UserModel
 
         return $user;
     }
+
+    public function isAdmin($username)
+    {
+        $query = 'SELECT is_admin FROM user WHERE username = :username LIMIT 1';
+
+        $this->database->query($query);
+        $this->database->bind('username', $username);
+
+        $user = $this->database->fetch();
+
+        return $user->is_admin;
+    }
 }
