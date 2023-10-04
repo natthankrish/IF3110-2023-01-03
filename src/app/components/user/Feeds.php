@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>Feeds</title>
-        <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/user/PhotosStyles.css">
+        <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/user/Photos.css">
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/object/Navbar.css">
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/object/Pagination.css">
     </head>

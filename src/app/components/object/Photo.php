@@ -5,7 +5,9 @@
     <div class="photo-popup-container">
         <div class="photo-popup">
             <div class="photo-popup-img-container">
-                <img src="<?= BASE_URL ?>/assets/icons/photo-th.png" class="photo-popup-img"/>
+                <video controls="controls" class="photo-popup-img">
+                    <source src="<?= BASE_URL ?>/assets/images/video-test.mp4#t=0.1" type="video/mp4">
+                </video>
             </div>
             <div class="photo-popup-info-container">
                 <div class="photo-popup-info">
@@ -21,10 +23,6 @@
                     <div class="photo-popup-info-property">
                         <img src="<?= BASE_URL ?>/assets/icons/location.png" class="photo-popup-property-icon"/>
                         <p class="photo-popup-property-desc">Location</p>
-                    </div>
-                    <div class="photo-popup-info-property">
-                        <img src="<?= BASE_URL ?>/assets/icons/camera.png" class="photo-popup-property-icon"/>
-                        <p class="photo-popup-property-desc">Camera</p>
                     </div>
                     <div class="photo-popup-info-property">
                         <img src="<?= BASE_URL ?>/assets/icons/date.png" class="photo-popup-property-icon"/>
