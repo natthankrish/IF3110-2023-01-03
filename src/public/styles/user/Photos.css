@@ -298,3 +298,38 @@ h2 {
     margin-top: 3%;
     margin-bottom: 6%;
 }
+
+.add-photo-popup {
+    width: 30%;
+    height: 70%;
+    
+    background-color: white;
+    border-radius: 50px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5%;
+}
+
+.add-photo-popup-info-container {
+    width: 80%;
+    height: 80%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.add-photo-img {
+    height: 30%;
+    aspect-ratio: 1/1;
+}
+
+.form-group {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
