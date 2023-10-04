@@ -106,4 +106,15 @@ h2{
     background-color: white;
 
     font-weight: bold;
+
+    cursor: pointer;
+}
+
+.alert-show {
+    display: block;
+    color: var(--red);
+}
+
+.alert-hide {
+    display: none;
 }
