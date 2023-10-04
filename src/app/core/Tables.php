@@ -14,10 +14,11 @@ class Tables
     );";
 
     public const OBJECT_TABLE =
-    "CREATE TABLE Object (
+    "CREATE TABLE IF NOT EXISTS Object (
         object_id       INT                         AUTO_INCREMENT          PRIMARY KEY,
         user_id         INT,
         title           VARCHAR(112),
+        type            ENUM('Photo', 'Video'),
         url             VARCHAR(255),
         isPublic        BOOLEAN,
         date            DATE,
@@ -29,23 +30,23 @@ class Tables
     );";
 
     public const COMMENT_TABLE =
-    "CREATE TABLE Comment (
-        comment_id      INT                         AUTO_INCREMENT          PRIMARY_KEY,
+    "CREATE TABLE IF NOT EXISTS Comment (
+        comment_id      INT                         AUTO_INCREMENT          PRIMARY KEY,
         object_id       INT,
         user_id         INT,
         message         VARCHAR(255),
 
         FOREIGN KEY (user_id) REFERENCES User(user_id),
-        FOREIGN KEY (object_id) REFERENCES Object(object_id),
+        FOREIGN KEY (object_id) REFERENCES Object(object_id)
     );";
 
     public const LIKE_TABLE =
-    "CREATE TABLE Like (
-        like_id         INT                         AUTO_INCREMENT          PRIMARY_KEY,
+    "CREATE TABLE IF NOT EXISTS Likes (
+        like_id         INT                         AUTO_INCREMENT          PRIMARY KEY,
         object_id       INT,
         user_id         INT,
         
         FOREIGN KEY (user_id) REFERENCES User(user_id),
-        FOREIGN KEY (object_id) REFERENCES Object(object_id),
+        FOREIGN KEY (object_id) REFERENCES Object(object_id)
     );";
 }
