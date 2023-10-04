@@ -9,38 +9,65 @@ class ObjectModel
         $this->database = new Database();
     }
 
-    public function store($user_id, $title, $url, $date, $location, $type)
+    public function store($user_id, $title, $url_photo, $url_video, $date, $location, $type)
     {
-        echo $user_id;
-        echo $title;
-        echo $url;
-        echo $date;
-        $query = 'INSERT INTO Object 
-                (user_id, title, type, url, isPublic, date, location, description, post_date) 
-                VALUES (
-                    (SELECT user_id FROM User WHERE user_id = :user_id),
-                    :title,
-                    :type,
-                    :url,
-                    :isPublic,
-                    :date,
-                    :location,
-                    :description,
-                    :post_date
-                )';
-
-        $this->database->query($query);
-        $this->database->bind('user_id', $user_id);
-        $this->database->bind('title', $title);
-        $this->database->bind('type', $type);
-        $this->database->bind('url', $url);
-        $this->database->bind('isPublic', false);
-        $this->database->bind('date', $date);
-        $this->database->bind('location', $location);
-        $this->database->bind('description', NULL);
-        $this->database->bind('post_date', NULL);
-
-        $this->database->execute();
+        if($url_video){
+            $query = 'INSERT INTO Object 
+                    (user_id, title, type, url_photo, url_video, isPublic, date, location, description, post_date) 
+                    VALUES (
+                        (SELECT user_id FROM User WHERE user_id = :user_id),
+                        :title,
+                        :type,
+                        :url_photo,
+                        :url_video,
+                        :isPublic,
+                        :date,
+                        :location,
+                        :description,
+                        :post_date
+                    )';
+    
+            $this->database->query($query);
+            $this->database->bind('user_id', $user_id);
+            $this->database->bind('title', $title);
+            $this->database->bind('type', $type);
+            $this->database->bind('url_photo', $url_photo);
+            $this->database->bind('url_video', $url_video);
+            $this->database->bind('isPublic', false);
+            $this->database->bind('date', $date);
+            $this->database->bind('location', $location);
+            $this->database->bind('description', NULL);
+            $this->database->bind('post_date', NULL);
+    
+            $this->database->execute();
+        }else{
+            $query = 'INSERT INTO Object 
+                    (user_id, title, type, url_photo, isPublic, date, location, description, post_date) 
+                    VALUES (
+                        (SELECT user_id FROM User WHERE user_id = :user_id),
+                        :title,
+                        :type,
+                        :url_photo,
+                        :isPublic,
+                        :date,
+                        :location,
+                        :description,
+                        :post_date
+                    )';
+    
+            $this->database->query($query);
+            $this->database->bind('user_id', $user_id);
+            $this->database->bind('title', $title);
+            $this->database->bind('type', $type);
+            $this->database->bind('url_photo', $url_photo);
+            $this->database->bind('isPublic', false);
+            $this->database->bind('date', $date);
+            $this->database->bind('location', $location);
+            $this->database->bind('description', NULL);
+            $this->database->bind('post_date', NULL);
+    
+            $this->database->execute();
+        }
     }
 
     public function updateIsPublic($user_id, $object_id, $isPublic)

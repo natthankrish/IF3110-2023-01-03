@@ -15,7 +15,7 @@ class ObjectController extends Controller implements ControllerInterface
                     $uploadedImage = $storageAccess->saveImage($_FILES['image']['tmp_name']);
 
                     $objectModel = $this->model('ObjectModel');
-                    $objectModel->store($_POST['user_id'], $_POST['title'], $uploadedImage, $_POST['date']);
+                    $objectModel->store($_POST['user_id'], $_POST['title'], $uploadedImage, NULL, $_POST['date'],  $_POST['location'], 'Photo');
                     exit;
 
                 default:
@@ -26,158 +26,43 @@ class ObjectController extends Controller implements ControllerInterface
             exit;
         }
     }
-    // public function index()
-    // {
-    //     try {
-    //         switch ($_SERVER['REQUEST_METHOD']) {
-    //             case 'GET':
-    //                 $loginView = $this->view('user', 'LoginView', []);
-    //                 $loginView->render();
-    //                 exit;
 
-    //             default:
-    //                 throw new LoggedException('Method Not Allowed', 405);
-    //         }
-    //     } catch (Exception $e) {
-    //         http_response_code($e->getCode());
-    //         exit;
-    //     }
-    // }
+    public function storeVideo()
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'POST':
+                    $storageAccess = new StorageAccess(StorageAccess::IMAGE_PATH);
+                    $uploadedImage = $storageAccess->saveImage($_FILES['image']['tmp_name']);
+                    $uploadVideo = $storageAccess->saveVideo($_POST['video']['tmp_name']);
+                    
+                    $objectModel = $this->model('ObjectModel');
+                    $objectModel->store($_POST['user_id'], $_POST['title'], $uploadedImage, $uploadVideo, $_POST['date'],  $_POST['location'], 'Photo');
+                    exit;
 
-    // public function login()
-    // {
-    //     try {
-    //         switch ($_SERVER['REQUEST_METHOD']) {
-    //             case 'GET':
-    //                 $loginView = $this->view('user', 'LoginView', []);
-    //                 $loginView->render();
-    //                 exit;
-    //             case 'POST':
-    //                 // $userModel = $this->model('UserModel');
-    //                 // $userId = $userModel->login($_POST['username'], $_POST['password']);
-    //                 // $_SESSION['user_id'] = $userId;
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
 
-    //                 // Kembalikan redirect_url
-    //                 header('Content-Type: application/json');
-    //                 http_response_code(201);
-    //                 echo json_encode(["user_id" => "123"]);
-    //                 exit;
-
-    //                 break;
-
-    //             default:
-    //                 throw new LoggedException('Method Not Allowed', 405);
-    //         }
-    //     } catch (Exception $e) {
-    //         http_response_code($e->getCode());
-    //         exit;
-    //     }
-    // }
-
-    // public function register()
-    // {
-    //     try {
-    //         switch ($_SERVER['REQUEST_METHOD']) {
-    //             case 'GET':
-    //                 $registerView = $this->view('user', 'RegisterView', []);
-    //                 $registerView->render();
-    //                 exit;
-
-    //             default:
-    //                 throw new LoggedException('Method Not Allowed', 405);
-    //         }
-    //     } catch (Exception $e) {
-    //         http_response_code($e->getCode());
-    //         exit;
-    //     }
-    // }
-
-    // public function photos()
-    // {
-    //     try {
-    //         switch ($_SERVER['REQUEST_METHOD']) {
-    //             case 'GET':
-    //                 $registerView = $this->view('user', 'PhotosView', []);
-    //                 $registerView->render();
-    //                 exit;
-
-    //             default:
-    //                 throw new LoggedException('Method Not Allowed', 405);
-    //         }
-    //     } catch (Exception $e) {
-    //         http_response_code($e->getCode());
-    //         exit;
-    //     }
-    // }
-    // public function search()
-    // {
-    //     try {
-    //         switch ($_SERVER['REQUEST_METHOD']) {
-    //             case 'GET':
-    //                 $registerView = $this->view('user', 'SearchView', []);
-    //                 $registerView->render();
-    //                 exit;
-
-    //             default:
-    //                 throw new LoggedException('Method Not Allowed', 405);
-    //         }
-    //     } catch (Exception $e) {
-    //         http_response_code($e->getCode());
-    //         exit;
-    //     }
-    // }
-
-    // public function feeds()
-    // {
-    //     try {
-    //         switch ($_SERVER['REQUEST_METHOD']) {
-    //             case 'GET':
-    //                 $registerView = $this->view('user', 'FeedsView', []);
-    //                 $registerView->render();
-    //                 exit;
-
-    //             default:
-    //                 throw new LoggedException('Method Not Allowed', 405);
-    //         }
-    //     } catch (Exception $e) {
-    //         http_response_code($e->getCode());
-    //         exit;
-    //     }
-    // }
-
-    // public function profile()
-    // {
-    //     try {
-    //         switch ($_SERVER['REQUEST_METHOD']) {
-    //             case 'GET':
-    //                 $registerView = $this->view('user', 'ProfileView', []);
-    //                 $registerView->render();
-    //                 exit;
-
-    //             default:
-    //                 throw new LoggedException('Method Not Allowed', 405);
-    //         }
-    //     } catch (Exception $e) {
-    //         http_response_code($e->getCode());
-    //         exit;
-    //     }
-    // }
-
-    // public function manage()
-    // {
-    //     try {
-    //         switch ($_SERVER['REQUEST_METHOD']) {
-    //             case 'GET':
-    //                 $manageView = $this->view('user', 'ManageMyAccountUserView', []);
-    //                 $manageView->render();
-    //                 exit;
-
-    //             default:
-    //                 throw new LoggedException('Method Not Allowed', 405);
-    //         }
-    //     } catch (Exception $e) {
-    //         http_response_code($e->getCode());
-    //         exit;
-    //     }
-    // }
+    public function delete()
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'POST':
+                    $objectModel = $this->model('ObjectModel');
+                    $objectModel->delete($_POST['user_id'],$_POST['object_id']);
+                    exit;
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
 }

@@ -17,21 +17,21 @@ class StorageAccess
         return file_exists($this->storageDir . $filename);
     }
 
-    public function saveAudio($tempname)
+    public function saveVideo($tempname)
     {
         $filesize = filesize($tempname);
-        if ($filesize > MAX_SIZE) {
+        if ($filesize > MAX_SIZE_VIDEO) {
             throw new LoggedException('Request Entity Too Large', 413);
         }
 
         $mimetype = mime_content_type($tempname);
-        if (!in_array($mimetype, array_keys(ALLOWED_AUDIOS))) {
+        if (!in_array($mimetype, array_keys(ALLOWED_VIDEOS))) {
             throw new LoggedException('Unsupported Media Type', 415);
         }
 
         $valid = false;
         while (!$valid) {
-            $filename = md5(uniqid(mt_rand(), true)) . ALLOWED_AUDIOS[$mimetype];
+            $filename = md5(uniqid(mt_rand(), true)) . ALLOWED_VIDEOS[$mimetype];
             $valid = !$this->doesFileExist($filename);
         }
 

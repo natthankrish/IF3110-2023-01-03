@@ -15,6 +15,11 @@ define('ALLOWED_IMAGES', [
     'image/jpeg' => '.jpeg',
     'image/png' => '.png'
 ]);
+define('MAX_SIZE_VIDEO', 1024 * 1024 * 1024);
+define('ALLOWED_VIDEOS', [
+    'image/jpeg' => '.mp4',
+    'image/png' => '.mkv'
+]);
 
 // Admin
 define('ADMIN_EMAIL', $_ENV['ADMIN_EMAIL']);
