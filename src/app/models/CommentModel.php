@@ -27,6 +27,15 @@ class CommentModel
         $this->database->execute();
     }
 
+    public function getByIdObject($user_id, $object_id)
+    {
+        $query = 'SELECT * FROM Comment WHERE object_id = :object_id';
+        $this->database->query($query);
+        $this->database->bind('object_id', $object_id);
+        $res = $this->database->fetchAll();
+        return $res;
+    }
+
     public function delete($user_id, $comment_id)
     {
         $deleteCommentQuery = 'DELETE FROM Comment WHERE comment_id = :comment_id';

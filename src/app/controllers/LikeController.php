@@ -23,6 +23,23 @@ class LikeController extends Controller implements ControllerInterface
         }
     }
 
+    public function isLiked()
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'GET':
+                    $likeModel = $this->model('LikeModel');
+                    $likeModel->isLiked($_GET['user_id'],$_GET['object_id']);
+                    exit;
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
+
     public function delete()
     {
         try {

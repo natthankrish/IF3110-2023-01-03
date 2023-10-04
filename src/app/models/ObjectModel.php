@@ -70,11 +70,32 @@ class ObjectModel
         }
     }
 
+    public function getByIdUser($user_id, $limit, $offset)
+    {
+        $query = 'SELECT * FROM Object WHERE user_id = :user_id LIMIT :limit OFFSET :offset';
+        $this->database->query($query);
+        $this->database->bind('user_id', $user_id);
+        $this->database->bind('limit', $limit);
+        $this->database->bind('offset', $offset);
+        $res = $this->database->fetchAll();
+        return $res;
+    }
+
+    public function getPublic($user_id, $limit, $offset)
+    {
+        $query = 'SELECT * FROM Object WHERE isPublic = 1 LIMIT :limit OFFSET :offset';
+        $this->database->query($query);
+        $this->database->bind('limit', $limit);
+        $this->database->bind('offset', $offset);
+        $res = $this->database->fetchAll();
+        return $res;
+    }
+
     public function updateIsPublic($user_id, $object_id, $isPublic)
     {
         $postDateQuery = 'SELECT post_date FROM Object WHERE object_id = :object_id';
         $this->database->query($postDateQuery);
-        $this->database->bind('object_', $object_id);
+        $this->database->bind('object_id', $object_id);
         $postDate = $this->database->fetch(); 
         echo $postDate;
         if ($postDate === NULL){

@@ -23,6 +23,23 @@ class CommentController extends Controller implements ControllerInterface
         }
     }
 
+    public function getByIdObject()
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'GET':
+                    $commentModel = $this->model('CommentModel');
+                    $commentModel->store($_GET['user_id'], $_GET['object_id']);
+                    exit;
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
+
     public function delete()
     {
         try {

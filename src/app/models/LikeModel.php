@@ -25,6 +25,18 @@ class LikeModel
         $this->database->execute();
     }
 
+    public function isLiked($user_id, $object_id)
+    {
+        $query = 'SELECT 1 FROM Likes WHERE user_id = :user_id AND object_id = :object_id';
+
+        $this->database->query($query);
+        $this->database->bind('user_id', $user_id);
+        $this->database->bind('object_id', $object_id);
+
+        $res = $this->database->fetch();
+        return $res !== NULL;
+    }
+
     public function delete($user_id, $like_id)
     {
         $deleteLikeQuery = 'DELETE FROM Likes WHERE like_id = :like_id';
