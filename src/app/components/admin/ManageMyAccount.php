@@ -5,6 +5,19 @@
         <link rel="icon" href="<?= BASE_URL ?>/assets/icons/logo.png">
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/admin/ManageMyAccountAdminStyles.css">
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/object/Navbar.css">
+
+        <!-- JavaScript Constant and Variables -->
+        <script type="text/javascript" defer>
+            const CSRF_TOKEN = "<?= $_SESSION['csrf_token'] ?? '' ?>";
+            const DEBOUNCE_TIMEOUT = "<?= DEBOUNCE_TIMEOUT ?>";
+        </script>
+
+        <!-- JavaScript Library -->
+        <script type="text/javascript" src="<?= BASE_URL ?>/javascript/lib/debounce.js" defer></script>
+
+        <!-- JavaScript DOM and AJAX -->
+        <script type="text/javascript" src="<?= BASE_URL ?>/javascript/admin/manage.js" defer></script>
+
     </head>
     <body>
         <?php include(dirname(__DIR__) . '/object/AdminNavbar.php') ?>
@@ -16,7 +29,7 @@
                         <h2>Admin #ID</h2>
                     </div>
                 </div>
-                <button class="button-white">Logout</button>
+                <button class="button-white" id="log-out">Logout</button>
             </div>
             <br>
 

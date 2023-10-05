@@ -107,4 +107,6 @@ h3 {
 .button-white:hover {
     color: white;
     background-color: black;
+
+    cursor: pointer;
 }

@@ -98,6 +98,33 @@ class UserController extends Controller implements ControllerInterface
         }
     }
 
+
+    public function logout()
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'POST':
+                    // Prevent CSRF Attacks
+                    $tokenMiddleware = $this->middleware('TokenMiddleware');
+                    $tokenMiddleware->checkToken();
+
+                    unset($_SESSION['user_id']);
+
+                    // Kembalikan redirect_url
+                    header('Content-Type: application/json');
+                    http_response_code(201);
+                    echo json_encode(["redirect_url" => BASE_URL . "/home"]);
+                    exit;
+
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
+
     public function username()
     {
         try {

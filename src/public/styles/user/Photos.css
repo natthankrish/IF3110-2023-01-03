@@ -36,6 +36,8 @@ body {
 .button-white:hover {
     color: white;
     background-color: black;
+
+    cursor: pointer;
 }
 
 .photo-container {

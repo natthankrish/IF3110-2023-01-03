@@ -33,7 +33,7 @@
                         </a>
                     </div>
                 </div>
-                <button class="button-white">Logout</button>
+                <button class="button-white" id="log-out">Logout</button>
             </div>
             <br>
             <h1 class="title">Recently Posted</h1>
