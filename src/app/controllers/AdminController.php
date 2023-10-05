@@ -25,6 +25,10 @@ class AdminController extends Controller implements ControllerInterface
         try {
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
+                    // Prevent Access except Admin
+                    $authMiddleware = $this->middleware('AuthenticationMiddleware');
+                    $authMiddleware->isAdmin();
+
                     $loginView = $this->view('admin', 'UserDashboardView', []);
                     $loginView->render();
                     exit;
@@ -43,6 +47,10 @@ class AdminController extends Controller implements ControllerInterface
         try {
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
+                    // Prevent Access except Admin
+                    $authMiddleware = $this->middleware('AuthenticationMiddleware');
+                    $authMiddleware->isAdmin();
+
                     $loginView = $this->view('admin', 'AdminDashboardView', []);
                     $loginView->render();
                     exit;
@@ -61,6 +69,10 @@ class AdminController extends Controller implements ControllerInterface
         try {
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
+                    // Prevent Access except Admin
+                    $authMiddleware = $this->middleware('AuthenticationMiddleware');
+                    $authMiddleware->isAdmin();
+
                     $loginView = $this->view('admin', 'UserDetailView', []);
                     $loginView->render();
                     exit;
@@ -79,6 +91,10 @@ class AdminController extends Controller implements ControllerInterface
         try {
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
+                    // Prevent Access except Admin
+                    $authMiddleware = $this->middleware('AuthenticationMiddleware');
+                    $authMiddleware->isAdmin();
+
                     $loginView = $this->view('admin', 'AdminDetailView', []);
                     $loginView->render();
                     exit;
@@ -97,6 +113,10 @@ class AdminController extends Controller implements ControllerInterface
         try {
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
+                    // Prevent Access except Admin
+                    $authMiddleware = $this->middleware('AuthenticationMiddleware');
+                    $authMiddleware->isAdmin();
+
                     $loginView = $this->view('admin', 'ManageMyAccountAdminView', []);
                     $loginView->render();
                     exit;

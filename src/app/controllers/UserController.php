@@ -186,8 +186,18 @@ class UserController extends Controller implements ControllerInterface
         try {
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
-                    $registerView = $this->view('user', 'PhotosView', []);
-                    $registerView->render();
+                    // Prevent Access except User
+                    $authMiddleware = $this->middleware('AuthenticationMiddleware');
+                    $authMiddleware->isUser();
+
+                    // Cari user ID
+                    if (isset($_SESSION['user_id'])) {
+                        $photosView = $this->view('user', 'PhotosView', []);
+                    } else {
+                        // Tampilkan home page untuk user yang belum login
+                        $photosView = $this->view('home', 'UnauthorizedHomeView', []);
+                    }
+                    $photosView->render();
                     exit;
 
                 default:
@@ -203,8 +213,18 @@ class UserController extends Controller implements ControllerInterface
         try {
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
-                    $registerView = $this->view('user', 'SearchView', []);
-                    $registerView->render();
+                    // Prevent Access except User
+                    $authMiddleware = $this->middleware('AuthenticationMiddleware');
+                    $authMiddleware->isUser();
+
+                    // Cari user ID
+                    if (isset($_SESSION['user_id'])) {
+                        $seachView = $this->view('user', 'SearchView', []);
+                    } else {
+                        // Tampilkan home page untuk user yang belum login
+                        $seachView = $this->view('home', 'UnauthorizedHomeView', []);
+                    }
+                    $seachView->render();
                     exit;
 
                 default:
@@ -221,8 +241,18 @@ class UserController extends Controller implements ControllerInterface
         try {
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
-                    $registerView = $this->view('user', 'FeedsView', []);
-                    $registerView->render();
+                    // Prevent Access except User
+                    $authMiddleware = $this->middleware('AuthenticationMiddleware');
+                    $authMiddleware->isUser();
+
+                    // Cari user ID
+                    if (isset($_SESSION['user_id'])) {
+                        $feedsView = $this->view('user', 'FeedsView', []);
+                    } else {
+                        // Tampilkan home page untuk user yang belum login
+                        $feedsView = $this->view('home', 'UnauthorizedHomeView', []);
+                    }
+                    $feedsView->render();
                     exit;
 
                 default:
@@ -239,8 +269,18 @@ class UserController extends Controller implements ControllerInterface
         try {
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
-                    $registerView = $this->view('user', 'ProfileView', []);
-                    $registerView->render();
+                    // Prevent Access except User
+                    $authMiddleware = $this->middleware('AuthenticationMiddleware');
+                    $authMiddleware->isUser();
+
+                    // Cari user ID
+                    if (isset($_SESSION['user_id'])) {
+                        $profileView = $this->view('user', 'ProfileView', []);
+                    } else {
+                        // Tampilkan home page untuk user yang belum login
+                        $profileView = $this->view('home', 'UnauthorizedHomeView', []);
+                    }
+                    $profileView->render();
                     exit;
 
                 default:
@@ -257,7 +297,17 @@ class UserController extends Controller implements ControllerInterface
         try {
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
-                    $manageView = $this->view('user', 'ManageMyAccountUserView', []);
+                    // Prevent Access except User
+                    $authMiddleware = $this->middleware('AuthenticationMiddleware');
+                    $authMiddleware->isUser();
+                    
+                    // Cari user ID
+                    if (isset($_SESSION['user_id'])) {
+                        $manageView = $this->view('user', 'ManageMyAccountUserView', []);
+                    } else {
+                        // Tampilkan home page untuk user yang belum login
+                        $manageView = $this->view('home', 'UnauthorizedHomeView', []);
+                    }
                     $manageView->render();
                     exit;
 
