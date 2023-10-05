@@ -10,7 +10,7 @@ define('USER', $_ENV['MYSQL_USER'] ?? 'root');
 define('PASSWORD', $_ENV['MYSQL_PASSWORD']);
 define('PORT', $_ENV['MYSQL_PORT']);
 
-define('MAX_SIZE', 10);     // in MB
+define('MAX_SIZE', 10000);     // in MB
 define('ALLOWED_IMAGES', [
     'image/jpeg' => '.jpeg',
     'image/png' => '.png'

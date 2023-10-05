@@ -15,7 +15,7 @@ class ObjectModel
             $query = 'INSERT INTO Object 
                     (user_id, title, type, url_photo, url_video, isPublic, date, location, description, post_date) 
                     VALUES (
-                        (SELECT user_id FROM User WHERE user_id = :user_id),
+                        :user_id
                         :title,
                         :type,
                         :url_photo,
@@ -33,7 +33,7 @@ class ObjectModel
             $this->database->bind('type', $type);
             $this->database->bind('url_photo', $url_photo);
             $this->database->bind('url_video', $url_video);
-            $this->database->bind('isPublic', false);
+            $this->database->bind('isPublic', 0);
             $this->database->bind('date', $date);
             $this->database->bind('location', $location);
             $this->database->bind('description', NULL);
@@ -44,7 +44,7 @@ class ObjectModel
             $query = 'INSERT INTO Object 
                     (user_id, title, type, url_photo, isPublic, date, location, description, post_date) 
                     VALUES (
-                        (SELECT user_id FROM User WHERE user_id = :user_id),
+                        :user_id,
                         :title,
                         :type,
                         :url_photo,

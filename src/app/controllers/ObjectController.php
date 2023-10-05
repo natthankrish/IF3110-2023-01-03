@@ -11,11 +11,12 @@ class ObjectController extends Controller implements ControllerInterface
         try {
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'POST':
+                    
                     $storageAccess = new StorageAccess(StorageAccess::IMAGE_PATH);
                     $uploadedImage = $storageAccess->saveImage($_FILES['image']['tmp_name']);
 
                     $objectModel = $this->model('ObjectModel');
-                    $objectModel->store($_POST['user_id'], $_POST['title'], $uploadedImage, NULL, $_POST['date'],  $_POST['location'], 'Photo');
+                    $objectModel->store($_SESSION['user_id'], $_POST['title'], $uploadedImage, NULL, date("Y-m-d", strtotime($_POST['date'])),  $_POST['location'], 'Photo');
                     exit;
 
                 default:
