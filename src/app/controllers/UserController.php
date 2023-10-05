@@ -300,7 +300,7 @@ class UserController extends Controller implements ControllerInterface
                     // Prevent Access except User
                     $authMiddleware = $this->middleware('AuthenticationMiddleware');
                     $authMiddleware->isUser();
-                    
+
                     // Cari user ID
                     if (isset($_SESSION['user_id'])) {
                         $manageView = $this->view('user', 'ManageMyAccountUserView', []);
@@ -331,9 +331,9 @@ class UserController extends Controller implements ControllerInterface
 
                     $userModel = $this->model('UserModel');
                     $user = $userModel->getUserById($_SESSION['user_id']);
+
                     header('Content-Type: application/json');
-                    http_response_code(200);
-                    echo json_encode(["fullname" => $user->fullname, "username" => $user->username, "storage" => $user->storage, "storage_left" => $user->storage_left]);
+                    echo json_encode(["user_id" => $user->user_id, "fullname" => $user->fullname, "username" => $user->username, "storage" => $user->storage, "storage_left" => $user->storage_left]);
                     exit;
 
                 default:

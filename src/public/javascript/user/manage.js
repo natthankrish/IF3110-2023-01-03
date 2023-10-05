@@ -39,6 +39,7 @@ window.addEventListener(
                 const data = JSON.parse(this.responseText);
                 currentFullname.innerText = "Current Name: " + data['fullname'];
                 currentUsername.innerText = "Current Username: " + data['username'];
+                
                 // show storage up to 2 decimal places
                 usage.innerText = ((data['storage'] - data['storage_left']) / 1024).toFixed(2) + "GB / " + (data['storage'] / 1024).toFixed(2) + "GB";
             }
