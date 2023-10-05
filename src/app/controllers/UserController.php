@@ -248,6 +248,10 @@ class UserController extends Controller implements ControllerInterface
         try {
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
+                    // Prevent CSRF Attacks
+                    $tokenMiddleware = $this->middleware('TokenMiddleware');
+                    $tokenMiddleware->checkToken();
+
                     $userModel = $this->model('UserModel');
                     $user = $userModel->getUserById($_SESSION['user_id']);
                     header('Content-Type: application/json');

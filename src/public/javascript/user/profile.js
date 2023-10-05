@@ -15,7 +15,7 @@ window.addEventListener(
         const xhr = new XMLHttpRequest();
         xhr.open(
             "GET",
-            `/public/user/data`
+            `/public/user/data?csrf_token=${CSRF_TOKEN}`
         );
         
         xhr.send();
