@@ -110,4 +110,40 @@ class UserModel
 
         return $user;
     }
+
+    public function updateUsername($id, $username)
+    {
+        $query = 'UPDATE user SET username = :username WHERE user_id = :id';
+
+        $this->database->query($query);
+        $this->database->bind('username', $username);
+        $this->database->bind('id', $id);
+
+        $this->database->execute();
+    }
+
+    public function updateFullname($id, $fullname)
+    {
+        $query = 'UPDATE user SET fullname = :fullname WHERE user_id = :id';
+
+        $this->database->query($query);
+        $this->database->bind('fullname', $fullname);
+        $this->database->bind('id', $id);
+
+        $this->database->execute();
+    }
+
+    public function updatePassword($id, $password)
+    {
+        $query = 'UPDATE user SET password = :password WHERE user_id = :id';
+        $options = [
+            'cost' => BCRYPT_COST
+        ];
+
+        $this->database->query($query);
+        $this->database->bind('password', password_hash($password, PASSWORD_BCRYPT, $options));
+        $this->database->bind('id', $id);
+
+        $this->database->execute();
+    }
 }

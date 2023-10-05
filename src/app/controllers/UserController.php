@@ -282,14 +282,86 @@ class UserController extends Controller implements ControllerInterface
                     $userModel = $this->model('UserModel');
                     $user = $userModel->getUserById($_SESSION['user_id']);
                     header('Content-Type: application/json');
-                    http_response_code(201);
-                    echo json_encode(["fullname" => $user->fullname, "username" => $user->username]);
+                    http_response_code(200);
+                    echo json_encode(["fullname" => $user->fullname, "username" => $user->username, "storage" => $user->storage, "storage_left" => $user->storage_left]);
                     exit;
 
                 default:
                     throw new LoggedException('Method Not Allowed', 405);
             }
         } catch (Exception $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
+
+    public function updateUsername()
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'POST':
+                    // Prevent CSRF Attacks
+                    $tokenMiddleware = $this->middleware('TokenMiddleware');
+                    $tokenMiddleware->checkToken();
+
+                    $userModel = $this->model('UserModel');
+                    $userModel->updateUsername($_SESSION['user_id'], $_POST['username']);
+
+                    http_response_code(201);
+                    exit;
+
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
+
+    public function updateFullname()
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'POST':
+                    // Prevent CSRF Attacks
+                    $tokenMiddleware = $this->middleware('TokenMiddleware');
+                    $tokenMiddleware->checkToken();
+
+                    $userModel = $this->model('UserModel');
+                    $userModel->updateFullname($_SESSION['user_id'], $_POST['fullname']);
+
+                    http_response_code(201);
+                    exit;
+
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (LoggedException $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
+
+    public function updatePassword()
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'POST':
+                    // Prevent CSRF Attacks
+                    $tokenMiddleware = $this->middleware('TokenMiddleware');
+                    $tokenMiddleware->checkToken();
+
+                    $userModel = $this->model('UserModel');
+                    $userModel->updatePassword($_SESSION['user_id'], $_POST['password']);
+
+                    http_response_code(201);
+                    exit;
+
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (LoggedException $e) {
             http_response_code($e->getCode());
             exit;
         }

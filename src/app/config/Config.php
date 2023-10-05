@@ -10,12 +10,12 @@ define('USER', $_ENV['MYSQL_USER'] ?? 'root');
 define('PASSWORD', $_ENV['MYSQL_PASSWORD']);
 define('PORT', $_ENV['MYSQL_PORT']);
 
-define('MAX_SIZE', 10 * 1024 * 1024);
+define('MAX_SIZE', 10);     // in MB
 define('ALLOWED_IMAGES', [
     'image/jpeg' => '.jpeg',
     'image/png' => '.png'
 ]);
-define('MAX_SIZE_VIDEO', 1024 * 1024 * 1024);
+define('MAX_SIZE_VIDEO', 100);      // in MB
 define('ALLOWED_VIDEOS', [
     'image/jpeg' => '.mp4',
     'image/png' => '.mkv'
@@ -27,7 +27,7 @@ define('ADMIN_USERNAME', $_ENV['ADMIN_USERNAME']);
 define('ADMIN_PASSWORD', $_ENV['ADMIN_PASSWORD']);
 
 // Storage
-define('DEFAULT_STORAGE', 1000);    // in MB
+define('DEFAULT_STORAGE', 100 * 1024);    // in MB
 
 // Bcrypt
 define('BCRYPT_COST', 10);
