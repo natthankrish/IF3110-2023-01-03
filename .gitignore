@@ -3,3 +3,6 @@
 
 # Ignore mysql data
 mysql/
+
+src/storage/images/
+src/storage/videos/

@@ -83,8 +83,20 @@ class ObjectModel
 
     public function getPublic($user_id, $limit, $offset)
     {
-        $query = 'SELECT * FROM Object WHERE isPublic = 1 LIMIT :limit OFFSET :offset';
+        $query = 'SELECT * FROM Object WHERE user_id != :user_id AND isPublic = 1 LIMIT :limit OFFSET :offset';
         $this->database->query($query);
+        $this->database->bind('user_id', $user_id);
+        $this->database->bind('limit', $limit);
+        $this->database->bind('offset', $offset);
+        $res = $this->database->fetchAll();
+        return $res;
+    }
+
+    public function getPublicById($user_id, $limit, $offset)
+    {
+        $query = 'SELECT * FROM Object WHERE user_id = :user_id AND isPublic = 1 LIMIT :limit OFFSET :offset';
+        $this->database->query($query);
+        $this->database->bind('user_id', $user_id);
         $this->database->bind('limit', $limit);
         $this->database->bind('offset', $offset);
         $res = $this->database->fetchAll();

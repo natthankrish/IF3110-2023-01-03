@@ -37,19 +37,7 @@
             </div>
             <br>
             <h1 class="title">Recently Posted</h1>
-            <div class="photo-container">
-                <?php include(dirname(__DIR__) . '/object/Post.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Post.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Post.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Post.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Post.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Post.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Post.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Post.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Post.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Post.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Post.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Post.php') ?>
+            <div class="photo-container" id="container">
             </div>
             <?php include(dirname(__DIR__) . '/object/Pagination.php') ?>
         </div>

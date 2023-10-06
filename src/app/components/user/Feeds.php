@@ -6,6 +6,19 @@
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/user/Photos.css">
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/object/Navbar.css">
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/object/Pagination.css">
+
+        <!-- JavaScript Constant and Variables -->
+        <script type="text/javascript" defer>
+            const CSRF_TOKEN = "<?= $_SESSION['csrf_token'] ?? '' ?>";
+            const DEBOUNCE_TIMEOUT = "<?= DEBOUNCE_TIMEOUT ?>";
+        </script>
+
+        <!-- JavaScript Library -->
+        <script type="text/javascript" src="<?= BASE_URL ?>/javascript/lib/debounce.js" defer></script>
+
+        <!-- JavaScript DOM and AJAX -->
+        <script type="text/javascript" src="<?= BASE_URL ?>/javascript/user/feeds.js" defer></script>
+        <!-- <script type="text/javascript" src="<?= BASE_URL ?>/javascript/component/Photo.js" defer></script> -->
     </head>
     <body>
         <?php include(dirname(__DIR__) . '/object/UserNavbar.php') ?>
@@ -18,38 +31,9 @@
                 </form>
             </div>
             <br>
-            <div class="photo-container">
-                <?php include(dirname(__DIR__) . '/object/Feed.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Feed.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Feed.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Feed.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Feed.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Feed.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Feed.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Feed.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Feed.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Feed.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Feed.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Feed.php') ?>
+            <div class="photo-container" id="container">
             </div>
             <?php include(dirname(__DIR__) . '/object/Pagination.php') ?>
         </div>
-        <script>
-            function openPopUp(object) {
-                object.parentElement.parentElement.children[1].style.display = "flex";
-            }
-
-            function closePopUp(object) {
-                object.parentElement.parentElement.parentElement.parentElement.parentElement.children[1].style.display = "none";
-            }
-
-            function changeLike(object) {
-                if (object.src == "<?= BASE_URL ?>/assets/icons/liked.png") {
-                    object.src = "<?= BASE_URL ?>/assets/icons/heart.png";
-                } else {
-                    object.src = "<?= BASE_URL ?>/assets/icons/liked.png";
-                }          
-            }
-        </script>
     </body>
 </html>

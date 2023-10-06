@@ -1,9 +1,6 @@
 BASE_URL = 'http://localhost:8080/public'
 STORAGE_URL = 'http://localhost:8080/storage'
 
-const fullname = document.getElementById("name");
-const username = document.getElementById("username");
-const logOutButton = document.querySelector("#log-out");
 const container = document.getElementById('container');
 
 function openPopUp(object) {
@@ -14,7 +11,15 @@ function closePopUp(object) {
     object.parentElement.parentElement.parentElement.parentElement.parentElement.children[1].style.display = "none";
 }
 
-function makePost(element) {
+function changeLike(object) {
+    if (object.src == "<?= BASE_URL ?>/assets/icons/liked.png") {
+        object.src = "<?= BASE_URL ?>/assets/icons/heart.png";
+    } else {
+        object.src = "<?= BASE_URL ?>/assets/icons/liked.png";
+    }          
+}
+
+function makeFeed(element) {
     const photoCard = document.createElement('div');
     photoCard.className = 'photo-card';
     photoCard.id = element['object_id'];
@@ -39,8 +44,12 @@ function makePost(element) {
                         </div>
                         <br>
                         <div class="photo-popup-info-property">
-                            <img src="<?= BASE_URL ?>/assets/icons/heart.png" class="photo-popup-property-icon"/>
-                            <p class="photo-popup-property-desc">${element['likes']} Likes</p>
+                            <img src="<?= BASE_URL ?>/assets/icons/profile.png" class="photo-popup-property-icon"/>
+                            <p class="photo-popup-property-desc">${element['user_id']}</p>
+                        </div>
+                        <div class="photo-popup-info-property">
+                            <img src="<?= BASE_URL ?>/assets/icons/heart.png" class="photo-popup-property-icon" onclick="changeLike(this)"/>
+                            <p class="photo-popup-property-desc">Like</p>
                         </div>
                         <div class="photo-popup-info-property">
                             <img src="<?= BASE_URL ?>/assets/icons/date.png" class="photo-popup-property-icon"/>
@@ -49,15 +58,14 @@ function makePost(element) {
                         <br>
                         <h1 class="visibility-status">Comments</h1>
                         <div class="comments-container">
-                            <?php include(dirname(__DIR__) . '/object/Comment.php') ?>
-                            <?php include(dirname(__DIR__) . '/object/Comment.php') ?>
-                            <?php include(dirname(__DIR__) . '/object/Comment.php') ?>
-                            <?php include(dirname(__DIR__) . '/object/Comment.php') ?>
-                            <?php include(dirname(__DIR__) . '/object/Comment.php') ?>
-                            <?php include(dirname(__DIR__) . '/object/Comment.php') ?>
                         </div>
                     </div>
-                    <button class="button-white" onclick="">Hide this photo from my profile</button>
+                    <div>
+                        <form action="/action_page.php" class="form">
+                            <input type="text" id="fname2" name="fname" class="textfield2" placeholder="Write a comment"><br>    
+                            <input type="submit" value="Send" class="button-black">
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -69,27 +77,24 @@ function makePost(element) {
 }
 
 function refresh() {
-    console.log('Hello');
     container.innerHTML = '';
     const xhr = new XMLHttpRequest();
-    xhr.open("GET", "/public/object/getPublicById");
+    xhr.open("GET", "/public/object/getPublic");
 
     xhr.send();
     xhr.onreadystatechange = function () {
         if (this.readyState === XMLHttpRequest.DONE) {
             var responseObj = JSON.parse(this.responseText);
-            console.log(this.responseText);
             var objectArray = responseObj.object;
             objectArray.forEach(element => {
                 container.appendChild(
-                    makePost(element)
+                    makeFeed(element)
                 )
             });
             console.log(objectArray);
         }
     };
 }
-
 
 window.addEventListener(
     "load",
@@ -104,29 +109,8 @@ window.addEventListener(
         xhr.onreadystatechange = function () {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 const data = JSON.parse(this.responseText);
-                fullname.innerText = data['fullname'];
-                username.innerText = "@" + data['username'];
                 refresh()
             }
         };
     }, DEBOUNCE_TIMEOUT)
 );
-
-logOutButton &&
-    logOutButton.addEventListener("click", async (e) => {
-        e.preventDefault();
-        const xhr = new XMLHttpRequest();
-
-        xhr.open("POST", `/public/user/logout`);
-
-        const formData = new FormData();
-        formData.append("csrf_token", CSRF_TOKEN);
-        xhr.send(formData);
-
-        xhr.onreadystatechange = function () {
-            if (this.readyState === XMLHttpRequest.DONE) {
-                const data = JSON.parse(this.responseText);
-                location.replace(data.redirect_url);
-            }
-        };
-    });

@@ -1,9 +1,10 @@
+BASE_URL = 'http://localhost:8080/public'
+STORAGE_URL = 'http://localhost:8080/storage'
+
 submit_btn = document.getElementById('submit-photo');
 input = document.getElementById('file-input');
 display_img = document.getElementById('add-photo-display');
 container = document.getElementById('container');
-BASE_URL = 'http://localhost:8080/public'
-STORAGE_URL = 'http://localhost:8080/storage'
 
 function openPopUp(object) {
     object.parentElement.parentElement.children[1].style.display = "flex";
@@ -92,7 +93,7 @@ function refresh() {
                     makePhoto(element)
                 )
             });
-            console.log(objectArray);
+            console.log(this.responseText);
         }
     };
 }
@@ -111,7 +112,7 @@ submit_btn.addEventListener(
 
         const formData = new FormData();
         formData.append("title", file.name);
-        formData.append("date", );
+        formData.append("date", '12/12/2012');
         formData.append("location", "HEHE");
         formData.append('image', file);
         formData.append("csrf_token", CSRF_TOKEN);

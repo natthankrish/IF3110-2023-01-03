@@ -92,7 +92,7 @@ class ObjectController extends Controller implements ControllerInterface
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
                     $objectModel = $this->model('ObjectModel');
-                    $object = $objectModel->getByIdUser($_SESSION['user_id'], 12, 1);
+                    $object = $objectModel->getByIdUser($_SESSION['user_id'], 12, 0);
 
                     header('Content-Type: application/json');
                     echo json_encode(["object" => $object]);
@@ -113,7 +113,33 @@ class ObjectController extends Controller implements ControllerInterface
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
                     $objectModel = $this->model('ObjectModel');
-                    $objectModel->getPublic($_GET['user_id'], $_GET['perpage'], ($_GET['page']-1)*$_GET['perpage']);
+                    // $objectModel->getPublic($_GET['user_id'], $_GET['perpage'], ($_GET['page']-1)*$_GET['perpage']);
+                    $object = $objectModel->getPublic($_SESSION['user_id'], 12, 0);
+                    
+                    header('Content-Type: application/json');
+                    echo json_encode(["object" => $object]);
+                    exit;
+
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
+
+    public function getPublicById()
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'GET':
+                    $objectModel = $this->model('ObjectModel');
+                    // $objectModel->getPublic($_GET['user_id'], $_GET['perpage'], ($_GET['page']-1)*$_GET['perpage']);
+                    $object = $objectModel->getPublicById($_SESSION['user_id'], 12, 0);
+                    
+                    header('Content-Type: application/json');
+                    echo json_encode(["object" => $object]);
                     exit;
 
                 default:
