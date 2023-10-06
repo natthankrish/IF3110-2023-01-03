@@ -11,6 +11,8 @@
         <script type="text/javascript" defer>
             const CSRF_TOKEN = "<?= $_SESSION['csrf_token'] ?? '' ?>";
             const DEBOUNCE_TIMEOUT = "<?= DEBOUNCE_TIMEOUT ?>";
+            const BASE_URL = "<?= BASE_URL ?>";
+            const STORAGE_URL = "<?= STORAGE_URL ?>";
         </script>
 
         <!-- JavaScript Library -->

@@ -1,6 +1,3 @@
-BASE_URL = 'http://localhost:8080/public'
-STORAGE_URL = 'http://localhost:8080/storage'
-
 submit_btn = document.getElementById('submit-photo');
 input = document.getElementById('file-input');
 display_img = document.getElementById('add-photo-display');

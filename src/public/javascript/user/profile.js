@@ -1,6 +1,3 @@
-BASE_URL = 'http://localhost:8080/public'
-STORAGE_URL = 'http://localhost:8080/storage'
-
 const fullname = document.getElementById("name");
 const username = document.getElementById("username");
 const logOutButton = document.querySelector("#log-out");
