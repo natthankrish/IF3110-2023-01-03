@@ -131,7 +131,7 @@ class ObjectController extends Controller implements ControllerInterface
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'POST':
                     $objectModel = $this->model('ObjectModel');
-                    $objectModel->delete($_POST['user_id'],$_POST['object_id']);
+                    $objectModel->delete($_SESSION['user_id'],$_POST['object_id']);
                     exit;
                 default:
                     throw new LoggedException('Method Not Allowed', 405);

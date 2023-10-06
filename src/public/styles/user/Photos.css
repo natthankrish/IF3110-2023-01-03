@@ -171,6 +171,7 @@ body {
 }
 
 .photo-popup-name {
+    overflow-wrap: break-word;
     margin: 0;
 }
 

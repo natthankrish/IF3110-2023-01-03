@@ -32,6 +32,45 @@ function changeStatus(object) {
     }
 }
 
+function deletePhoto(object) {
+    let object_id = object.parentElement.parentElement.parentElement.parentElement.id;
+
+    const formData = new FormData();
+    formData.append("object_id", object_id);
+    formData.append("csrf_token", CSRF_TOKEN);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "/public/object/delete");
+
+    xhr.send(formData);
+    xhr.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            object.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.children[1].style.display = "none";
+            refresh();
+        }
+    };
+}
+
+function refresh() {
+    container.innerHTML = '';
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "/public/object/getByIdUser");
+
+    xhr.send();
+    xhr.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            var responseObj = JSON.parse(this.responseText);
+            var objectArray = responseObj.object;
+            objectArray.forEach(element => {
+                container.appendChild(
+                    makePhoto(element)
+                )
+            });
+            console.log(objectArray);
+        }
+    };
+}
+
 
 input.addEventListener('change', function(e) {
     var file = e.target.files[0]; 
@@ -58,6 +97,7 @@ submit_btn.addEventListener(
         xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE) {
                 submit_btn.parentElement.parentElement.parentElement.style.display = "none";
+                refresh();
             }
         };
     }
@@ -66,6 +106,7 @@ submit_btn.addEventListener(
 function makePhoto(element) {
     const photoCard = document.createElement('div');
     photoCard.className = 'photo-card';
+    photoCard.id = element['object_id'];
 
     const photoCardHTML = `
         <div class="photo-thumbnail-container">
@@ -104,7 +145,7 @@ function makePhoto(element) {
                         <h1 class="visibility-status">Others can't see this photos</h1>
                         <button class="button-black" onclick="changeStatus(this)">Show in My Profile</button>
                     </div>
-                    <button class="button-white">Delete This Photo</button>
+                    <button class="button-white" onclick="deletePhoto(this)">Delete This Photo</button>
                 </div>
             </div>
         </div>
@@ -118,28 +159,6 @@ function makePhoto(element) {
 window.addEventListener(
     "load",
     debounce(() => {
-        console.log("hello");
-
-        const formData = new FormData();
-        formData.append("title", "email");
-        formData.append("date", "12/12/2012");
-
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", "/public/object/getByIdUser");
-
-        xhr.send(formData);
-        xhr.onreadystatechange = function () {
-            if (this.readyState === XMLHttpRequest.DONE) {
-                var responseObj = JSON.parse(this.responseText);
-                var objectArray = responseObj.object;
-                objectArray.forEach(element => {
-                    container.appendChild(
-                        makePhoto(element)
-                    )
-                });
-                console.log(objectArray);
-            }
-        };
-        
+        refresh()
     }, DEBOUNCE_TIMEOUT)
 );
