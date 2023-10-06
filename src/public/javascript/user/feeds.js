@@ -9,10 +9,35 @@ function closePopUp(object) {
 }
 
 function changeLike(object) {
-    if (object.src == BASE_URL + "/assets/icons/liked.png") {
-        object.src = BASE_URL + "/assets/icons/heart.png";
+    let object_id = object.parentElement.parentElement.parentElement.parentElement
+                        .parentElement.parentElement.id;
+
+    if (object.src == BASE_URL + "/assets/icons/heart.png") {
+        const formData = new FormData();
+        formData.append("object_id", object_id);
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "/public/like/store");
+
+        xhr.send(formData);
+        xhr.onreadystatechange = function () {
+            if (this.readyState === XMLHttpRequest.DONE) {
+                object.src = BASE_URL + "/assets/icons/liked.png";
+            }
+        };
     } else {
-        object.src = BASE_URL + "/assets/icons/liked.png";
+        const formData = new FormData();
+        formData.append("object_id", object_id);
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "/public/like/delete");
+
+        xhr.send(formData);
+        xhr.onreadystatechange = function () {
+            if (this.readyState === XMLHttpRequest.DONE) {
+                object.src = BASE_URL + "/assets/icons/heart.png";
+            }
+        };
     }          
 }
 

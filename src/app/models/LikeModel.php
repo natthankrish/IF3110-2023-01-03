@@ -37,11 +37,20 @@ class LikeModel
         return $res !== NULL;
     }
 
-    public function delete($user_id, $like_id)
+    public function delete($user_id, $object_id)
     {
-        $deleteLikeQuery = 'DELETE FROM Likes WHERE like_id = :like_id';
+        $deleteLikeQuery = 'DELETE FROM Likes WHERE user_id = :user_id AND object_id = :object_id';
         $this->database->query($deleteLikeQuery);
-        $this->database->bind('like_id', $like_id);
+        $this->database->bind('user_id', $user_id);
+        $this->database->bind('object_id', $object_id);
+        $this->database->execute(); 
+    }
+
+    public function count($user_id, $object_id)
+    {
+        $query = 'SELECT COUNT(*) FROM Likes WHERE object_id = :object_id';
+        $this->database->query($query);
+        $this->database->bind('object_id', $object_id);
         $this->database->execute(); 
     }
 }

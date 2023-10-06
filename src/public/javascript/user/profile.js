@@ -53,7 +53,7 @@ function changeDesc(object) {
     formData.append("csrf_token", CSRF_TOKEN);
 
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", "/public/object/updateNameOrDesc");
+    xhr.open("POST", "/public/object/updateDesc");
 
     xhr.send(formData);
     xhr.onreadystatechange = function () {
