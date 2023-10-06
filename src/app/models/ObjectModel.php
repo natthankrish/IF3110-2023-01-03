@@ -173,6 +173,32 @@ class ObjectModel
         }
     }
 
+    public function updateDesc($user_id, $object_id, $text)
+    {
+        $query = 'UPDATE Object 
+                  SET description = :text
+                  WHERE object_id = :object_id';
+    
+        $this->database->query($query);
+        $this->database->bind('object_id', $object_id);
+        $this->database->bind('text', $text);
+
+        $this->database->execute();
+    }
+
+    public function updateName($user_id, $object_id, $text)
+    {
+        $query = 'UPDATE Object 
+                    SET title = :text
+                    WHERE object_id = :object_id';
+    
+        $this->database->query($query);
+        $this->database->bind('object_id', $object_id);
+        $this->database->bind('text', $text);
+
+        $this->database->execute();
+    }
+
     public function delete($user_id, $object_id)
     {
         $deleteCommentQuery = 'DELETE FROM Comment WHERE object_id = :object_id';

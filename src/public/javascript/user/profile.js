@@ -31,6 +31,40 @@ function changeStatus(object) {
     };
 }
 
+function openChangeDesc(object) {
+        object.parentElement.children[2].style.display = "flex";
+}
+
+function closeChangeDesc(object) {
+    object.parentElement.parentElement.parentElement.parentElement.parentElement.style.display = "none";
+}
+
+function changeDesc(object) {
+    let object_id = object.parentElement.parentElement.parentElement.parentElement
+                          .parentElement.parentElement.parentElement.parentElement
+                          .parentElement.parentElement.parentElement.id
+
+    let textfield = document.getElementById('desc' + object_id);
+    let text = textfield.value;
+
+    const formData = new FormData();
+    formData.append("object_id", object_id);
+    formData.append("text", text);
+    formData.append("csrf_token", CSRF_TOKEN);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "/public/object/updateNameOrDesc");
+
+    xhr.send(formData);
+    xhr.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            closeChangeDesc(object)
+            let desc = document.getElementById('title' + object_id);
+            desc.innerText = text;
+        }
+    };
+}
+
 
 function makePost(element) {
     const photoCard = document.createElement('div');
@@ -53,8 +87,25 @@ function makePost(element) {
                     <br>
                     <div class="scrollable">
                         <div class="photo-popup-name-container">
-                            <h2 class="photo-popup-name">${element['description']}</h2>
-                            <img src="${BASE_URL}/assets/icons/edit.png" class="photo-popup-property-icon"/>
+                            <h2 class="photo-popup-name" id="title${element['object_id']}">${element['description']}</h2>
+                            <img src="${BASE_URL}/assets/icons/edit.png" class="photo-popup-property-icon" onclick="openChangeDesc(this)"/>
+                            <div class="popup-container">
+                                <div class="popup">
+                                    <div class="popup-info-container">
+                                        <div class="photo-popup-close">
+                                            <img src="${BASE_URL}/assets/icons/close.png" class="photo-popup-close" onclick="closeChangeDesc(this)" />
+                                        </div>
+                                        <div class="registration-form">
+                                            <div class="form-group">
+                                                <input type="text" id="desc${element['object_id']}" class="textfield" placeholder="New Desciption">
+                                            </div>
+                                            <div class="form-button">
+                                                <button class="button-black" onclick="changeDesc(this)">Change Description</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <br>
                         <div class="photo-popup-info-property">

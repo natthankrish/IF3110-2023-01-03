@@ -127,6 +127,40 @@ submit_btn.addEventListener(
     }
 );
 
+function openChangeName(object) {
+    object.parentElement.children[2].style.display = "flex";
+}
+
+function closeChangeName(object) {
+    object.parentElement.parentElement.parentElement.parentElement.style.display = "none";
+}
+
+function changeName(object) {
+    let object_id = object.parentElement.parentElement.parentElement
+                        .parentElement.parentElement.parentElement.parentElement
+                        .parentElement.parentElement.parentElement.id
+
+    let textfield = document.getElementById('name' + object_id);
+    let text = textfield.value;
+
+    const formData = new FormData();
+    formData.append("object_id", object_id);
+    formData.append("text", text);
+    formData.append("csrf_token", CSRF_TOKEN);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "/public/object/updateName");
+
+    xhr.send(formData);
+    xhr.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            closeChangeName(object)
+            let name = document.getElementById('title' + object_id);
+            name.innerText = text;
+        }
+    };
+}
+
 function makePhoto(element) {
     const photoCard = document.createElement('div');
     photoCard.className = 'photo-card';
@@ -153,8 +187,23 @@ function makePhoto(element) {
                         </div>
                         <br>
                         <div class="photo-popup-name-container">
-                            <h1 class="photo-popup-name">${element['title']}</h1>
-                            <img src="${BASE_URL}/assets/icons/edit.png" class="photo-popup-name-edit"/>
+                            <h1 class="photo-popup-name" id="title${element['object_id']}">${element['title']}</h1>
+                            <img src="${BASE_URL}/assets/icons/edit.png" class="photo-popup-name-edit" onclick="openChangeName(this)"/>
+                            <div class="popup-container">
+                                <div class="popup">
+                                    <div class="popup-info-container">
+                                        <div class="photo-popup-close">
+                                            <img src="${BASE_URL}/assets/icons/close.png" class="photo-popup-close" onclick="closeChangeName(this)" />
+                                        </div>
+                                        <div class="registration-form">
+                                            <div class="form-group">
+                                                <input type="text" id="name${element['object_id']}" class="textfield" placeholder="New Name">
+                                            </div>
+                                            <button class="button-black" onclick="changeName(this)">Change Name</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <br>
                         <div class="photo-popup-info-property">
