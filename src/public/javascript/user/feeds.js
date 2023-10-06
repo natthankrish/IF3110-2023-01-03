@@ -9,10 +9,10 @@ function closePopUp(object) {
 }
 
 function changeLike(object) {
-    if (object.src == "<?= BASE_URL ?>/assets/icons/liked.png") {
-        object.src = "<?= BASE_URL ?>/assets/icons/heart.png";
+    if (object.src == BASE_URL + "/assets/icons/liked.png") {
+        object.src = BASE_URL + "/assets/icons/heart.png";
     } else {
-        object.src = "<?= BASE_URL ?>/assets/icons/liked.png";
+        object.src = BASE_URL + "/assets/icons/liked.png";
     }          
 }
 
@@ -32,7 +32,7 @@ function makeFeed(element) {
                 </div>
                 <div class="photo-popup-info-container">
                     <div class="photo-popup-close">
-                        <img src="<?= BASE_URL ?>/assets/icons/close.png" onclick="closePopUp(this)" />
+                        <img src="${BASE_URL}/assets/icons/close.png" onclick="closePopUp(this)" />
                     </div>
                     <br>
                     <div class="scrollable">
@@ -41,15 +41,15 @@ function makeFeed(element) {
                         </div>
                         <br>
                         <div class="photo-popup-info-property">
-                            <img src="<?= BASE_URL ?>/assets/icons/profile.png" class="photo-popup-property-icon"/>
+                            <img src="${BASE_URL}/assets/icons/profile.png" class="photo-popup-property-icon"/>
                             <p class="photo-popup-property-desc">${element['user_id']}</p>
                         </div>
                         <div class="photo-popup-info-property">
-                            <img src="<?= BASE_URL ?>/assets/icons/heart.png" class="photo-popup-property-icon" onclick="changeLike(this)"/>
+                            <img src="${BASE_URL}/assets/icons/heart.png" class="photo-popup-property-icon" onclick="changeLike(this)"/>
                             <p class="photo-popup-property-desc">Like</p>
                         </div>
                         <div class="photo-popup-info-property">
-                            <img src="<?= BASE_URL ?>/assets/icons/date.png" class="photo-popup-property-icon"/>
+                            <img src="${BASE_URL}/assets/icons/date.png" class="photo-popup-property-icon"/>
                             <p class="photo-popup-property-desc">${element['post_date']}</p>
                         </div>
                         <br>

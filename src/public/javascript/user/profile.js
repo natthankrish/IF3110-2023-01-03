@@ -11,6 +11,27 @@ function closePopUp(object) {
     object.parentElement.parentElement.parentElement.parentElement.parentElement.children[1].style.display = "none";
 }
 
+function changeStatus(object) {
+    let object_id = object.parentElement.parentElement.parentElement.parentElement.id;
+
+    const formData = new FormData();
+    formData.append("object_id", object_id);
+    formData.append("isPublic", 1);
+    formData.append("csrf_token", CSRF_TOKEN);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "/public/object/updateIsPublic");
+
+    xhr.send(formData);
+    xhr.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            object.parentElement.parentElement.parentElement.style.display = "none";
+            refresh()
+        }
+    };
+}
+
+
 function makePost(element) {
     const photoCard = document.createElement('div');
     photoCard.className = 'photo-card';
@@ -27,34 +48,29 @@ function makePost(element) {
                 </div>
                 <div class="photo-popup-info-container">
                     <div class="photo-popup-close">
-                        <img src="<?= BASE_URL ?>/assets/icons/close.png" onclick="closePopUp(this)" />
+                        <img src="${BASE_URL}/assets/icons/close.png" onclick="closePopUp(this)" />
                     </div>
                     <br>
                     <div class="scrollable">
                         <div class="photo-popup-name-container">
                             <h2 class="photo-popup-name">${element['description']}</h2>
+                            <img src="${BASE_URL}/assets/icons/edit.png" class="photo-popup-property-icon"/>
                         </div>
                         <br>
                         <div class="photo-popup-info-property">
-                            <img src="<?= BASE_URL ?>/assets/icons/heart.png" class="photo-popup-property-icon"/>
+                            <img src="${BASE_URL}/assets/icons/heart.png" class="photo-popup-property-icon"/>
                             <p class="photo-popup-property-desc">${element['likes']} Likes</p>
                         </div>
                         <div class="photo-popup-info-property">
-                            <img src="<?= BASE_URL ?>/assets/icons/date.png" class="photo-popup-property-icon"/>
+                            <img src="${BASE_URL}/assets/icons/date.png" class="photo-popup-property-icon"/>
                             <p class="photo-popup-property-desc">${element['post_date']}</p>
                         </div>
                         <br>
                         <h1 class="visibility-status">Comments</h1>
                         <div class="comments-container">
-                            <?php include(dirname(__DIR__) . '/object/Comment.php') ?>
-                            <?php include(dirname(__DIR__) . '/object/Comment.php') ?>
-                            <?php include(dirname(__DIR__) . '/object/Comment.php') ?>
-                            <?php include(dirname(__DIR__) . '/object/Comment.php') ?>
-                            <?php include(dirname(__DIR__) . '/object/Comment.php') ?>
-                            <?php include(dirname(__DIR__) . '/object/Comment.php') ?>
                         </div>
                     </div>
-                    <button class="button-white" onclick="">Hide this photo from my profile</button>
+                    <button class="button-white" onclick="changeStatus(this)">Hide this photo from my profile</button>
                 </div>
             </div>
         </div>
@@ -86,7 +102,6 @@ function refresh() {
         }
     };
 }
-
 
 window.addEventListener(
     "load",
