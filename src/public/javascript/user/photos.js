@@ -22,21 +22,47 @@ function closeAddPhoto(object) {
 }
 
 function changeStatus(object) {
-    let stat = object.parentElement.children[7];
+    let isPublic = undefined;
     if (object.innerText == "Show in My Profile") {
-        object.innerText = "Hide from My Profile";
-        stat.innerText = "Others can see this picture"
+        isPublic = 0;
     } else {
-        object.innerText = "Show in My Profile";
-        stat.innerText = "Others can't see this picture"
+        isPublic = 1;
     }
+
+    let object_id = object.parentElement.parentElement.parentElement.parentElement.parentElement.id;
+
+    console.log(object_id, isPublic)
+    const formData = new FormData();
+    formData.append("object_id", object_id);
+    formData.append("isPublic", isPublic);
+    formData.append("csrf_token", CSRF_TOKEN);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "/public/object/updateIsPublic");
+
+    xhr.send(formData);
+    xhr.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            let stat = object.parentElement.children[7];
+            console.log("done");
+            if (object.innerText == "Show in My Profile") {
+                object.innerText = "Hide from My Profile";
+                stat.innerText = "Others can see this photo";
+            } else {
+                object.innerText = "Show in My Profile";
+                stat.innerText = "Others can't see this photo";
+            }
+        }
+    };
 }
 
 function deletePhoto(object) {
     let object_id = object.parentElement.parentElement.parentElement.parentElement.id;
+    let object_name = object.id
 
     const formData = new FormData();
     formData.append("object_id", object_id);
+    formData.append("object_name", object_name);
     formData.append("csrf_token", CSRF_TOKEN);
 
     const xhr = new XMLHttpRequest();
@@ -85,7 +111,7 @@ submit_btn.addEventListener(
 
         const formData = new FormData();
         formData.append("title", file.name);
-        formData.append("date", "12/12/2012");
+        formData.append("date", );
         formData.append("location", "HEHE");
         formData.append('image', file);
         formData.append("csrf_token", CSRF_TOKEN);
@@ -142,10 +168,10 @@ function makePhoto(element) {
                             <p class="photo-popup-property-desc">${element['date']}</p>
                         </div>
                         <br>
-                        <h1 class="visibility-status">Others can't see this photos</h1>
-                        <button class="button-black" onclick="changeStatus(this)">Show in My Profile</button>
+                        <h1 class="visibility-status">${element['isPublic'] == 0 ? "Others can't see this photo" : "Others can see this photo"}</h1>
+                        <button class="button-black" onclick="changeStatus(this)">${element['isPublic'] == 0 ? "Show in My Profile" : "Hide From My Profile"}</button>
                     </div>
-                    <button class="button-white" onclick="deletePhoto(this)">Delete This Photo</button>
+                    <button class="button-white" onclick="deletePhoto(this)" id=${element['url_photo']}>Delete This Photo</button>
                 </div>
             </div>
         </div>

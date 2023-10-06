@@ -56,7 +56,7 @@ class ObjectController extends Controller implements ControllerInterface
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'POST':
                     $objectModel = $this->model('ObjectModel');
-                    $objectModel->updateIsPublic($_POST['user_id'], $_POST['object_id'], $_POST['isPublic']);
+                    $objectModel->updateIsPublic($_SESSION['user_id'], $_POST['object_id'], $_POST['isPublic']);
                     exit;
 
                 default:
@@ -132,6 +132,8 @@ class ObjectController extends Controller implements ControllerInterface
                 case 'POST':
                     $objectModel = $this->model('ObjectModel');
                     $objectModel->delete($_SESSION['user_id'],$_POST['object_id']);
+                    $storageAccess = new StorageAccess(StorageAccess::IMAGE_PATH);
+                    $storageAccess->deleteFile($_POST['object_name']);
                     exit;
                 default:
                     throw new LoggedException('Method Not Allowed', 405);

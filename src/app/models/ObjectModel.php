@@ -97,7 +97,6 @@ class ObjectModel
         $this->database->query($postDateQuery);
         $this->database->bind('object_id', $object_id);
         $postDate = $this->database->fetch(); 
-        echo $postDate;
         if ($postDate === NULL){
             $query = 'UPDATE Object 
                     SET isPublic = :isPublic, description = name, post_date = NOW()
@@ -116,7 +115,7 @@ class ObjectModel
     
                 $this->database->query($query);
                 $this->database->bind('object_id', $object_id);
-                $this->database->bind('isPublic', $isPublic);
+                $this->database->bind('isPublic', 0);
     
                 $this->database->execute();
             }else{
@@ -126,7 +125,7 @@ class ObjectModel
     
                 $this->database->query($query);
                 $this->database->bind('object_id', $object_id);
-                $this->database->bind('isPublic', $isPublic);
+                $this->database->bind('isPublic', 1);
     
                 $this->database->execute();
             }
