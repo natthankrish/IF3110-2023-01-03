@@ -92,7 +92,10 @@ class ObjectController extends Controller implements ControllerInterface
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
                     $objectModel = $this->model('ObjectModel');
-                    $objectModel->getByIdUser($_GET['user_id'], $_GET['perpage'], ($_GET['page']-1)*$_GET['perpage']);
+                    $object = $objectModel->getByIdUser($_SESSION['user_id'], 12, 1);
+
+                    header('Content-Type: application/json');
+                    echo json_encode(["object" => $object]);
                     exit;
 
                 default:

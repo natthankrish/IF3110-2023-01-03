@@ -18,6 +18,7 @@
 
         <!-- JavaScript DOM and AJAX -->
         <script type="text/javascript" src="<?= BASE_URL ?>/javascript/user/photos.js" defer></script>
+        <!-- <script type="text/javascript" src="<?= BASE_URL ?>/javascript/component/Photo.js" defer></script> -->
     </head>
     <body>
         <?php include(dirname(__DIR__) . '/object/UserNavbar.php') ?>
@@ -35,7 +36,7 @@
                             <label for="file-input" class="button-white">Choose File</label>
                             <input type="file" id="file-input" name="password" placeholder="Photo Input">
                             <div class="form-group">
-                                <input type="text" id="photo-loc" name="password" class="textfield" placeholder="Photo Location" autocomplete="on">
+                                <input type="text" id="photo-loc" name="text" class="textfield" placeholder="Photo Location">
                             </div>
                             <button class="button-black" id="submit-photo">Upload Photo</button>
                         </div>
@@ -43,19 +44,7 @@
                 </div>
             </div>
             <br>
-            <div class="photo-container">
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
+            <div class="photo-container" id="container">
             </div>
             <?php include(dirname(__DIR__) . '/object/Pagination.php') ?>
         </div>

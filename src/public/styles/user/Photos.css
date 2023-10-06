@@ -46,7 +46,8 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: left;
+    gap: 3%;
 }
 
 .photo-card {
@@ -96,6 +97,7 @@ body {
 
 .photo-popup-img-container {
     width: 45%;
+    height: 80%;
     background-color: aqua;
 
     display: flex;
@@ -108,6 +110,7 @@ body {
     width: 100%;
     height: 100%;
     background-color: white;
+    object-fit: contain;
 }
 
 .photo-popup-info-container {
@@ -121,7 +124,7 @@ body {
 
 .photo-thumbnail-container {
     width: 18vw;
-    height: 18vw;
+    height: 100%;
     margin-bottom: 15%;
 
     display: flex;
@@ -130,13 +133,16 @@ body {
 }
 
 .photo-thumbnail {
-    width: 17vw;
     height: 17vw;
+    width: 17vw;
+    padding: 1vw;
+    object-fit: contain;
 }
 
 .photo-thumbnail:hover {
     width: 18vw;
     height: 18vw;
+    padding: 0;
 
     transition: 0.3s;
 }

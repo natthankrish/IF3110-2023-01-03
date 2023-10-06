@@ -1,6 +1,9 @@
 submit_btn = document.getElementById('submit-photo');
 input = document.getElementById('file-input');
-display_img = document.getElementById('add-photo-display')
+display_img = document.getElementById('add-photo-display');
+container = document.getElementById('container');
+BASE_URL = 'http://localhost:8080/public'
+STORAGE_URL = 'http://localhost:8080/storage'
 
 function openPopUp(object) {
     object.parentElement.parentElement.children[1].style.display = "flex";
@@ -29,6 +32,7 @@ function changeStatus(object) {
     }
 }
 
+
 input.addEventListener('change', function(e) {
     var file = e.target.files[0]; 
     var objectURL = URL.createObjectURL(file);
@@ -38,13 +42,12 @@ input.addEventListener('change', function(e) {
 submit_btn.addEventListener(
     "click",
     function () {
-        console.log("start");
         file = input.files[0];
 
         const formData = new FormData();
-        formData.append("title", "email");
+        formData.append("title", file.name);
         formData.append("date", "12/12/2012");
-        formData.append("location", "password");
+        formData.append("location", "HEHE");
         formData.append('image', file);
         formData.append("csrf_token", CSRF_TOKEN);
 
@@ -54,13 +57,89 @@ submit_btn.addEventListener(
         xhr.send(formData);
         xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE) {
-                console.log(this.status);
-                if (this.status === 201) {
-                    console.log("fone");
-                } else {
-                    alert("hehe");
-                }
+                submit_btn.parentElement.parentElement.parentElement.style.display = "none";
             }
         };
     }
+);
+
+function makePhoto(element) {
+    const photoCard = document.createElement('div');
+    photoCard.className = 'photo-card';
+
+    const photoCardHTML = `
+        <div class="photo-thumbnail-container">
+            <img src="${STORAGE_URL + '/' + (element['type'] == 'Photo' ? 'images' : 'videos') + '/' + element['url_photo']}" class="photo-thumbnail" onclick="openPopUp(this)"/>
+        </div>
+        <div class="photo-popup-container">
+            <div class="photo-popup">
+                <div class="photo-popup-img-container">
+                    ${element['type'] === 'Photo'
+                        ? `<img src="${STORAGE_URL + '/' + (element['type'] == 'Photo' ? 'images' : 'videos') + '/' + element['url_photo']}" class="photo-popup-img" alt="Photo">`
+                        : `<video controls="controls" class="photo-popup-img">
+                                <source src="${STORAGE_URL + '/' + (element['type'] == 'Photo' ? 'images' : 'videos') + '/' + element['url_photo']}#t=0.1" type="video/mp4">
+                           </video>`
+                    }
+                </div>
+                <div class="photo-popup-info-container">
+                    <div class="photo-popup-info">
+                        <div class="photo-popup-close">
+                            <img src="${BASE_URL}/assets/icons/close.png" onclick="closePopUp(this)" />
+                        </div>
+                        <br>
+                        <div class="photo-popup-name-container">
+                            <h1 class="photo-popup-name">${element['title']}</h1>
+                            <img src="${BASE_URL}/assets/icons/edit.png" class="photo-popup-name-edit"/>
+                        </div>
+                        <br>
+                        <div class="photo-popup-info-property">
+                            <img src="${BASE_URL}/assets/icons/location.png" class="photo-popup-property-icon"/>
+                            <p class="photo-popup-property-desc">${element['location']}</p>
+                        </div>
+                        <div class="photo-popup-info-property">
+                            <img src="${BASE_URL}/assets/icons/date.png" class="photo-popup-property-icon"/>
+                            <p class="photo-popup-property-desc">${element['date']}</p>
+                        </div>
+                        <br>
+                        <h1 class="visibility-status">Others can't see this photos</h1>
+                        <button class="button-black" onclick="changeStatus(this)">Show in My Profile</button>
+                    </div>
+                    <button class="button-white">Delete This Photo</button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    photoCard.innerHTML = photoCardHTML;
+
+    return photoCard;
+}
+
+window.addEventListener(
+    "load",
+    debounce(() => {
+        console.log("hello");
+
+        const formData = new FormData();
+        formData.append("title", "email");
+        formData.append("date", "12/12/2012");
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", "/public/object/getByIdUser");
+
+        xhr.send(formData);
+        xhr.onreadystatechange = function () {
+            if (this.readyState === XMLHttpRequest.DONE) {
+                var responseObj = JSON.parse(this.responseText);
+                var objectArray = responseObj.object;
+                objectArray.forEach(element => {
+                    container.appendChild(
+                        makePhoto(element)
+                    )
+                });
+                console.log(objectArray);
+            }
+        };
+        
+    }, DEBOUNCE_TIMEOUT)
 );
