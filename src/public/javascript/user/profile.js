@@ -65,6 +65,20 @@ function changeDesc(object) {
     };
 }
 
+function countLike(object_id) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "/public/like/count?object_id=" + object_id);
+
+    xhr.send();
+    xhr.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            var responseObj = JSON.parse(this.responseText);
+            let like = document.getElementById('like' + object_id)
+            like.innerText = responseObj['like']['count'] == undefined ? 0 : responseObj['like']['count'] + ' Likes';
+        }
+    };
+}
+
 
 function makePost(element) {
     const photoCard = document.createElement('div');
@@ -110,7 +124,7 @@ function makePost(element) {
                         <br>
                         <div class="photo-popup-info-property">
                             <img src="${BASE_URL}/assets/icons/heart.png" class="photo-popup-property-icon"/>
-                            <p class="photo-popup-property-desc">${element['likes']} Likes</p>
+                            <p class="photo-popup-property-desc" id="like${element['object_id']}"></p>
                         </div>
                         <div class="photo-popup-info-property">
                             <img src="${BASE_URL}/assets/icons/date.png" class="photo-popup-property-icon"/>
@@ -148,6 +162,7 @@ function refresh() {
                 container.appendChild(
                     makePost(element)
                 )
+                countLike(element['object_id']);
             });
             console.log(objectArray);
         }

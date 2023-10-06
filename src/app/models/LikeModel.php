@@ -48,9 +48,10 @@ class LikeModel
 
     public function count($user_id, $object_id)
     {
-        $query = 'SELECT COUNT(*) FROM Likes WHERE object_id = :object_id';
+        $query = 'SELECT COUNT(*) AS count FROM Likes WHERE object_id = :object_id';
         $this->database->query($query);
         $this->database->bind('object_id', $object_id);
-        $this->database->execute(); 
+        $res = $this->database->fetch();
+        return $res;
     }
 }
