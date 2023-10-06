@@ -38,7 +38,7 @@ window.addEventListener(
         xhr.onreadystatechange = function () {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 const data = JSON.parse(this.responseText);
-                currentAdmin.innerText = "Admin #" + data['user_id'];
+                currentAdmin.innerText = "Admin @" + data['username'];
                 currentFullname.innerText = "Current Name: " + data['fullname'];
                 currentUsername.innerText = "Current Username: " + data['username'];
             }
