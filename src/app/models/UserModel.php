@@ -143,6 +143,18 @@ class UserModel
         return $returnArr;
     }
 
+    public function getFilteredUsers($input)
+    {
+        $query = 'SELECT user_id, fullname, email, username, storage, storage_left FROM user WHERE is_admin = FALSE AND (fullname LIKE :input OR email LIKE :input OR username LIKE :input)';
+
+        $this->database->query($query);
+        $this->database->bind('input', '%' . $input . '%');
+        $users = $this->database->fetchAll();
+
+        $returnArr = ['users' => $users];
+        return $returnArr;
+    }
+
     public function getUsername($id)
     {
         $query = 'SELECT username FROM user WHERE user_id = :id';
