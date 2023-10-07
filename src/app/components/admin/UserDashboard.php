@@ -24,10 +24,10 @@
         <div class="content">
             <div class="item-settings-container">
                 <h1 class="title">User</h1>
-                <form action="/action_page.php" class="form">
+                <div class="form">
                     <img src="<?= BASE_URL ?>/assets/icons/search.png"/>
-                    <input type="text" id="fname" name="fname" class="textfield" placeholder="Type Username, ID, Name"><br>    
-                </form>
+                    <input type="text" id="search" name="search" class="textfield" placeholder="Search"><br>    
+                </div>
             </div>
 
             <?php if (!$this->data['users']) : ?>
