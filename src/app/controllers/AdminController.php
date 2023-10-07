@@ -68,7 +68,7 @@ class AdminController extends Controller implements ControllerInterface
         }
     }
 
-    public function user($id)
+    public function user($username)
     {
         try {
             switch ($_SERVER['REQUEST_METHOD']) {
@@ -77,7 +77,15 @@ class AdminController extends Controller implements ControllerInterface
                     $authMiddleware = $this->middleware('AuthenticationMiddleware');
                     $authMiddleware->isAdmin();
 
-                    $loginView = $this->view('admin', 'UserDetailView', []);
+                    // Check if user exists
+                    $userModel = $this->model('UserModel');
+                    $user = $userModel->getUserByUsername($username);
+
+                    if (!$user) {
+                        throw new LoggedException('User Not Found', 404);
+                    }
+
+                    $loginView = $this->view('admin', 'UserDetailView', ['username' => $username]);
                     $loginView->render();
                     exit;
 
