@@ -401,15 +401,39 @@ input[type="file"] {
     flex-direction: column;
 }
 
-.textfield {
+.searchfilter {
+    display: flex;
+    flex-direction: row;
+    gap: 5%;
+    width: 50%;
+    align-items: center;
+}
+
+.searchfilter > img {
+    object-fit: contain;
+}
+
+.textfield3 {
     height: 55px;
-    width: 80%;
+    width: 40%;
 
     font-size: 16px;
-    padding: 0 10%;
+    padding: 0 5%;
     margin: 3% 0;
     border-radius: 25px;
 }
+
+.dropdown {
+    height: 55px;
+    width: 20%;
+
+    font-size: 16px;
+    padding: 0 5%;
+    border-radius: 25px;
+    -webkit-appearance: none;
+}
+
+
 
 @media screen and (max-width: 1200px) {
     .content {

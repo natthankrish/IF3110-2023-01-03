@@ -13,25 +13,19 @@
         <div class="content">
             <div class="item-settings-container">
                 <h1 class="title">Search</h1>
-                <form action="/action_page.php" class="form">
+                <div class="searchfilter">
+                    <button id="sortName" class="button-black">A-Z</button>
+                    <select id="filter" class="dropdown">
+                        <option value="all">All Photos</option>
+                        <option value="public">Public</option>
+                        <option value="private">Private</option>
+                    </select>
                     <img src="<?= BASE_URL ?>/assets/icons/search.png"/>
-                    <input type="text" id="fname" name="fname" class="textfield" placeholder="Type Username, ID, Name"><br>    
-                </form>
+                    <input type="text" id="fname" class="textfield3" placeholder="Type Username, ID, Name">  
+                </div>
             </div>
             <br>
             <div class="photo-container">
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
             </div>
             <?php include(dirname(__DIR__) . '/object/Pagination.php') ?>
         </div>
