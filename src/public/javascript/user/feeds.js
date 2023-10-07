@@ -217,8 +217,13 @@ function makeFeed(element) {
         </div>
         <div class="photo-popup-container">
             <div class="photo-popup">
-                <div class="photo-popup-img-container">
-                    <img src="${STORAGE_URL + '/' + (element['type'] == 'Photo' ? 'images' : 'videos') + '/' + element['url_photo']}" class="photo-popup-img"/>
+                <div class="photo-popup-img-container" id="${element['type'] == 'Photo' ? 'images' + element['url_photo'] : 'videos' + element['url_video']}">
+                    ${element['type'] === 'Photo'
+                        ? `<img src="${STORAGE_URL + '/' + (element['type'] == 'Photo' ? 'images' : 'videos') + '/' + element['url_photo']}" class="photo-popup-img" alt="Photo">`
+                        : `<video controls="controls" class="photo-popup-img">
+                                <source src="${STORAGE_URL + '/' + (element['type'] == 'Photo' ? 'images' : 'videos') + '/' + element['url_video']}#t=0.1" type="video/mp4">
+                           </video>`
+                    }
                 </div>
                 <div class="photo-popup-info-container">
                     <div class="photo-popup-close">
