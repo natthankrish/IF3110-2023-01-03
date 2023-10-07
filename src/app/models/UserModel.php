@@ -111,6 +111,26 @@ class UserModel
         return $user;
     }
 
+    public function getUsers($page)
+    {
+        $query = 'SELECT user_id, fullname, email, username, storage, storage_left FROM user WHERE is_admin = FALSE LIMIT :limit OFFSET :offset';
+
+        $this->database->query($query);
+        $this->database->bind('limit', ROWS_PER_PAGE);
+        $this->database->bind('offset', ($page - 1) * ROWS_PER_PAGE);
+        $users = $this->database->fetchAll();
+
+        $query = 'SELECT CEIL(COUNT(user_id) / :rows_per_page) AS page_count FROM user WHERE is_admin = FALSE';
+
+        $this->database->query($query);
+        $this->database->bind('rows_per_page', ROWS_PER_PAGE);
+        $user = $this->database->fetch();
+        $pageCount = $user->page_count;
+
+        $returnArr = ['users' => $users, 'pages' => $pageCount];
+        return $returnArr;
+    }
+
     public function updateUsername($id, $username)
     {
         $query = 'UPDATE user SET username = :username WHERE user_id = :id';
