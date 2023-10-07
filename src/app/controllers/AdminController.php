@@ -129,4 +129,38 @@ class AdminController extends Controller implements ControllerInterface
             exit;
         }
     }
+
+    public function registerAdmin()
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'GET':
+                    // Prevent CSRF Attacks
+                    $tokenMiddleware = $this->middleware('TokenMiddleware');
+                    $tokenMiddleware->putToken();
+
+                    $registerView = $this->view('user', 'RegisterView');
+                    $registerView->render();
+                    exit;
+
+                case 'POST':
+                    // Prevent CSRF Attacks
+                    $tokenMiddleware = $this->middleware('TokenMiddleware');
+                    $tokenMiddleware->checkToken();
+
+                    $userModel = $this->model('UserModel');
+                    $userModel->registerAdmin($_POST['email'], $_POST['username'], $_POST['password'], $_POST['fullname']);
+
+                    // Kembalikan response code 201
+                    http_response_code(201);
+                    exit;
+
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
 }

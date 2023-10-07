@@ -92,6 +92,8 @@ td, th {
 .button:hover, .button2:hover {
     color: black;
     background-color: white;
+
+    cursor: pointer;
 }
 
 .button-column {
