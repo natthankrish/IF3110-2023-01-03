@@ -458,4 +458,35 @@ class UserController extends Controller implements ControllerInterface
             exit;
         }
     }
+
+    public function fetch($page)
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'GET':
+                    // Prevent Access except Admin
+                    $authMiddleware = $this->middleware('AuthenticationMiddleware');
+                    $authMiddleware->isAdmin();
+
+                    // Prevent CSRF Attacks
+                    $tokenMiddleware = $this->middleware('TokenMiddleware');
+                    $tokenMiddleware->checkToken();
+
+                    $userModel = $this->model('UserModel');
+                    $res = $userModel->getUsers((int) $page);
+
+                    header('Content-Type: application/json');
+                    http_response_code(200);
+                    echo json_encode($res);
+                    exit;
+
+                    break;
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
 }

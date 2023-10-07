@@ -1,9 +1,9 @@
 <div class="pagination">
-    <img src="<?= BASE_URL ?>/assets/icons/left.png" class="page-button" alt="Previous"/>
-    <p1 class="page-item" id="page-item-1">1</p1>
-    <p1 class="page-item" id="page-item-2">2</p1>
-    <p1 class="page-item" id="page-item-3">3</p1>
-    <p1 class="page-item" id="page-item-4">4</p1>
-    <p1 class="page-item" id="page-item-5">5</p1>
-    <img src="<?= BASE_URL ?>/assets/icons/right.png" class="page-button" alt="Next"/>
+    <img src="<?= BASE_URL ?>/assets/icons/left.png" alt="Previous" id="prev-button" class="page-button">
+
+    <div id="pagination-text">
+        <p>Page <span id="page-number">1</span> out of <?= $this->data['pages'] ?> pages</p>
+    </div>
+
+    <img src="<?= BASE_URL ?>/assets/icons/right.png" alt="Next" id="next-button" class="page-button">
 </div>

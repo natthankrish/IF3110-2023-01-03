@@ -29,7 +29,11 @@ class AdminController extends Controller implements ControllerInterface
                     $authMiddleware = $this->middleware('AuthenticationMiddleware');
                     $authMiddleware->isAdmin();
 
-                    $loginView = $this->view('admin', 'UserDashboardView', []);
+                    // Grab user data
+                    $userModel = $this->model('UserModel');
+                    $res = $userModel->getUsers(1);
+
+                    $loginView = $this->view('admin', 'UserDashboardView', $res);
                     $loginView->render();
                     exit;
 
@@ -64,7 +68,7 @@ class AdminController extends Controller implements ControllerInterface
         }
     }
 
-    public function user()
+    public function user($id)
     {
         try {
             switch ($_SERVER['REQUEST_METHOD']) {

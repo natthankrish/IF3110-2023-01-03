@@ -10,6 +10,7 @@ define('DBNAME', $_ENV['MYSQL_DATABASE']);
 define('USER', $_ENV['MYSQL_USER'] ?? 'root');
 define('PASSWORD', $_ENV['MYSQL_PASSWORD']);
 define('PORT', $_ENV['MYSQL_PORT']);
+define('ROWS_PER_PAGE', 10);
 
 define('MAX_SIZE', 10000000);    
 define('ALLOWED_IMAGES', [
