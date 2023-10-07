@@ -6,6 +6,7 @@
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/user/Photos.css">
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/object/Navbar.css">
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/object/Pagination.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!-- JavaScript Constant and Variables -->
         <script type="text/javascript" defer>
