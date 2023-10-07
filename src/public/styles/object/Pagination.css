@@ -27,3 +27,11 @@
     font-weight: bold;
     padding: 0 2%;
 }
+
+#list-pagination {
+    display: flex;
+}
+
+#list-pagination p {
+    margin-right: 10px;
+}

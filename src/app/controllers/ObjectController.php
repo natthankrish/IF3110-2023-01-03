@@ -142,7 +142,28 @@ class ObjectController extends Controller implements ControllerInterface
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
                     $objectModel = $this->model('ObjectModel');
-                    $object = $objectModel->getByIdUser($_SESSION['user_id'], 12, 0);
+                    $object = $objectModel->getByIdUser($_SESSION['user_id'], (int)$_GET["perpage"], (int)((int)$_GET["page"]-1)*(int)$_GET["perpage"]);
+
+                    header('Content-Type: application/json');
+                    echo json_encode(["object" => $object]);
+                    exit;
+
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
+
+    public function getLengthByIdUser()
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'GET':
+                    $objectModel = $this->model('ObjectModel');
+                    $object = $objectModel->getLengthByIdUser($_SESSION['user_id']);
 
                     header('Content-Type: application/json');
                     echo json_encode(["object" => $object]);
@@ -163,9 +184,29 @@ class ObjectController extends Controller implements ControllerInterface
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
                     $objectModel = $this->model('ObjectModel');
-                    // $objectModel->getPublic($_GET['user_id'], $_GET['perpage'], ($_GET['page']-1)*$_GET['perpage']);
-                    $object = $objectModel->getPublic($_SESSION['user_id'], 12, 0);
+                    $object = $objectModel->getPublic((int)$_GET["perpage"], (int)((int)$_GET["page"]-1)*(int)$_GET["perpage"], $_GET["filter"]);
                     
+                    header('Content-Type: application/json');
+                    echo json_encode(["object" => $object]);
+                    exit;
+
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
+
+    public function getLengthPublic()
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'GET':
+                    $objectModel = $this->model('ObjectModel');
+                    $object = $objectModel->getLengthPublic($_GET["filter"]);
+
                     header('Content-Type: application/json');
                     echo json_encode(["object" => $object]);
                     exit;
@@ -185,8 +226,28 @@ class ObjectController extends Controller implements ControllerInterface
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
                     $objectModel = $this->model('ObjectModel');
-                    // $objectModel->getPublic($_GET['user_id'], $_GET['perpage'], ($_GET['page']-1)*$_GET['perpage']);
-                    $object = $objectModel->getPublicById($_SESSION['user_id'], 12, 0);
+                    $object = $objectModel->getPublicById($_SESSION['user_id'], (int)$_GET["perpage"], (int)((int)$_GET["page"]-1)*(int)$_GET["perpage"], $_GET["filter"]);
+                    
+                    header('Content-Type: application/json');
+                    echo json_encode(["object" => $object]);
+                    exit;
+
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
+
+    public function getLengthPublicById()
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'GET':
+                    $objectModel = $this->model('ObjectModel');
+                    $object = $objectModel->getLengthPublicById($_SESSION['user_id'], $_GET["filter"]);
                     
                     header('Content-Type: application/json');
                     echo json_encode(["object" => $object]);

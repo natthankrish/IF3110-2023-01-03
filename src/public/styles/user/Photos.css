@@ -410,3 +410,8 @@ input[type="file"] {
     margin: 3% 0;
     border-radius: 25px;
 }
+
+#button-search:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+}

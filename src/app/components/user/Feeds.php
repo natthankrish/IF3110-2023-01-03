@@ -28,14 +28,20 @@
             <div class="item-settings-container">
                 <h1 class="title">Feeds</h1>
                 <form action="/action_page.php" class="form">
-                    <img src="<?= BASE_URL ?>/assets/icons/search.png"/>
+                    <img id="button-search" src="<?= BASE_URL ?>/assets/icons/search.png"/>
                     <input type="text" id="fname" name="fname" class="textfield" placeholder="Type Username / Desc"><br>    
                 </form>
             </div>
             <br>
             <div class="photo-container" id="container">
             </div>
-            <?php include(dirname(__DIR__) . '/object/Pagination.php') ?>
+            <div class="pagination">
+                <img src="<?= BASE_URL ?>/assets/icons/left.png" class="page-button" alt="Previous"/>
+                <div id="list-pagination">
+                </div>
+                <img src="<?= BASE_URL ?>/assets/icons/right.png" class="page-button" alt="Next"/>
+                <!-- <input id="state-page" value="1"/> -->
+            </div>
         </div>
     </body>
 </html>

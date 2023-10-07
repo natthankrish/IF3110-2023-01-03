@@ -48,7 +48,13 @@
             <br>
             <div class="photo-container" id="container">
             </div>
-            <?php include(dirname(__DIR__) . '/object/Pagination.php') ?>
+            <div class="pagination">
+                <img src="<?= BASE_URL ?>/assets/icons/left.png" class="page-button" id="left-page-button" alt="Previous"/>
+                <div id="list-pagination">
+                </div>
+                <img src="<?= BASE_URL ?>/assets/icons/right.png" class="page-button" id="left-page-right" alt="Next"/>
+                <!-- <input id="state-page" value="1"/> -->
+            </div>
         </div>
     </body>
 </html>

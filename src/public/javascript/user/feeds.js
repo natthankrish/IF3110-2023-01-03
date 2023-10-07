@@ -1,4 +1,7 @@
 const container = document.getElementById('container');
+const listPagination = document.getElementById('list-pagination')
+const buttonSearch = document.getElementById('button-search')
+const textbox = document.getElementById('fname')
 let CURRENT_USERNAME;
 
 function openPopUp(object) {
@@ -263,10 +266,10 @@ function makeFeed(element) {
     return photoCard;
 }
 
-function refresh() {
+function refresh(perpage, page, filter) {
     container.innerHTML = '';
     const xhr = new XMLHttpRequest();
-    xhr.open("GET", "/public/object/getPublic");
+    xhr.open("GET", `/public/object/getPublic?perpage=${perpage}&page=${page}&filter=${filter}`);
 
     xhr.send();
     xhr.onreadystatechange = function () {
@@ -286,10 +289,37 @@ function refresh() {
     };
 }
 
+function setupLength(filter){
+    listPagination.innerHTML = '';
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", `/public/object/getLengthPublic?filter=${filter}`);
+
+    xhr.send();
+    xhr.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            var responseObj = JSON.parse(this.responseText);
+            var len = responseObj.object.len;
+            for(let i=0;i<=len;i+=12){
+                const p = document.createElement('p')
+                p.innerHTML = (i+12)/12
+                p.className = 'page-item'
+                p.onclick = () => refresh(12, (i+12)/12)
+                listPagination.appendChild(p)
+            }
+        }
+    };
+}
+
+buttonSearch.addEventListener('click', () => {
+    refresh(12, 1, textbox.value)
+    setupLength(textbox.value)
+})
+
 window.addEventListener(
     "load",
     debounce(() => {
-        refresh();
+        refresh(12,1,"")
+        setupLength("")
         getCurrentUsername();
     }, DEBOUNCE_TIMEOUT)
 );

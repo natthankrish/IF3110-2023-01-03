@@ -81,9 +81,36 @@ class ObjectModel
         return $res;
     }
 
-    public function getPublic($user_id, $limit, $offset)
+    public function getLengthByIdUser($user_id)
     {
-        $query = 'SELECT * FROM Object WHERE user_id != :user_id AND isPublic = 1 LIMIT :limit OFFSET :offset';
+        $query = 'SELECT COUNT(*) AS len FROM Object WHERE user_id = :user_id';
+        $this->database->query($query);
+        $this->database->bind('user_id', $user_id);
+        $res = $this->database->fetch();
+        return $res;
+    }
+
+    public function getPublic($limit, $offset, $filter)
+    {
+        $query = "SELECT * FROM Object WHERE isPublic = 1 AND (title LIKE '%$filter%' OR location LIKE '%$filter%') ORDER BY title LIMIT :limit OFFSET :offset";
+        $this->database->query($query);
+        $this->database->bind('limit', $limit);
+        $this->database->bind('offset', $offset);
+        $res = $this->database->fetchAll();
+        return $res;
+    }
+
+    public function getLengthPublic($filter)
+    {
+        $query = "SELECT COUNT(*) AS len FROM Object WHERE isPublic = 1 AND (title LIKE '%$filter%' OR location LIKE '%$filter%')";
+        $this->database->query($query);
+        $res = $this->database->fetch();
+        return $res;
+    }
+
+    public function getPublicById($user_id, $limit, $offset, $filter)
+    {
+        $query = "SELECT * FROM Object WHERE user_id != :user_id AND isPublic = 1 AND (title LIKE '%$filter%' OR location LIKE '%$filter%') ORDER BY title LIMIT :limit OFFSET :offset";
         $this->database->query($query);
         $this->database->bind('user_id', $user_id);
         $this->database->bind('limit', $limit);
@@ -92,14 +119,12 @@ class ObjectModel
         return $res;
     }
 
-    public function getPublicById($user_id, $limit, $offset)
+    public function getLengthPublicById($user_id, $filter)
     {
-        $query = 'SELECT * FROM Object WHERE user_id = :user_id AND isPublic = 1 LIMIT :limit OFFSET :offset';
+        $query = "SELECT COUNT(*) AS len FROM Object WHERE user_id != :user_id AND isPublic = 1 AND (title LIKE '%$filter%' OR location LIKE '%$filter%')";
         $this->database->query($query);
         $this->database->bind('user_id', $user_id);
-        $this->database->bind('limit', $limit);
-        $this->database->bind('offset', $offset);
-        $res = $this->database->fetchAll();
+        $res = $this->database->fetch();
         return $res;
     }
 

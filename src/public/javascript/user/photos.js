@@ -1,7 +1,9 @@
-submit_btn = document.getElementById('submit-photo');
-input = document.getElementById('file-input');
-display_img = document.getElementById('add-photo-display');
-container = document.getElementById('container');
+const submit_btn = document.getElementById('submit-photo');
+const input = document.getElementById('file-input');
+const display_img = document.getElementById('add-photo-display');
+const container = document.getElementById('container');
+const listPagination = document.getElementById('list-pagination')
+const statePage = document.getElementById('state-page')
 
 function openPopUp(object) {
     object.parentElement.parentElement.children[1].style.display = "flex";
@@ -70,15 +72,15 @@ function deletePhoto(object) {
     xhr.onreadystatechange = function () {
         if (this.readyState === XMLHttpRequest.DONE) {
             object.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.children[1].style.display = "none";
-            refresh();
+            refresh(12,1);
         }
     };
 }
 
-function refresh() {
-    container.innerHTML = '';
+function refresh(perpage, page) {
+    container.innerHTML = ''
     const xhr = new XMLHttpRequest();
-    xhr.open("GET", "/public/object/getByIdUser");
+    xhr.open("GET", `/public/object/getByIdUser?perpage=${perpage}&page=${page}`);
 
     xhr.send();
     xhr.onreadystatechange = function () {
@@ -90,7 +92,6 @@ function refresh() {
                     makePhoto(element)
                 )
             });
-            console.log(this.responseText);
         }
     };
 }
@@ -122,7 +123,7 @@ submit_btn.addEventListener(
         xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE) {
                 submit_btn.parentElement.parentElement.parentElement.style.display = "none";
-                refresh();
+                refresh(12,1);
             }
         };
     }
@@ -230,9 +231,32 @@ function makePhoto(element) {
     return photoCard;
 }
 
+function setupLength(){
+    listPagination.innerHTML = '';
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "/public/object/getLengthByIdUser");
+
+    xhr.send();
+    xhr.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            var responseObj = JSON.parse(this.responseText);
+            var len = responseObj.object.len;
+            for(let i=0;i<=len;i+=12){
+                const p = document.createElement('p')
+                p.innerHTML = (i+12)/12
+                p.className = 'page-item'
+                p.onclick = () => refresh(12, (i+12)/12)
+                listPagination.appendChild(p)
+            }
+        }
+    };
+}
+
+
 window.addEventListener(
     "load",
     debounce(() => {
-        refresh()
+        refresh(12,1)
+        setupLength()
     }, DEBOUNCE_TIMEOUT)
 );

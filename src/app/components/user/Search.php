@@ -6,53 +6,40 @@
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/user/Photos.css">
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/object/Navbar.css">
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/object/Pagination.css">
+        <!-- JavaScript Constant and Variables -->
+        <script type="text/javascript" defer>
+            const CSRF_TOKEN = "<?= $_SESSION['csrf_token'] ?? '' ?>";
+            const DEBOUNCE_TIMEOUT = "<?= DEBOUNCE_TIMEOUT ?>";
+            const BASE_URL = "<?= BASE_URL ?>";
+            const STORAGE_URL = "<?= STORAGE_URL ?>";
+        </script>
+
+        <!-- JavaScript Library -->
+        <script type="text/javascript" src="<?= BASE_URL ?>/javascript/lib/debounce.js" defer></script>
+
+        <!-- JavaScript DOM and AJAX -->
+        <script type="text/javascript" src="<?= BASE_URL ?>/javascript/user/search.js" defer></script>
     </head>
     <body>
         <?php include(dirname(__DIR__) . '/object/UserNavbar.php') ?>
         <div class="content">
             <div class="item-settings-container">
                 <h1 class="title">Search</h1>
-                <form action="/action_page.php" class="form">
-                    <img src="<?= BASE_URL ?>/assets/icons/search.png"/>
-                    <input type="text" id="fname" name="fname" class="textfield" placeholder="Type Username, ID, Name"><br>    
-                </form>
+                <div class="form">
+                    <img id="button-search" src="<?= BASE_URL ?>/assets/icons/search.png"/>
+                    <input type="text" id="fname" name="fname" class="textfield" placeholder="Type Username, ID, Name"><br>
+                </div>
             </div>
             <br>
-            <div class="photo-container">
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
-                <?php include(dirname(__DIR__) . '/object/Photo.php') ?>
+            <div id="photo-container">
             </div>
-            <?php include(dirname(__DIR__) . '/object/Pagination.php') ?>
+            <div class="pagination">
+                <img src="<?= BASE_URL ?>/assets/icons/left.png" class="page-button" alt="Previous"/>
+                <div id="list-pagination">
+                </div>
+                <img src="<?= BASE_URL ?>/assets/icons/right.png" class="page-button" alt="Next"/>
+                <!-- <input id="state-page" value="1"/> -->
+            </div>
         </div>
-        <script>
-            function openPopUp(object) {
-                object.parentElement.parentElement.children[1].style.display = "flex";
-            }
-
-            function closePopUp(object) {
-                object.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.children[1].style.display = "none";
-            }
-
-            function changeStatus(object) {
-                let stat = object.parentElement.children[7];
-                if (object.innerText == "Show in My Profile") {
-                    object.innerText = "Hide from My Profile";
-                    stat.innerText = "Others can see this picture"
-                } else {
-                    object.innerText = "Show in My Profile";
-                    stat.innerText = "Others can't see this picture"
-                }
-            }   
-        </script>
     </body>
 </html>
