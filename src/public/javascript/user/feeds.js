@@ -1,4 +1,5 @@
 const container = document.getElementById('container');
+let CURRENT_USERNAME;
 
 function openPopUp(object) {
     object.parentElement.parentElement.children[1].style.display = "flex";
@@ -78,7 +79,20 @@ function getUsername(element) {
     };                    
 }
 
-function makeUserComment() {
+function getCurrentUsername() {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "/public/user/getCurrentUsername");
+
+    xhr.send();
+    xhr.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            var responseObj = JSON.parse(this.responseText);
+            CURRENT_USERNAME = responseObj["username"]["username"];
+        }
+    };                  
+}
+
+function makeUserComment(content, username) {
     const commentItemDiv = document.createElement("div");
     commentItemDiv.classList.add("comment-item");
 
@@ -87,19 +101,20 @@ function makeUserComment() {
 
     const commentSenderP = document.createElement("p");
     commentSenderP.classList.add("comment-sender");
-    commentSenderP.textContent = "natthankrish";
+    commentSenderP.textContent = username;
 
     const commentContentP = document.createElement("p");
     commentContentP.classList.add("comment-content");
-    commentContentP.textContent = "BAGUS BANGET ASTAGA";
+    commentContentP.textContent = content;
 
     commentContainerDiv.appendChild(commentSenderP);
     commentContainerDiv.appendChild(commentContentP);
 
     commentItemDiv.appendChild(commentContainerDiv);
+    return commentItemDiv;
 }
 
-function makeAdminComment() {
+function makeAdminComment(content, username) {
     const commentItemDiv = document.createElement("div");
     commentItemDiv.classList.add("comment-item");
 
@@ -108,11 +123,11 @@ function makeAdminComment() {
 
     const commentSenderP = document.createElement("p");
     commentSenderP.classList.add("comment-sender");
-    commentSenderP.textContent = "natthankrish";
+    commentSenderP.textContent = username;
 
     const commentContentP = document.createElement("p");
     commentContentP.classList.add("comment-content");
-    commentContentP.textContent = "BAGUS BANGET ASTAGA";
+    commentContentP.textContent = content;
 
     const trashIconImg = document.createElement("img");
     trashIconImg.src = BASE_URL + "/assets/icons/trash.png";
@@ -123,14 +138,56 @@ function makeAdminComment() {
 
     commentItemDiv.appendChild(commentContainerDiv);
     commentItemDiv.appendChild(trashIconImg);
+    return commentItemDiv;
 }
 
-function makeComment(element) {
+function loadComment(element) {
+    let object_id = element['object_id'];
 
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "/public/comment/getByIdObject?object_id=" + object_id);
+
+    xhr.send();
+    xhr.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            var responseObj = JSON.parse(this.responseText);
+            var commentdata = responseObj['comments'];
+            commentdata.forEach(comment => {
+                let item;
+                if (comment['id'] == responseObj["user_id"]) {
+                    item = makeAdminComment(comment['message'], comment['username']);
+                } else {
+                    item = makeUserComment(comment['message'], comment['username']);
+                }
+                
+                let container = document.getElementById('comments' + object_id);
+                container.appendChild(item);
+            });
+        }
+    };
 }
 
-function addComment(element) {
+function addComment(object) {
+    let object_id = object.parentElement.parentElement.parentElement.parentElement
+                        .parentElement.parentElement.id;
+    let textfield = document.getElementById('tf-comment' + object_id);
 
+    const formData = new FormData();
+    formData.append("object_id", object_id);
+    formData.append("message", textfield.value);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "/public/comment/store");
+
+    xhr.send(formData);
+    xhr.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            let comment = makeAdminComment(textfield.value, CURRENT_USERNAME);
+            let container = document.getElementById('comments' + object_id);
+            container.appendChild(comment);
+            textfield.value = '';
+        }
+    };
 }
 
 function makeFeed(element) {
@@ -175,10 +232,10 @@ function makeFeed(element) {
                         </div>
                     </div>
                     <div>
-                        <form action="/action_page.php" class="form">
-                            <input type="text" id="fname2" name="fname" class="textfield2" placeholder="Write a comment"><br>    
-                            <input type="submit" value="Send" class="button-black">
-                        </form>
+                        <div class="form">
+                            <input type="text" id="tf-comment${element['object_id']}" class="textfield2" placeholder="Write a comment"><br>    
+                            <input type="submit" onclick="addComment(this)" value="Send" class="button-black">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -205,7 +262,8 @@ function refresh() {
                     makeFeed(element)
                 )
                 isLiked(element);
-                getUsername(element)
+                getUsername(element);
+                loadComment(element);
             });
             console.log(objectArray);
         }
@@ -215,18 +273,7 @@ function refresh() {
 window.addEventListener(
     "load",
     debounce(() => {
-        const xhr = new XMLHttpRequest();
-        xhr.open(
-            "GET",
-            `/public/user/data?csrf_token=${CSRF_TOKEN}`
-        );
-        
-        xhr.send();
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                const data = JSON.parse(this.responseText);
-                refresh()
-            }
-        };
+        refresh();
+        getCurrentUsername();
     }, DEBOUNCE_TIMEOUT)
 );

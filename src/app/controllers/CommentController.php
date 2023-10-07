@@ -12,7 +12,7 @@ class CommentController extends Controller implements ControllerInterface
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'POST':
                     $commentModel = $this->model('CommentModel');
-                    $commentModel->store($_POST['user_id'], $_POST['object_id'], $_POST['message']);
+                    $commentModel->store($_SESSION['user_id'], $_POST['object_id'], $_POST['message']);
                     exit;
                 default:
                     throw new LoggedException('Method Not Allowed', 405);
@@ -29,7 +29,10 @@ class CommentController extends Controller implements ControllerInterface
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
                     $commentModel = $this->model('CommentModel');
-                    $commentModel->store($_GET['user_id'], $_GET['object_id']);
+                    $comments = $commentModel->getByIdObject($_SESSION['user_id'], $_GET['object_id']);
+
+                    header('Content-Type: application/json');
+                    echo json_encode(["comments" => $comments, "user_id" => $_SESSION['user_id']]);
                     exit;
                 default:
                     throw new LoggedException('Method Not Allowed', 405);
