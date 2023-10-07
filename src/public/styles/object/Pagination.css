@@ -6,6 +6,8 @@
 }
 
 .page-button {
+    color: white;
+    background-color: white;
     width: 40px;
     height: 40px;
     margin: 5px;
@@ -15,6 +17,8 @@
     width: 45px;
     height: 45px;
     margin: 0;
+
+    cursor: pointer;
 }
 
 .page-item {

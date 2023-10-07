@@ -111,15 +111,48 @@ class UserModel
         return $user;
     }
 
-    public function updateUsername($id, $username)
+    public function getUserByUsername($username)
     {
-        $query = 'UPDATE user SET username = :username WHERE user_id = :id';
+        $query = 'SELECT * FROM user WHERE username = :username';
 
         $this->database->query($query);
         $this->database->bind('username', $username);
-        $this->database->bind('id', $id);
 
-        $this->database->execute();
+        $user = $this->database->fetch();
+
+        return $user;
+    }
+
+    public function getUsers($page)
+    {
+        $query = 'SELECT user_id, fullname, email, username, storage, storage_left FROM user WHERE is_admin = FALSE LIMIT :limit OFFSET :offset';
+
+        $this->database->query($query);
+        $this->database->bind('limit', ROWS_PER_PAGE);
+        $this->database->bind('offset', ($page - 1) * ROWS_PER_PAGE);
+        $users = $this->database->fetchAll();
+
+        $query = 'SELECT CEIL(COUNT(user_id) / :rows_per_page) AS page_count FROM user WHERE is_admin = FALSE';
+
+        $this->database->query($query);
+        $this->database->bind('rows_per_page', ROWS_PER_PAGE);
+        $user = $this->database->fetch();
+        $pageCount = $user->page_count;
+
+        $returnArr = ['users' => $users, 'pages' => $pageCount];
+        return $returnArr;
+    }
+
+    public function getFilteredUsers($input)
+    {
+        $query = 'SELECT user_id, fullname, email, username, storage, storage_left FROM user WHERE is_admin = FALSE AND (fullname LIKE :input OR email LIKE :input OR username LIKE :input)';
+
+        $this->database->query($query);
+        $this->database->bind('input', '%' . $input . '%');
+        $users = $this->database->fetchAll();
+
+        $returnArr = ['users' => $users];
+        return $returnArr;
     }
 
     public function getUsername($id)
@@ -133,6 +166,28 @@ class UserModel
         return $username;
     }
 
+    public function updateUsername($id, $username)
+    {
+        $query = 'UPDATE user SET username = :username WHERE user_id = :id';
+
+        $this->database->query($query);
+        $this->database->bind('username', $username);
+        $this->database->bind('id', $id);
+
+        $this->database->execute();
+    }
+
+    public function updateUsernameByUsername($username, $newUsername)
+    {
+        $query = 'UPDATE user SET username = :newUsername WHERE username = :username';
+
+        $this->database->query($query);
+        $this->database->bind('newUsername', $newUsername);
+        $this->database->bind('username', $username);
+
+        $this->database->execute();
+    }
+
     public function updateFullname($id, $fullname)
     {
         $query = 'UPDATE user SET fullname = :fullname WHERE user_id = :id';
@@ -140,6 +195,17 @@ class UserModel
         $this->database->query($query);
         $this->database->bind('fullname', $fullname);
         $this->database->bind('id', $id);
+
+        $this->database->execute();
+    }
+
+    public function updateFullnameByUsername($username, $fullname)
+    {
+        $query = 'UPDATE user SET fullname = :fullname WHERE username = :username';
+
+        $this->database->query($query);
+        $this->database->bind('fullname', $fullname);
+        $this->database->bind('username', $username);
 
         $this->database->execute();
     }
@@ -154,6 +220,50 @@ class UserModel
         $this->database->query($query);
         $this->database->bind('password', password_hash($password, PASSWORD_BCRYPT, $options));
         $this->database->bind('id', $id);
+
+        $this->database->execute();
+    }
+
+    public function updatePasswordByUsername($username, $password)
+    {
+        $query = 'UPDATE user SET password = :password WHERE username = :username';
+        $options = [
+            'cost' => BCRYPT_COST
+        ];
+
+        $this->database->query($query);
+        $this->database->bind('password', password_hash($password, PASSWORD_BCRYPT, $options));
+        $this->database->bind('username', $username);
+
+        $this->database->execute();
+    }
+
+    public function updateStorageByUsername($username, $storage)
+    {
+        // Update storage left first by calculating the difference between the new storage and the old storage
+        $query = 'UPDATE user SET storage_left = storage_left + (:storage - storage) WHERE username = :username';
+
+        $this->database->query($query);
+        $this->database->bind('storage', $storage);
+        $this->database->bind('username', $username);
+
+        $this->database->execute();
+
+        $query = 'UPDATE user SET storage = :storage WHERE username = :username';
+
+        $this->database->query($query);
+        $this->database->bind('storage', $storage);
+        $this->database->bind('username', $username);
+
+        $this->database->execute();
+    }
+
+    public function deleteUSer($username)
+    {
+        $query = 'DELETE FROM user WHERE username = :username';
+
+        $this->database->query($query);
+        $this->database->bind('username', $username);
 
         $this->database->execute();
     }

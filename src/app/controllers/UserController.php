@@ -345,6 +345,31 @@ class UserController extends Controller implements ControllerInterface
         }
     }
 
+    public function dataByUsername()
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'GET':
+                    // Prevent CSRF Attacks
+                    $tokenMiddleware = $this->middleware('TokenMiddleware');
+                    $tokenMiddleware->checkToken();
+
+                    $userModel = $this->model('UserModel');
+                    $user = $userModel->getUserByUsername($_GET['username']);
+
+                    header('Content-Type: application/json');
+                    echo json_encode(["user_id" => $user->user_id, "fullname" => $user->fullname, "username" => $user->username, "storage" => $user->storage, "storage_left" => $user->storage_left]);
+                    exit;
+
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (LoggedException $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
+
     public function updateUsername()
     {
         try {
@@ -369,6 +394,30 @@ class UserController extends Controller implements ControllerInterface
         }
     }
 
+    public function updateUsernameByUsername()
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'POST':
+                    // Prevent CSRF Attacks
+                    $tokenMiddleware = $this->middleware('TokenMiddleware');
+                    $tokenMiddleware->checkToken();
+
+                    $userModel = $this->model('UserModel');
+                    $userModel->updateUsernameByUsername($_POST['username'], $_POST['new_username']);
+
+                    http_response_code(201);
+                    exit;
+
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (LoggedException $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
+
     public function updateFullname()
     {
         try {
@@ -380,6 +429,110 @@ class UserController extends Controller implements ControllerInterface
 
                     $userModel = $this->model('UserModel');
                     $userModel->updateFullname($_SESSION['user_id'], $_POST['fullname']);
+
+                    http_response_code(201);
+                    exit;
+
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (LoggedException $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
+
+    public function updateFullnameByUsername()
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'POST':
+                    // Prevent CSRF Attacks
+                    $tokenMiddleware = $this->middleware('TokenMiddleware');
+                    $tokenMiddleware->checkToken();
+
+                    $userModel = $this->model('UserModel');
+                    $userModel->updateFullnameByUsername($_POST['username'], $_POST['fullname']);
+
+                    http_response_code(201);
+                    exit;
+
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (LoggedException $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
+
+    public function updatePassword()
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'POST':
+                    // Prevent CSRF Attacks
+                    $tokenMiddleware = $this->middleware('TokenMiddleware');
+                    $tokenMiddleware->checkToken();
+
+                    $userModel = $this->model('UserModel');
+                    $userModel->updatePassword($_SESSION['user_id'], $_POST['password']);
+
+                    http_response_code(201);
+                    exit;
+
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (LoggedException $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
+
+    public function updatePasswordByUsername()
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'POST':
+                    // Prevent Access except Admin
+                    $authMiddleware = $this->middleware('AuthenticationMiddleware');
+                    $authMiddleware->isAdmin();
+
+                    // Prevent CSRF Attacks
+                    $tokenMiddleware = $this->middleware('TokenMiddleware');
+                    $tokenMiddleware->checkToken();
+
+                    $userModel = $this->model('UserModel');
+                    $userModel->updatePasswordByUsername($_POST['username'], $_POST['password']);
+
+                    http_response_code(201);
+                    exit;
+
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (LoggedException $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
+
+    public function updateStorageByUsername()
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'POST':
+                    // Prevent Access except Admin
+                    $authMiddleware = $this->middleware('AuthenticationMiddleware');
+                    $authMiddleware->isAdmin();
+
+                    // Prevent CSRF Attacks
+                    $tokenMiddleware = $this->middleware('TokenMiddleware');
+                    $tokenMiddleware->checkToken();
+
+                    $userModel = $this->model('UserModel');
+                    $userModel->updateStorageByUsername($_POST['username'], $_POST['storage']);
 
                     http_response_code(201);
                     exit;
@@ -435,19 +588,55 @@ class UserController extends Controller implements ControllerInterface
         }
     }
 
-    public function updatePassword()
+    public function fetch($page)
     {
         try {
             switch ($_SERVER['REQUEST_METHOD']) {
-                case 'POST':
+                case 'GET':
+                    // Prevent Access except Admin
+                    $authMiddleware = $this->middleware('AuthenticationMiddleware');
+                    $authMiddleware->isAdmin();
+
                     // Prevent CSRF Attacks
                     $tokenMiddleware = $this->middleware('TokenMiddleware');
                     $tokenMiddleware->checkToken();
 
                     $userModel = $this->model('UserModel');
-                    $userModel->updatePassword($_SESSION['user_id'], $_POST['password']);
+                    $res = $userModel->getUsers((int) $page);
 
-                    http_response_code(201);
+                    header('Content-Type: application/json');
+                    http_response_code(200);
+                    echo json_encode($res);
+                    exit;
+
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
+
+    public function filter($input)
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'GET':
+                    // Prevent Access except Admin
+                    $authMiddleware = $this->middleware('AuthenticationMiddleware');
+                    $authMiddleware->isAdmin();
+
+                    // Prevent CSRF Attacks
+                    $tokenMiddleware = $this->middleware('TokenMiddleware');
+                    $tokenMiddleware->checkToken();
+
+                    $userModel = $this->model('UserModel');
+                    $res = $userModel->getFilteredUsers($input);
+
+                    header('Content-Type: application/json');
+                    http_response_code(200);
+                    echo json_encode($res);
                     exit;
 
                 default:
@@ -456,6 +645,33 @@ class UserController extends Controller implements ControllerInterface
         } catch (LoggedException $e) {
             http_response_code($e->getCode());
             exit;
+        }
+    }
+
+    public function delete() 
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'POST':
+                    // Prevent Access except Admin
+                    $authMiddleware = $this->middleware('AuthenticationMiddleware');
+                    $authMiddleware->isAdmin();
+
+                    // Prevent CSRF Attacks
+                    $tokenMiddleware = $this->middleware('TokenMiddleware');
+                    $tokenMiddleware->checkToken();
+
+                    $userModel = $this->model('UserModel');
+                    $userModel->deleteUser($_POST['username']);
+
+                    http_response_code(201);
+                    exit;
+
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
         }
     }
 }

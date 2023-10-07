@@ -19,15 +19,22 @@
 
         <!-- JavaScript DOM and AJAX -->
         <script type="text/javascript" src="<?= BASE_URL ?>/javascript/user/search.js" defer></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
         <?php include(dirname(__DIR__) . '/object/UserNavbar.php') ?>
         <div class="content">
             <div class="item-settings-container">
                 <h1 class="title">Search</h1>
-                <div class="form">
+                <div class="searchfilter">
+                    <button id="sortName" class="button-black">A-Z</button>
+                    <select id="filter" class="dropdown">
+                        <option value="all">All Photos</option>
+                        <option value="public">Public</option>
+                        <option value="private">Private</option>
+                    </select>
                     <img id="button-search" src="<?= BASE_URL ?>/assets/icons/search.png"/>
-                    <input type="text" id="fname" name="fname" class="textfield" placeholder="Type Username, ID, Name"><br>
+                    <input type="text" id="fname" class="textfield3" placeholder="Type Username, ID, Name">  
                 </div>
             </div>
             <br>

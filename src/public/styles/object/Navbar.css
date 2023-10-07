@@ -43,3 +43,39 @@
     font-weight: bold;
     transition: 0.3s;
 }
+
+@media screen and (max-width: 1200px) {
+    .navbar-container {
+        margin-top: 2%;
+    }
+    
+    .navbar {
+        padding: 0 5%;
+    } 
+
+    .navbar-item img {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .navbar-container {
+        margin-top: 3%;
+    }
+    
+    .navbar {
+        height: 50px;
+        padding: 0 10%;
+        gap: 15%;
+    } 
+
+    .navbar-item img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .navbar-item-desc {
+        display: none;
+    }
+}

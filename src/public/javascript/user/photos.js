@@ -58,11 +58,14 @@ function changeStatus(object) {
 
 function deletePhoto(object) {
     let object_id = object.parentElement.parentElement.parentElement.parentElement.id;
-    let object_name = object.id
+    let url_photo = object.parentElement.parentElement.parentElement.parentElement.children[0].children[0].id.slice(3);
+    let url_video = object.parentElement.parentElement.parentElement.parentElement.children[1].children[0].children[0].id.slice(6);
 
     const formData = new FormData();
+    console.log(url_photo, url_video)
     formData.append("object_id", object_id);
-    formData.append("object_name", object_name);
+    formData.append("url_video", url_video);
+    formData.append("url_photo", url_photo);
     formData.append("csrf_token", CSRF_TOKEN);
 
     const xhr = new XMLHttpRequest();
@@ -112,20 +115,39 @@ submit_btn.addEventListener(
         formData.append("title", file.name);
         formData.append("date", '12/12/2012');
         formData.append("location", "HEHE");
-        console.log(file.ext)
-        formData.append('image', file);
-        formData.append("csrf_token", CSRF_TOKEN);
+        console.log(file.type)
 
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "/public/object/storeImage");
-
-        xhr.send(formData);
-        xhr.onreadystatechange = function () {
-            if (this.readyState === XMLHttpRequest.DONE) {
-                submit_btn.parentElement.parentElement.parentElement.style.display = "none";
-                refresh(12,1);
-            }
-        };
+        if (file.type == 'video/mp4') {
+            console.log('hello');
+            // formData.append('image', BASE_URL + "/assets/icons/edit.png");
+            formData.append('video', file);
+            formData.append("csrf_token", CSRF_TOKEN);
+    
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "/public/object/storeVideo");
+    
+            xhr.send(formData);
+            xhr.onreadystatechange = function () {
+                if (this.readyState === XMLHttpRequest.DONE) {
+                    submit_btn.parentElement.parentElement.parentElement.style.display = "none";
+                    refresh();
+                }
+            };
+        } else {
+            formData.append('image', file);
+            formData.append("csrf_token", CSRF_TOKEN);
+    
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "/public/object/storeImage");
+    
+            xhr.send(formData);
+            xhr.onreadystatechange = function () {
+                if (this.readyState === XMLHttpRequest.DONE) {
+                    submit_btn.parentElement.parentElement.parentElement.style.display = "none";
+                    refresh(12,1);
+                }
+            };
+        }
     }
 );
 
@@ -170,15 +192,15 @@ function makePhoto(element) {
 
     const photoCardHTML = `
         <div class="photo-thumbnail-container">
-            <img src="${STORAGE_URL + '/' + (element['type'] == 'Photo' ? 'images' : 'videos') + '/' + element['url_photo']}" class="photo-thumbnail" onclick="openPopUp(this)"/>
+            <img src="${STORAGE_URL + '/' + (element['type'] == 'Photo' ? 'images' : 'videos') + '/' + element['url_photo']}" class="photo-thumbnail" onclick="openPopUp(this)" id="img${element['url_photo']}"/>
         </div>
         <div class="photo-popup-container">
             <div class="photo-popup">
-                <div class="photo-popup-img-container">
+                <div class="photo-popup-img-container" id="${element['type'] == 'Photo' ? 'images' + element['url_photo'] : 'videos' + element['url_video']}">
                     ${element['type'] === 'Photo'
                         ? `<img src="${STORAGE_URL + '/' + (element['type'] == 'Photo' ? 'images' : 'videos') + '/' + element['url_photo']}" class="photo-popup-img" alt="Photo">`
                         : `<video controls="controls" class="photo-popup-img">
-                                <source src="${STORAGE_URL + '/' + (element['type'] == 'Photo' ? 'images' : 'videos') + '/' + element['url_photo']}#t=0.1" type="video/mp4">
+                                <source src="${STORAGE_URL + '/' + (element['type'] == 'Photo' ? 'images' : 'videos') + '/' + element['url_video']}#t=0.1" type="video/mp4">
                            </video>`
                     }
                 </div>
@@ -220,7 +242,7 @@ function makePhoto(element) {
                         <h1 class="visibility-status">${element['isPublic'] == 0 ? "Others can't see this photo" : "Others can see this photo"}</h1>
                         <button class="button-black" onclick="changeStatus(this)">${element['isPublic'] == 0 ? "Show in My Profile" : "Hide From My Profile"}</button>
                     </div>
-                    <button class="button-white" onclick="deletePhoto(this)" id=${element['url_photo']}>Delete This Photo</button>
+                    <button class="button-white" onclick="deletePhoto(this)">Delete This Photo</button>
                 </div>
             </div>
         </div>

@@ -52,6 +52,7 @@ body {
 
 .photo-card {
     display: flex;
+    width: 22%;
 }
 
 .photo-popup-container {
@@ -154,8 +155,7 @@ body {
 }
 
 .photo-popup-close > img {
-    height: 30px;
-    width: 30px;
+    height: 100%;
 }
 
 .photo-popup-close > img:hover {
@@ -401,12 +401,24 @@ input[type="file"] {
     flex-direction: column;
 }
 
-.textfield {
+.searchfilter {
+    display: flex;
+    flex-direction: row;
+    gap: 5%;
+    width: 50%;
+    align-items: center;
+}
+
+.searchfilter > img {
+    object-fit: contain;
+}
+
+.textfield3 {
     height: 55px;
-    width: 80%;
+    width: 40%;
 
     font-size: 16px;
-    padding: 0 10%;
+    padding: 0 5%;
     margin: 3% 0;
     border-radius: 25px;
 }
@@ -414,4 +426,131 @@ input[type="file"] {
 #button-search:hover {
     transform: scale(1.2);
     cursor: pointer;
+}
+
+.dropdown {
+    height: 55px;
+    width: 20%;
+
+    font-size: 16px;
+    padding: 0 5%;
+    border-radius: 25px;
+    -webkit-appearance: none;
+}
+
+
+
+@media screen and (max-width: 1200px) {
+    .content {
+        margin-top: 15%;
+    }
+
+    .photo-card {
+        width: 30%;
+    }
+
+    .photo-thumbnail-container {
+        width: 30vw;
+        height: 100%;
+    }
+
+    .photo-thumbnail {
+        height: 25vw;
+        width: 25vw;
+        padding: 1vw;
+        object-fit: contain;
+    }
+
+    .photo-popup {
+        width: 80%;
+        height: 90%;
+        flex-direction: column;
+    }
+
+    .photo-popup-img-container {
+        width: 80%;
+        height: 40%;
+    }
+
+    .photo-popup-info-container {
+        width: 80%;
+        height: 40%;
+    }
+
+    .photo-popup-close > img {
+        height: 100%;
+    }
+
+    .photo-popup-property-desc {
+        margin: 1% 1%;
+    }
+
+    .visibility-status {
+        margin: 0;
+    }
+
+    .comment-item {
+        margin: 1% 0;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .content {
+        margin-top: 20%;
+    }
+
+    .photo-card {
+        width: 45%;
+    }
+
+    .photo-container {
+        justify-content: space-between;
+    }
+
+    .photo-thumbnail-container {
+        width: 45vw;
+        height: 100%;
+    }
+
+    .title {
+        font-size: 30px;
+    }
+
+    .photo-thumbnail {
+        height: 35vw;
+        width: 35vw;
+        padding: 1vw;
+        object-fit: contain;
+    }
+
+    .textfield {
+        height: 35px;
+        padding: 0 10%;
+        border-radius: 25px;
+    }
+    
+    .textfield:focus {
+        height: 33px;
+        padding: 0 12%;
+        border-radius: 25px;
+        transition: 0.3s;
+    }
+
+    .profile-name {
+        font-size: 30px;
+        margin-top: 0.67em;
+    }
+    
+    .profile-username {
+        font-size: 16px;
+        margin-top: 3%;
+        margin-bottom: 6%;
+    }
+
+    .photo-popup {
+        width: 100%;
+        height: 100%;
+        flex-direction: column;
+        border-radius: 0;
+    }
 }
