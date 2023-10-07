@@ -18,8 +18,7 @@ define('ALLOWED_IMAGES', [
 ]);
 define('MAX_SIZE_VIDEO', 100000000);      
 define('ALLOWED_VIDEOS', [
-    'image/jpeg' => '.mp4',
-    'image/png' => '.mkv'
+    'video/mp4' => '.mp4',
 ]);
 
 // Admin

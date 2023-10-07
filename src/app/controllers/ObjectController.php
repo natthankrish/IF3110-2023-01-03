@@ -47,12 +47,13 @@ class ObjectController extends Controller implements ControllerInterface
         try {
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'POST':
-                    $storageAccess = new StorageAccess(StorageAccess::IMAGE_PATH);
-                    $uploadedImage = $storageAccess->saveImage($_FILES['image']['tmp_name']);
-                    $uploadVideo = $storageAccess->saveVideo($_POST['video']['tmp_name']);
+                    $storageAccess = new StorageAccess(StorageAccess::VIDEO_PATH);
+                    // $uploadedImage = $storageAccess->saveImage($_FILES['image']['tmp_name']);
+                    $uploadedImage = '0c05322d7285c39b9390374ca02908ac.jpeg';
+                    $uploadedVideo = $storageAccess->saveVideo($_FILES['video']['tmp_name']);
                     
                     $objectModel = $this->model('ObjectModel');
-                    $objectModel->store($_POST['user_id'], $_POST['title'], $uploadedImage, $uploadVideo, $_POST['date'],  $_POST['location'], 'Photo');
+                    $objectModel->store($_SESSION['user_id'], $_POST['title'], $uploadedImage, $uploadedVideo, date("Y-m-d", strtotime($_POST['date'])),  $_POST['location'], 'Video');
                     exit;
 
                 default:
@@ -207,9 +208,11 @@ class ObjectController extends Controller implements ControllerInterface
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'POST':
                     $objectModel = $this->model('ObjectModel');
-                    $objectModel->delete($_SESSION['user_id'],$_POST['object_id']);
                     $storageAccess = new StorageAccess(StorageAccess::IMAGE_PATH);
-                    $storageAccess->deleteFile($_POST['object_name']);
+                    $storageAccess->deleteFile($_POST['url_photo']);
+                    $storageAccess = new StorageAccess(StorageAccess::VIDEO_PATH);
+                    $storageAccess->deleteFile($_POST['url_video']);
+                    $objectModel->delete($_SESSION['user_id'],$_POST['object_id']);
                     exit;
                 default:
                     throw new LoggedException('Method Not Allowed', 405);
