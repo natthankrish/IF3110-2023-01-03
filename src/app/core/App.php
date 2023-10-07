@@ -8,8 +8,6 @@ class App
 
     public function __construct()
     {
-        $this->method = 'index';
-
         $url = $this->parseURL();
 
         $controllerPart = $url[0] ?? null;
@@ -17,12 +15,17 @@ class App
             require_once __DIR__ . '/../controllers/' . $controllerPart . 'Controller.php';
             $controllerClass = $controllerPart . 'Controller';
             $this->controller = new $controllerClass();
+        } else {
+            require_once __DIR__ . '/../controllers/PageNotFoundController.php';
+            $this->controller = new PageNotFoundController();
         }
         unset($url[0]);
 
         $methodPart = $url[1] ?? null;
         if (isset($methodPart) && method_exists($this->controller, $methodPart)) {
             $this->method = $methodPart;
+        } else {
+            $this->method = 'index';
         }
         unset($url[1]);
 
