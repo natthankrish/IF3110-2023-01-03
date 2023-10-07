@@ -114,9 +114,10 @@ function makeUserComment(content, username) {
     return commentItemDiv;
 }
 
-function makeAdminComment(content, username) {
+function makeAdminComment(content, username, id) {
     const commentItemDiv = document.createElement("div");
     commentItemDiv.classList.add("comment-item");
+    commentItemDiv.id = 'comment' + id;
 
     const commentContainerDiv = document.createElement("div");
     commentContainerDiv.classList.add("comment-container");
@@ -132,6 +133,21 @@ function makeAdminComment(content, username) {
     const trashIconImg = document.createElement("img");
     trashIconImg.src = BASE_URL + "/assets/icons/trash.png";
     trashIconImg.classList.add("photo-popup-property-icon");
+    trashIconImg.addEventListener('click', function() {
+        const formData = new FormData();
+        console.log(commentItemDiv.id.slice(7));
+        formData.append("comment_id", Number(commentItemDiv.id.slice(7)));
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "/public/comment/delete");
+
+        xhr.send(formData);
+        xhr.onreadystatechange = function () {
+            if (this.readyState === XMLHttpRequest.DONE) {
+                commentItemDiv.remove();
+            }
+        };
+    });
 
     commentContainerDiv.appendChild(commentSenderP);
     commentContainerDiv.appendChild(commentContentP);
@@ -154,8 +170,8 @@ function loadComment(element) {
             var commentdata = responseObj['comments'];
             commentdata.forEach(comment => {
                 let item;
-                if (comment['id'] == responseObj["user_id"]) {
-                    item = makeAdminComment(comment['message'], comment['username']);
+                if (comment['user_id'] == responseObj["user_id"]) {
+                    item = makeAdminComment(comment['message'], comment['username'], comment["comment_id"]);
                 } else {
                     item = makeUserComment(comment['message'], comment['username']);
                 }

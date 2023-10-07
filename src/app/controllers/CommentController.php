@@ -49,7 +49,7 @@ class CommentController extends Controller implements ControllerInterface
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'POST':
                     $commentModel = $this->model('CommentModel');
-                    $commentModel->delete($_POST['user_id'],$_POST['comment_id']);
+                    $commentModel->delete($_SESSION['user_id'],$_POST['comment_id']);
                     exit;
                 default:
                     throw new LoggedException('Method Not Allowed', 405);

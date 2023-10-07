@@ -29,7 +29,7 @@ class CommentModel
 
     public function getByIdObject($user_id, $object_id)
     {
-        $query = 'SELECT c.user_id AS id, message, username FROM Comment c INNER JOIN user u ON u.user_id = c.user_id WHERE object_id = :object_id';
+        $query = 'SELECT comment_id, c.user_id AS user_id, message, username FROM Comment c INNER JOIN user u ON u.user_id = c.user_id WHERE object_id = :object_id';
         $this->database->query($query);
         $this->database->bind('object_id', $object_id);
         $res = $this->database->fetchAll();
