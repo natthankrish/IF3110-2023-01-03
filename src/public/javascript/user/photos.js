@@ -111,6 +111,7 @@ submit_btn.addEventListener(
         formData.append("title", file.name);
         formData.append("date", '12/12/2012');
         formData.append("location", "HEHE");
+        console.log(file.ext)
         formData.append('image', file);
         formData.append("csrf_token", CSRF_TOKEN);
 

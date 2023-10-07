@@ -365,7 +365,7 @@ input[type="file"] {
 }
 
 .popup {
-    width: 30%;
+    width: 35%;
     height: 30%;
     
     background-color: white;
@@ -377,7 +377,7 @@ input[type="file"] {
 }
 
 .popup-info-container {
-    width: 60%;
+    width: 80%;
     height: 80%;
 
     display: flex;
@@ -403,7 +403,7 @@ input[type="file"] {
 
 .textfield {
     height: 55px;
-    width: 100%;
+    width: 80%;
 
     font-size: 16px;
     padding: 0 10%;
