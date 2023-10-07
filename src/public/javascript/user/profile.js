@@ -132,7 +132,7 @@ function makePost(element) {
                         </div>
                         <br>
                         <h1 class="visibility-status">Comments</h1>
-                        <div class="comments-container">
+                        <div class="comments-container" id="comments${element['object_id']}">
                         </div>
                     </div>
                     <button class="button-white" onclick="changeStatus(this)">Hide this photo from my profile</button>
@@ -163,6 +163,7 @@ function refresh() {
                     makePost(element)
                 )
                 countLike(element['object_id']);
+                loadComment(element)
             });
             console.log(objectArray);
         }
@@ -208,3 +209,67 @@ logOutButton &&
             }
         };
     });
+
+
+function makeAdminComment(content, username, id) {
+    const commentItemDiv = document.createElement("div");
+    commentItemDiv.classList.add("comment-item");
+    commentItemDiv.id = 'comment' + id;
+
+    const commentContainerDiv = document.createElement("div");
+    commentContainerDiv.classList.add("comment-container");
+
+    const commentSenderP = document.createElement("p");
+    commentSenderP.classList.add("comment-sender");
+    commentSenderP.textContent = username;
+
+    const commentContentP = document.createElement("p");
+    commentContentP.classList.add("comment-content");
+    commentContentP.textContent = content;
+
+    const trashIconImg = document.createElement("img");
+    trashIconImg.src = BASE_URL + "/assets/icons/trash.png";
+    trashIconImg.classList.add("photo-popup-property-icon");
+    trashIconImg.addEventListener('click', function() {
+        const formData = new FormData();
+        console.log(commentItemDiv.id.slice(7));
+        formData.append("comment_id", Number(commentItemDiv.id.slice(7)));
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "/public/comment/delete");
+
+        xhr.send(formData);
+        xhr.onreadystatechange = function () {
+            if (this.readyState === XMLHttpRequest.DONE) {
+                commentItemDiv.remove();
+            }
+        };
+    });
+
+    commentContainerDiv.appendChild(commentSenderP);
+    commentContainerDiv.appendChild(commentContentP);
+
+    commentItemDiv.appendChild(commentContainerDiv);
+    commentItemDiv.appendChild(trashIconImg);
+    return commentItemDiv;
+}
+
+function loadComment(element) {
+    let object_id = element['object_id'];
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "/public/comment/getByIdObject?object_id=" + object_id);
+
+    xhr.send();
+    xhr.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            var responseObj = JSON.parse(this.responseText);
+            var commentdata = responseObj['comments'];
+            commentdata.forEach(comment => {
+                let item = makeAdminComment(comment['message'], comment['username'], comment["comment_id"]);
+                let container = document.getElementById('comments' + object_id);
+                container.appendChild(item);
+            });
+        }
+    };
+}
