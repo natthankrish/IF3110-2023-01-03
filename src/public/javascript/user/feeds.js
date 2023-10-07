@@ -41,6 +41,98 @@ function changeLike(object) {
     }          
 }
 
+function isLiked(element) {
+    let object_id = element['object_id'];
+    let object = document.getElementById('likestat' + element['object_id']);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "/public/like/isLiked?object_id=" + object_id);
+
+    xhr.send();
+    xhr.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            var responseObj = JSON.parse(this.responseText);
+            console.log(responseObj);
+            if (responseObj['like']) {
+                object.src = BASE_URL + "/assets/icons/liked.png";
+            } else {
+                object.src = BASE_URL + "/assets/icons/heart.png";
+            }
+        }
+    };                    
+}
+
+function getUsername(element) {
+    let object = document.getElementById('uname' + element['object_id']);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "/public/user/getUsername?user_id=" + element['user_id']);
+
+    xhr.send();
+    xhr.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            var responseObj = JSON.parse(this.responseText);
+            console.log(this.responseText);
+            object.innerText = responseObj["username"]["username"];
+        }
+    };                    
+}
+
+function makeUserComment() {
+    const commentItemDiv = document.createElement("div");
+    commentItemDiv.classList.add("comment-item");
+
+    const commentContainerDiv = document.createElement("div");
+    commentContainerDiv.classList.add("comment-container");
+
+    const commentSenderP = document.createElement("p");
+    commentSenderP.classList.add("comment-sender");
+    commentSenderP.textContent = "natthankrish";
+
+    const commentContentP = document.createElement("p");
+    commentContentP.classList.add("comment-content");
+    commentContentP.textContent = "BAGUS BANGET ASTAGA";
+
+    commentContainerDiv.appendChild(commentSenderP);
+    commentContainerDiv.appendChild(commentContentP);
+
+    commentItemDiv.appendChild(commentContainerDiv);
+}
+
+function makeAdminComment() {
+    const commentItemDiv = document.createElement("div");
+    commentItemDiv.classList.add("comment-item");
+
+    const commentContainerDiv = document.createElement("div");
+    commentContainerDiv.classList.add("comment-container");
+
+    const commentSenderP = document.createElement("p");
+    commentSenderP.classList.add("comment-sender");
+    commentSenderP.textContent = "natthankrish";
+
+    const commentContentP = document.createElement("p");
+    commentContentP.classList.add("comment-content");
+    commentContentP.textContent = "BAGUS BANGET ASTAGA";
+
+    const trashIconImg = document.createElement("img");
+    trashIconImg.src = BASE_URL + "/assets/icons/trash.png";
+    trashIconImg.classList.add("photo-popup-property-icon");
+
+    commentContainerDiv.appendChild(commentSenderP);
+    commentContainerDiv.appendChild(commentContentP);
+
+    commentItemDiv.appendChild(commentContainerDiv);
+    commentItemDiv.appendChild(trashIconImg);
+}
+
+function makeComment(element) {
+
+}
+
+function addComment(element) {
+
+}
+
 function makeFeed(element) {
     const photoCard = document.createElement('div');
     photoCard.className = 'photo-card';
@@ -62,15 +154,15 @@ function makeFeed(element) {
                     <br>
                     <div class="scrollable">
                         <div class="photo-popup-name-container">
-                            <h2 class="photo-popup-name">${element['description']}</h2>
+                            <h2 class="photo-popup-name">${element['description'] == 'null' ? "No Description" : element['description']}</h2>
                         </div>
                         <br>
                         <div class="photo-popup-info-property">
                             <img src="${BASE_URL}/assets/icons/profile.png" class="photo-popup-property-icon"/>
-                            <p class="photo-popup-property-desc">${element['user_id']}</p>
+                            <p class="photo-popup-property-desc" id="uname${element['object_id']}"></p>
                         </div>
                         <div class="photo-popup-info-property">
-                            <img src="${BASE_URL}/assets/icons/heart.png" class="photo-popup-property-icon" onclick="changeLike(this)"/>
+                            <img src="${BASE_URL}/assets/icons/heart.png" class="photo-popup-property-icon" onclick="changeLike(this)" id="likestat${element['object_id']}"/>
                             <p class="photo-popup-property-desc">Like</p>
                         </div>
                         <div class="photo-popup-info-property">
@@ -79,7 +171,7 @@ function makeFeed(element) {
                         </div>
                         <br>
                         <h1 class="visibility-status">Comments</h1>
-                        <div class="comments-container">
+                        <div class="comments-container" id="comments${element['object_id']}">
                         </div>
                     </div>
                     <div>
@@ -112,6 +204,8 @@ function refresh() {
                 container.appendChild(
                     makeFeed(element)
                 )
+                isLiked(element);
+                getUsername(element)
             });
             console.log(objectArray);
         }

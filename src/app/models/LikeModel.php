@@ -34,7 +34,7 @@ class LikeModel
         $this->database->bind('object_id', $object_id);
 
         $res = $this->database->fetch();
-        return $res !== NULL;
+        return $res !== false;
     }
 
     public function delete($user_id, $object_id)

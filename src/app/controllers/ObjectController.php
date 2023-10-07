@@ -104,6 +104,24 @@ class ObjectController extends Controller implements ControllerInterface
         }
     }
 
+    public function updateDesc()
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'POST':
+                    $objectModel = $this->model('ObjectModel');
+                    $objectModel->updateDesc($_SESSION['user_id'], $_POST['object_id'], $_POST['text']);
+                    exit;
+
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
+
     public function getByIdUser()
     {
         try {

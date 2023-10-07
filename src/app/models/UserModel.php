@@ -122,6 +122,17 @@ class UserModel
         $this->database->execute();
     }
 
+    public function getUsername($id)
+    {
+        $query = 'SELECT username FROM user WHERE user_id = :id';
+
+        $this->database->query($query);
+        $this->database->bind('id', $id);
+
+        $username = $this->database->fetch();
+        return $username;
+    }
+
     public function updateFullname($id, $fullname)
     {
         $query = 'UPDATE user SET fullname = :fullname WHERE user_id = :id';
