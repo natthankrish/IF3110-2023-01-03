@@ -7,8 +7,8 @@ class UserController extends Controller implements ControllerInterface
         try {
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
-                    $loginView = $this->view('user', 'LoginView', []);
-                    $loginView->render();
+                    $notFoundView = $this->view('home', 'PageNotFoundView');
+                    $notFoundView->render();
                     exit;
 
                 default:
