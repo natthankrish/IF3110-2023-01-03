@@ -65,8 +65,9 @@ nextButton &&
     });
 
 searchInput &&
-    searchInput.addEventListener("keyup", async (e) => {
-        if (e.keyCode === 13) {
+    searchInput.addEventListener(
+        "keyup", 
+        debounce(() => {
             const searchValue = searchInput.value;
 
             // If search value is empty, reload
@@ -92,8 +93,8 @@ searchInput &&
                     }
                 };
             }
-        }
-    });
+        }, DEBOUNCE_TIMEOUT)
+    );
 
 const hidePagination = () => {
     if (prevButton) {
@@ -137,7 +138,7 @@ const updateData = (data) => {
             <td>${user.fullname}</td>
             <td>${user.username}</td>
             <td>${user.email}</td>
-            <td>${((user.storage - user.storage_left) / 1024).toFixed(2)} GB</td>
+            <td>${((user.storage - user.storage_left) / 1024).toFixed(2)}GB</td>
             <td class="button-column"><a href="/public/admin/user/${user.username}" class="button">Manage Account</a></td>
         `;
         tableBody.appendChild(newRow);
