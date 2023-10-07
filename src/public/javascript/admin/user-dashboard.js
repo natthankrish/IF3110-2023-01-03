@@ -2,9 +2,11 @@ const prevButton = document.querySelector("#prev-button");
 const nextButton = document.querySelector("#next-button");
 const usersList = document.querySelector(".users-list");
 const paginationText = document.querySelector("#pagination-text")
+const paginationText = document.querySelector("#pagination-text")
 const pageNumber = document.querySelector("#page-number");
 const totalPages = document.querySelector("#total-pages");
 const buttonColumn = document.querySelector(".button-column");
+const searchInput = document.querySelector("#search");
 const searchInput = document.querySelector("#search");
 
 let currentPage = 1;
@@ -108,6 +110,50 @@ const hidePagination = () => {
     }
 };
 
+searchInput &&
+    searchInput.addEventListener(
+        "keyup", 
+        debounce(() => {
+            const searchValue = searchInput.value;
+
+            // If search value is empty, reload
+            if (searchValue == "") {
+                window.location.reload();
+            } else {
+                const xhr = new XMLHttpRequest();
+                xhr.open(
+                    "GET",
+                    `/public/user/filter/${searchValue}?csrf_token=${CSRF_TOKEN}`
+                );
+    
+                xhr.send();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (this.status === 200) {
+                            const data = JSON.parse(this.responseText);
+                            updateData(data);
+                            hidePagination();
+                        } else {
+                            alert("An error occured, please try again!");
+                        }
+                    }
+                };
+            }
+        }, DEBOUNCE_TIMEOUT)
+    );
+
+const hidePagination = () => {
+    if (prevButton) {
+        prevButton.style.display = "none";
+    }
+    if (nextButton) {
+        nextButton.style.display = "none";
+    }
+    if (paginationText) {
+        paginationText.style.display = "none";
+    }
+};
+
 const updateData = (data) => {
     const table = document.querySelector("table");
     const tableBody = document.getElementById("userTableBody");
@@ -138,7 +184,7 @@ const updateData = (data) => {
             <td>${user.fullname}</td>
             <td>${user.username}</td>
             <td>${user.email}</td>
-            <td>${((user.storage - user.storage_left) / 1024).toFixed(2)} GB</td>
+            <td>${((user.storage - user.storage_left) / 1024).toFixed(2)}GB</td>
             <td class="button-column"><a href="/public/admin/user/${user.username}" class="button">Manage Account</a></td>
         `;
         tableBody.appendChild(newRow);

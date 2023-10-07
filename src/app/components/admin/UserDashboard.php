@@ -11,9 +11,13 @@
         <script type="text/javascript" defer>
             const CSRF_TOKEN = "<?= $_SESSION['csrf_token'] ?? '' ?>";
             const STORAGE_URL = "<?= STORAGE_URL ?>";
+            const DEBOUNCE_TIMEOUT = "<?= DEBOUNCE_TIMEOUT ?>";
             const PAGES = parseInt("<?= $this->data['pages'] ?? 0 ?>");
             const ROWS_PER_PAGE = parseInt("<?= ROWS_PER_PAGE ?>");
         </script>
+
+        <!-- JavaScript Library -->
+        <script type="text/javascript" src="<?= BASE_URL ?>/javascript/lib/debounce.js" defer></script>
 
         <!-- JavaScript DOM and AJAX -->
         <script type="text/javascript" src="<?= BASE_URL ?>/javascript/admin/user-dashboard.js" defer></script>
