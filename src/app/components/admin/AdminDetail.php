@@ -5,6 +5,20 @@
         <link rel="icon" href="<?= BASE_URL ?>/assets/icons/logo.png">
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/admin/AdminDetailStyles.css">
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/styles/object/Navbar.css">
+
+        <!-- JavaScript Constant and Variables -->
+        <script type="text/javascript" defer>
+            const CSRF_TOKEN = "<?= $_SESSION['csrf_token'] ?? '' ?>";
+            const DEBOUNCE_TIMEOUT = "<?= DEBOUNCE_TIMEOUT ?>";
+            const USERNAME = "<?= $this->data['username'] ?? '' ?>";
+        </script>
+
+        <!-- JavaScript Library -->
+        <script type="text/javascript" src="<?= BASE_URL ?>/javascript/lib/debounce.js" defer></script>
+
+        <!-- JavaScript DOM and AJAX -->
+        <script type="text/javascript" src="<?= BASE_URL ?>/javascript/admin/admin-detail.js" defer></script>
+
     </head>
     <body>
         <?php include(dirname(__DIR__) . '/object/AdminNavbar.php') ?>
@@ -13,9 +27,9 @@
                 <div class="left">
                     <div class="left1">
                         <h1 class="title">Manage Account</h1>
-                        <h2>Admin #ID</h2>
+                        <h2 id=current-admin></h2>
                     </div>
-                    <button class="button2">Delete Account</button>
+                    <button class="button2" id="delete-button">Delete Account</button>
                 </div>
                 <a href="/public/admin/admins">
                     <button class="button">Back</button>
@@ -26,22 +40,24 @@
             <div class="item-settings-container">
                 <div class="item-settings-label">
                     <h2>Username</h2>
-                    <h3>Current Username: natthankrish</h3>
+                    <h3 id="current-username"></h3>
                 </div>
-                <form action="/action_page.php" class="form">
-                    <input type="text" id="fname" name="fname" class="textfield" placeholder="Username"><br>    
-                    <input type="submit" value="Confirm" class="button">
+                <form class="form" id="username-form">
+                    <input type="text" id="username" name="username" class="textfield" placeholder="Username"><br>
+                    <p id="username-alert" class="alert-hide"></p>
+                    <input type="submit" value="Confirm" class="button" id="username-confirm">
                 </form>
             </div>
 
             <div class="item-settings-container">
                 <div class="item-settings-label">
                     <h2>Name</h2>
-                    <h3>Current Name: Natthan</h3>
+                    <h3 id="current-fullname"></h3>
                 </div>
-                <form action="/action_page.php" class="form">
-                    <input type="text" id="fname2" name="fname" class="textfield" placeholder="Name"><br>    
-                    <input type="submit" value="Confirm" class="button">
+                <form class="form" id="fullname-form">
+                    <input type="text" id="fullname" name="fullname" class="textfield" placeholder="Name"><br>   
+                    <p id="fullname-alert" class="alert-hide"></p> 
+                    <input type="submit" value="Confirm" class="button" id="fullname-confirm">
                 </form>
             </div>
 
@@ -49,13 +65,13 @@
                 <div class="item-settings-label">
                     <h2>Password</h2>
                 </div>
-                <form action="/action_page.php" class="form">
-                    <input type="text" id="fname3" name="fname" class="textfield" placeholder="New Password"><br>  
-                    <input type="text" id="fname4" name="fname" class="textfield" placeholder="Confirm Password"><br>    
-                    <input type="submit" value="Confirm" class="button">
+                <form class="form" id="password-form">
+                    <input type="password" id="password" name="password" class="textfield" placeholder="New Password"><br>
+                    <input type="password" id="confirm-password" name="confirm-password" class="textfield" placeholder="Confirm Password"><br>
+                    <p id="password-alert" class="alert-hide"></p>
+                    <input type="submit" value="Confirm" class="button" id="password-confirm">
                 </form>
             </div>
-
         </div>
     </body>
 </html>
