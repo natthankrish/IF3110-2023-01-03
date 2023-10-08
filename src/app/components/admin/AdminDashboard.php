@@ -11,13 +11,16 @@
         <script type="text/javascript" defer>
             const CSRF_TOKEN = "<?= $_SESSION['csrf_token'] ?? '' ?>";
             const DEBOUNCE_TIMEOUT = "<?= DEBOUNCE_TIMEOUT ?>";
+            const PAGES = parseInt("<?= $this->data['pages'] ?? 0 ?>");
+            const ROWS_PER_PAGE = parseInt("<?= ROWS_PER_PAGE ?>");
         </script>
 
         <!-- JavaScript Library -->
         <script type="text/javascript" src="<?= BASE_URL ?>/javascript/lib/debounce.js" defer></script>
 
         <!-- JavaScript DOM and AJAX -->
-        <script type="text/javascript" src="<?= BASE_URL ?>/javascript/admin/admins.js" defer></script>
+        <script type="text/javascript" src="<?= BASE_URL ?>/javascript/admin/admin-dashboard.js" defer></script>
+
     </head>
     <body>
         <?php include(dirname(__DIR__) . '/object/AdminNavbar.php') ?>
@@ -61,33 +64,39 @@
                             </div>
                         </div>
                     </div>
-                    <form action="/action_page.php" class="form">
+                    <div class="form">
                         <img src="<?= BASE_URL ?>/assets/icons/search.png"/>
-                        <input type="text" id="fname" name="fname" class="textfield" placeholder="Type Username, ID, Name"><br>    
-                    </form>
+                        <input type="text" id="search" name="search" class="textfield" placeholder="Search"><br>    
+                    </div>
                 </div>
             </div>
-            <br>
 
-            <table style="width:100%">
-                <tr class="table-header">
-                  <th style="width: 30px">ID</th>
-                  <th>Name</th>
-                  <th>Username</th>
-                  <th></th>
-                </tr>
-                <?php include(dirname(__DIR__) . '/object/AdminItem.php') ?>
-                <?php include(dirname(__DIR__) . '/object/AdminItem.php') ?>
-                <?php include(dirname(__DIR__) . '/object/AdminItem.php') ?>
-                <?php include(dirname(__DIR__) . '/object/AdminItem.php') ?>
-                <?php include(dirname(__DIR__) . '/object/AdminItem.php') ?>
-                <?php include(dirname(__DIR__) . '/object/AdminItem.php') ?>
-                <?php include(dirname(__DIR__) . '/object/AdminItem.php') ?>
-                <?php include(dirname(__DIR__) . '/object/AdminItem.php') ?>
-                <?php include(dirname(__DIR__) . '/object/AdminItem.php') ?>
-                <?php include(dirname(__DIR__) . '/object/AdminItem.php') ?>
-              </table>
-              <?php include(dirname(__DIR__) . '/object/Pagination.php') ?>
+            <?php if (!$this->data['admins']) : ?>
+                <p class="info">There are no admins yet available on Moments!</p>
+            <?php else : ?>
+                <br>
+                <table style="width:100%">
+                    <thead class="table-header">
+                        <tr>
+                            <th style="width: 30px">No</th>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminTableBody">
+                        <div class="admins-list">
+                            <?php $i = 1; foreach ($this->data['admins'] as $admin) : ?>
+                                <?php include(dirname(__DIR__) . '/object/AdminItem.php') ?>
+                            <?php $i++; endforeach; ?>
+                        </div>
+                    </tbody>
+                </table>
+
+                <?php include(dirname(__DIR__) . '/object/Pagination.php') ?>
+
+            <?php endif; ?>
         </div>
     </body>
 </html>

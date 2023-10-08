@@ -82,7 +82,7 @@
                     <input type="text" id="storage" name="storage" class="textfield1" placeholder="100">
                     <h2>GB</h2>
                     <p id="storage-alert" class="alert-hide"></p>
-                    <input type="submit" value="Upgrade" class="button3" id="storage-confirm">
+                    <input type="submit" value="Change" class="button3" id="storage-confirm">
                 </form>
             </div>
         </div>

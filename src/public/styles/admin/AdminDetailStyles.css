@@ -50,6 +50,8 @@ body {
 .button2:hover {
     color: white;
     background-color: black;
+
+    cursor: pointer;
 }
 
 h2 {
@@ -105,4 +107,6 @@ h3 {
 .button:hover {
     color: black;
     background-color: white;
+
+    cursor: pointer;
 }
