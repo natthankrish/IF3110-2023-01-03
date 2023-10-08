@@ -143,6 +143,28 @@ class UserModel
         return $returnArr;
     }
 
+    public function getAdmins($page, $loggedInAdminID)
+    {
+        $query = 'SELECT user_id, fullname, email, username FROM user WHERE is_admin = TRUE AND user_id != :loggedInAdminID LIMIT :limit OFFSET :offset';
+
+        $this->database->query($query);
+        $this->database->bind('loggedInAdminID', $loggedInAdminID);
+        $this->database->bind('limit', ROWS_PER_PAGE);
+        $this->database->bind('offset', ($page - 1) * ROWS_PER_PAGE);
+        $admins = $this->database->fetchAll();
+
+        $query = 'SELECT CEIL(COUNT(user_id) / :rows_per_page) AS page_count FROM user WHERE is_admin = TRUE AND user_id != :loggedInAdminID';
+
+        $this->database->query($query);
+        $this->database->bind('loggedInAdminID', $loggedInAdminID);
+        $this->database->bind('rows_per_page', ROWS_PER_PAGE);
+        $admin = $this->database->fetch();
+        $pageCount = $admin->page_count;
+
+        $returnArr = ['admins' => $admins, 'pages' => $pageCount];
+        return $returnArr;
+    }
+
     public function getFilteredUsers($input)
     {
         $query = 'SELECT user_id, fullname, email, username, storage, storage_left FROM user WHERE is_admin = FALSE AND (fullname LIKE :input OR email LIKE :input OR username LIKE :input)';
@@ -152,6 +174,18 @@ class UserModel
         $users = $this->database->fetchAll();
 
         $returnArr = ['users' => $users];
+        return $returnArr;
+    }
+
+    public function getFilteredAdmins($input)
+    {
+        $query = 'SELECT user_id, fullname, email, username FROM user WHERE is_admin = TRUE AND (fullname LIKE :input OR email LIKE :input OR username LIKE :input)';
+
+        $this->database->query($query);
+        $this->database->bind('input', '%' . $input . '%');
+        $admins = $this->database->fetchAll();
+
+        $returnArr = ['admins' => $admins];
         return $returnArr;
     }
 
@@ -258,9 +292,19 @@ class UserModel
         $this->database->execute();
     }
 
-    public function deleteUSer($username)
+    public function deleteUser($username)
     {
-        $query = 'DELETE FROM user WHERE username = :username';
+        $query = 'DELETE FROM user WHERE username = :username AND is_admin = FALSE';
+
+        $this->database->query($query);
+        $this->database->bind('username', $username);
+
+        $this->database->execute();
+    }
+
+    public function deleteAdmin($username)
+    {
+        $query = 'DELETE FROM user WHERE username = :username AND is_admin = TRUE';
 
         $this->database->query($query);
         $this->database->bind('username', $username);

@@ -2,11 +2,7 @@ const prevButton = document.querySelector("#prev-button");
 const nextButton = document.querySelector("#next-button");
 const usersList = document.querySelector(".users-list");
 const paginationText = document.querySelector("#pagination-text")
-const paginationText = document.querySelector("#pagination-text")
-const pageNumber = document.querySelector("#page-number");
-const totalPages = document.querySelector("#total-pages");
 const buttonColumn = document.querySelector(".button-column");
-const searchInput = document.querySelector("#search");
 const searchInput = document.querySelector("#search");
 
 let currentPage = 1;
@@ -68,49 +64,6 @@ nextButton &&
     });
 
 searchInput &&
-    searchInput.addEventListener("keyup", async (e) => {
-        if (e.keyCode === 13) {
-            const searchValue = searchInput.value;
-
-            // If search value is empty, reload
-            if (searchValue == "") {
-                window.location.reload();
-            } else {
-                const xhr = new XMLHttpRequest();
-                xhr.open(
-                    "GET",
-                    `/public/user/filter/${searchValue}?csrf_token=${CSRF_TOKEN}`
-                );
-    
-                xhr.send();
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === XMLHttpRequest.DONE) {
-                        if (this.status === 200) {
-                            const data = JSON.parse(this.responseText);
-                            updateData(data);
-                            hidePagination();
-                        } else {
-                            alert("An error occured, please try again!");
-                        }
-                    }
-                };
-            }
-        }
-    });
-
-const hidePagination = () => {
-    if (prevButton) {
-        prevButton.style.display = "none";
-    }
-    if (nextButton) {
-        nextButton.style.display = "none";
-    }
-    if (paginationText) {
-        paginationText.style.display = "none";
-    }
-};
-
-searchInput &&
     searchInput.addEventListener(
         "keyup", 
         debounce(() => {
@@ -119,6 +72,7 @@ searchInput &&
             // If search value is empty, reload
             if (searchValue == "") {
                 window.location.reload();
+                return;
             } else {
                 const xhr = new XMLHttpRequest();
                 xhr.open(

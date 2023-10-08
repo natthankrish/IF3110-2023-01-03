@@ -55,7 +55,11 @@ class AdminController extends Controller implements ControllerInterface
                     $authMiddleware = $this->middleware('AuthenticationMiddleware');
                     $authMiddleware->isAdmin();
 
-                    $loginView = $this->view('admin', 'AdminDashboardView', []);
+                    // Grab admin data
+                    $userModel = $this->model('UserModel');
+                    $res = $userModel->getAdmins(1, $_SESSION['user_id']);
+
+                    $loginView = $this->view('admin', 'AdminDashboardView', $res);
                     $loginView->render();
                     exit;
 
@@ -173,6 +177,93 @@ class AdminController extends Controller implements ControllerInterface
         } catch (Exception $e) {
             http_response_code($e->getCode());
             exit;
+        }
+    }
+
+    public function fetch($page)
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'GET':
+                    // Prevent Access except Admin
+                    $authMiddleware = $this->middleware('AuthenticationMiddleware');
+                    $authMiddleware->isAdmin();
+
+                    // Prevent CSRF Attacks
+                    $tokenMiddleware = $this->middleware('TokenMiddleware');
+                    $tokenMiddleware->checkToken();
+
+                    $userModel = $this->model('UserModel');
+                    $res = $userModel->getAdmins((int) $page, $_SESSION['user_id']);
+
+                    header('Content-Type: application/json');
+                    http_response_code(200);
+                    echo json_encode($res);
+                    exit;
+
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
+
+    public function filter($input)
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'GET':
+                    // Prevent Access except Admin
+                    $authMiddleware = $this->middleware('AuthenticationMiddleware');
+                    $authMiddleware->isAdmin();
+
+                    // Prevent CSRF Attacks
+                    $tokenMiddleware = $this->middleware('TokenMiddleware');
+                    $tokenMiddleware->checkToken();
+
+                    $userModel = $this->model('UserModel');
+                    $res = $userModel->getFilteredAdmins($input);
+
+                    header('Content-Type: application/json');
+                    http_response_code(200);
+                    echo json_encode($res);
+                    exit;
+
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (LoggedException $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
+
+    public function delete() 
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'POST':
+                    // Prevent Access except Admin
+                    $authMiddleware = $this->middleware('AuthenticationMiddleware');
+                    $authMiddleware->isAdmin();
+
+                    // Prevent CSRF Attacks
+                    $tokenMiddleware = $this->middleware('TokenMiddleware');
+                    $tokenMiddleware->checkToken();
+
+                    $userModel = $this->model('UserModel');
+                    $userModel->deleteAdmin($_POST['username']);
+
+                    http_response_code(201);
+                    exit;
+
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
         }
     }
 }

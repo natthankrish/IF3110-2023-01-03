@@ -1,6 +1,7 @@
 <tr>
-    <td>1</td>
-    <td>Maria Anders</td>
-    <td>Germany</td>
-    <td class="button-column"><button class="button">Manage Account</button></td>
+    <td><?= $i ?></td>
+    <td><?= $admin->fullname ?></td>
+    <td><?= $admin->username ?></td>
+    <td><?= $admin->email ?></td>
+    <td class="button-column"><a href="/public/admin/admin/<?= $admin->username ?>" class="button">Manage Account</a></td>
 </tr>
