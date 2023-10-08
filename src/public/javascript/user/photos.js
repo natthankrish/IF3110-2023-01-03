@@ -4,6 +4,8 @@ const display_img = document.getElementById('add-photo-display');
 const container = document.getElementById('container');
 const listPagination = document.getElementById('list-pagination')
 const statePage = document.getElementById('state-page')
+const leftButton = document.getElementById('left-page-button')
+const rightButton = document.getElementById('right-page-button')
 
 function openPopUp(object) {
     object.parentElement.parentElement.children[1].style.display = "flex";
@@ -130,7 +132,7 @@ submit_btn.addEventListener(
             xhr.onreadystatechange = function () {
                 if (this.readyState === XMLHttpRequest.DONE) {
                     submit_btn.parentElement.parentElement.parentElement.style.display = "none";
-                    refresh();
+                    refresh(12,1);
                 }
             };
         } else {
@@ -253,8 +255,7 @@ function makePhoto(element) {
     return photoCard;
 }
 
-function setupLength(){
-    listPagination.innerHTML = '';
+function setupLength(current){
     const xhr = new XMLHttpRequest();
     xhr.open("GET", "/public/object/getLengthByIdUser");
 
@@ -263,22 +264,58 @@ function setupLength(){
         if (this.readyState === XMLHttpRequest.DONE) {
             var responseObj = JSON.parse(this.responseText);
             var len = responseObj.object.len;
-            for(let i=0;i<=len;i+=12){
-                const p = document.createElement('p')
-                p.innerHTML = (i+12)/12
-                p.className = 'page-item'
-                p.onclick = () => refresh(12, (i+12)/12)
-                listPagination.appendChild(p)
-            }
+            statePage.value = current
+            displayPagination(len, current)
         }
     };
 }
+
+function displayPagination(len, current){
+    listPagination.innerHTML = '';
+    if(current == 1){
+        leftButton.style.display = "none"
+    }else{
+        leftButton.style.display = "block"
+    }
+    if(current == Math.ceil(len/12)){
+        rightButton.style.display = "none"
+    }else{
+        rightButton.style.display = "block"
+    }
+    for(let i=0;i<=len;i+=12){
+        if(i>current-3 || i<current+3){
+            const p = document.createElement('p')
+            p.innerHTML = (i+12)/12
+            p.className = 'page-item'
+            if((i+12)/12 == current){
+                p.style.fontSize = '38px'
+                p.style.fontWeight = 'bold'
+            }
+            p.onclick = () => {
+                refresh(12, (i+12)/12)
+                statePage.value =(i+12)/12
+                displayPagination(len,(i+12)/12)
+            }
+            listPagination.appendChild(p)
+        }
+    }
+}
+
+// leftButton.addEventListener('click', () => {
+//     refresh(12, statePage.value-1)
+//     setupLength(12, statePage.value-1)
+// })
+
+// rightButton.addEventListener('click', () => {
+//     refresh(12, statePage.value+1)
+//     setupLength(12, statePage.value+1)
+// })
 
 
 window.addEventListener(
     "load",
     debounce(() => {
         refresh(12,1)
-        setupLength()
+        setupLength(1)
     }, DEBOUNCE_TIMEOUT)
 );

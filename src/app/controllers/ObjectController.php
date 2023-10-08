@@ -227,7 +227,7 @@ class ObjectController extends Controller implements ControllerInterface
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
                     $objectModel = $this->model('ObjectModel');
-                    $object = $objectModel->getPublicById($_SESSION['user_id'], (int)$_GET["perpage"], (int)((int)$_GET["page"]-1)*(int)$_GET["perpage"], $_GET["filter"]);
+                    $object = $objectModel->getPublicById($_SESSION['user_id'], (int)$_GET["perpage"], (int)((int)$_GET["page"]-1)*(int)$_GET["perpage"], $_GET["filter"], $_GET["public"], $_GET["sort"]);
                     
                     header('Content-Type: application/json');
                     echo json_encode(["object" => $object]);
@@ -248,7 +248,7 @@ class ObjectController extends Controller implements ControllerInterface
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
                     $objectModel = $this->model('ObjectModel');
-                    $object = $objectModel->getLengthPublicById($_SESSION['user_id'], $_GET["filter"]);
+                    $object = $objectModel->getLengthPublicById($_SESSION['user_id'], $_GET["filter"], $_GET["public"]);
                     
                     header('Content-Type: application/json');
                     echo json_encode(["object" => $object]);

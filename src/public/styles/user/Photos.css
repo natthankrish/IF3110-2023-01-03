@@ -401,6 +401,10 @@ input[type="file"] {
     flex-direction: column;
 }
 
+#sortName {
+    min-width: max-content;
+}
+
 .searchfilter {
     display: flex;
     flex-direction: row;
@@ -553,4 +557,10 @@ input[type="file"] {
         flex-direction: column;
         border-radius: 0;
     }
+}
+
+#state-page {
+    width: 0;
+    height: 0;
+    opacity: 0;
 }

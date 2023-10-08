@@ -1,7 +1,12 @@
-const container = document.getElementById('photo-container')
+const container = document.getElementById('container')
 const listPagination = document.getElementById('list-pagination')
 const buttonSearch = document.getElementById('button-search')
 const textbox = document.getElementById('fname')
+const sortName = document.getElementById('sortName')
+const filter = document.getElementById('filter')
+const statePage = document.getElementById('state-page')
+const leftButton = document.getElementById('left-page-button')
+const rightButton = document.getElementById('right-page-button')
 
 function openPopUp(object) {
     object.parentElement.parentElement.children[1].style.display = "flex";
@@ -90,10 +95,10 @@ function makePhoto(element) {
     return photoCard;
 }
 
-function refresh(perpage, page, filter) {
+function refresh(perpage, page, filter, public, sort) {
     container.innerHTML = '';
     const xhr = new XMLHttpRequest();
-    xhr.open("GET", `/public/object/getPublicById?perpage=${perpage}&page=${page}&filter=${filter}`);
+    xhr.open("GET", `/public/object/getPublicById?perpage=${perpage}&page=${page}&filter=${filter}&public=${public}&sort=${sort}`);
 
     xhr.send();
     xhr.onreadystatechange = function () {
@@ -110,36 +115,99 @@ function refresh(perpage, page, filter) {
     };
 }
 
-function setupLength(filter){
-    listPagination.innerHTML = '';
+function setupLength(filter, public, current){
     const xhr = new XMLHttpRequest();
-    xhr.open("GET", `/public/object/getLengthPublicById?filter=${filter}`);
+    xhr.open("GET", `/public/object/getLengthPublicById?filter=${filter}&public=${public}`);
 
     xhr.send();
     xhr.onreadystatechange = function () {
         if (this.readyState === XMLHttpRequest.DONE) {
             var responseObj = JSON.parse(this.responseText);
             var len = responseObj.object.len;
-            for(let i=0;i<=len;i+=12){
-                const p = document.createElement('p')
-                p.innerHTML = (i+12)/12
-                p.className = 'page-item'
-                p.onclick = () => refresh(12, (i+12)/12)
-                listPagination.appendChild(p)
-            }
+            statePage.value = current
+            displayPagination(len, current)
         }
     };
 }
 
+function displayPagination(len, current){
+    listPagination.innerHTML = '';
+    if(current == 1){
+        leftButton.style.display = "none"
+    }else{
+        leftButton.style.display = "block"
+    }
+    if(current == Math.ceil(len/12)){
+        rightButton.style.display = "none"
+    }else{
+        rightButton.style.display = "block"
+    }
+    for(let i=0;i<=len;i+=12){
+        if(i>current-3 || i<current+3){
+            const p = document.createElement('p')
+            p.innerHTML = (i+12)/12
+            p.className = 'page-item'
+            if((i+12)/12 == current){
+                p.style.fontSize = '38px'
+                p.style.fontWeight = 'bold'
+            }
+            p.onclick = () => {
+                if(sortName.classList.contains('active')){
+                    refresh(12,(i+12)/12, textbox.value, filter.value, "1")
+                }else{
+                    refresh(12,(i+12)/12, textbox.value, filter.value, "0")
+                }
+                statePage.value =(i+12)/12
+                displayPagination(len,(i+12)/12)
+            }
+            listPagination.appendChild(p)
+        }
+    }
+}
+
+// leftButton.addEventListener('click', () => {
+//     if(sortName.classList.contains('active')){
+//         refresh(12, statePage.value-1, textbox.value, filter.value, "1")
+//     }else{
+//         refresh(12, statePage.value-1, textbox.value, filter.value, "0")
+//     }
+//     setupLength(textbox.value, filter.value, statePage.value-1)
+// })
+
+// rightButton.addEventListener('click', () => {
+//     if(sortName.classList.contains('active')){
+//         refresh(12, statePage.value+1, textbox.value, filter.value, "1")
+//     }else{
+//         refresh(12, statePage.value+1, textbox.value, filter.value, "0")
+//     }
+//     setupLength(textbox.value, filter.value, statePage.value-1)
+// })
+
 buttonSearch.addEventListener('click', () => {
-    refresh(12, 1, textbox.value)
-    setupLength(textbox.value)
+    refresh(12, 1, textbox.value, "all", "0")
+    setupLength(textbox.value, "all", 1)
 })
+
+sortName.addEventListener('click', () => {
+    sortName.classList.toggle("active")
+    refresh(12, 1, textbox.value, filter.value, "1")
+    setupLength(textbox.value, filter.value, 1)
+})
+
+filter.addEventListener('change', () => {
+    if(sortName.classList.contains('active')){
+        refresh(12, 1, "", filter.value, "1")
+    }else{
+        refresh(12, 1, "", filter.value, "0")
+    }
+    setupLength("", filter.value, 1)
+})
+
 
 window.addEventListener(
     "load",
     debounce(() => {
-        refresh(12, 1, "")
-        setupLength("")
+        refresh(12, 1, "", "all", "0")
+        setupLength("", "all", 1)
     }, DEBOUNCE_TIMEOUT)
 );

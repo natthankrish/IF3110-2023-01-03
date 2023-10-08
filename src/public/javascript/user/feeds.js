@@ -3,6 +3,9 @@ const listPagination = document.getElementById('list-pagination')
 const buttonSearch = document.getElementById('button-search')
 const textbox = document.getElementById('fname')
 let CURRENT_USERNAME;
+const statePage = document.getElementById('state-page')
+const leftButton = document.getElementById('left-page-button')
+const rightButton = document.getElementById('right-page-button')
 
 function openPopUp(object) {
     object.parentElement.parentElement.children[1].style.display = "flex";
@@ -294,8 +297,7 @@ function refresh(perpage, page, filter) {
     };
 }
 
-function setupLength(filter){
-    listPagination.innerHTML = '';
+function setupLength(filter, current){
     const xhr = new XMLHttpRequest();
     xhr.open("GET", `/public/object/getLengthPublic?filter=${filter}`);
 
@@ -304,27 +306,64 @@ function setupLength(filter){
         if (this.readyState === XMLHttpRequest.DONE) {
             var responseObj = JSON.parse(this.responseText);
             var len = responseObj.object.len;
-            for(let i=0;i<=len;i+=12){
-                const p = document.createElement('p')
-                p.innerHTML = (i+12)/12
-                p.className = 'page-item'
-                p.onclick = () => refresh(12, (i+12)/12)
-                listPagination.appendChild(p)
-            }
+            statePage.value = current
+            displayPagination(len,current)
         }
     };
 }
 
 buttonSearch.addEventListener('click', () => {
     refresh(12, 1, textbox.value)
-    setupLength(textbox.value)
+    setupLength(textbox.value, 1)
 })
+
+function displayPagination(len, current){
+    listPagination.innerHTML = '';
+    if(current == 1){
+        leftButton.style.display = "none"
+    }else{
+        leftButton.style.display = "block"
+    }
+    if(current == Math.ceil(len/12)){
+        rightButton.style.display = "none"
+    }else{
+        rightButton.style.display = "block"
+    }
+    for(let i=0;i<=len;i+=12){
+        if(i>current-3 || i<current+3){
+            const p = document.createElement('p')
+            p.innerHTML = (i+12)/12
+            p.className = 'page-item'
+            if((i+12)/12 == current){
+                p.style.fontSize = '38px'
+                p.style.fontWeight = 'bold'
+            }
+            p.onclick = () => {
+                refresh(12, (i+12)/12, textbox.value)
+                statePage.value =(i+12)/12
+                displayPagination(len,(i+12)/12)
+            }
+            listPagination.appendChild(p)
+        }
+    }
+}
+
+// leftButton.addEventListener('click', () => {
+//     refresh(12, statePage.value-1, textbox.value)
+//     setupLength(textbox.value, statePage.value-1)
+// })
+
+// rightButton.addEventListener('click', () => {
+//     refresh(12, statePage.value+1, textbox.value)
+//     setupLength(textbox.value, statePage.value+1)
+// })
+
 
 window.addEventListener(
     "load",
     debounce(() => {
         refresh(12,1,"")
-        setupLength("")
+        setupLength("",1)
         getCurrentUsername();
     }, DEBOUNCE_TIMEOUT)
 );

@@ -108,22 +108,25 @@ class ObjectModel
         return $res;
     }
 
-    public function getPublicById($user_id, $limit, $offset, $filter)
+    public function getPublicById($user_id, $limit, $offset, $filter, $isPublic, $isSorted)
     {
-        $query = "SELECT * FROM Object WHERE user_id != :user_id AND isPublic = 1 AND (title LIKE '%$filter%' OR location LIKE '%$filter%') ORDER BY title LIMIT :limit OFFSET :offset";
+        $queryPublic = ($isPublic == "all" ? "(isPublic = 1 OR (isPublic = 0 AND user_id = $user_id))" : ($isPublic == "private" ? "(isPublic = 0 AND user_id = $user_id)" : "isPublic = 1"));
+        $querySort = ($isSorted == "1" ? 'ORDER BY title' : '');
+        $query = "SELECT * FROM Object WHERE $queryPublic AND (title LIKE '%$filter%' OR location LIKE '%$filter%') $querySort LIMIT :limit OFFSET :offset;";
         $this->database->query($query);
-        $this->database->bind('user_id', $user_id);
         $this->database->bind('limit', $limit);
         $this->database->bind('offset', $offset);
+        // echo $query;
         $res = $this->database->fetchAll();
         return $res;
     }
 
-    public function getLengthPublicById($user_id, $filter)
+    public function getLengthPublicById($user_id, $filter, $isPublic)
     {
-        $query = "SELECT COUNT(*) AS len FROM Object WHERE user_id != :user_id AND isPublic = 1 AND (title LIKE '%$filter%' OR location LIKE '%$filter%')";
+        $queryPublic = ($isPublic == "all" ? "(isPublic = 1 OR (isPublic = 0 AND user_id = $user_id))" : ($isPublic == "private" ? "(isPublic = 0 AND user_id = $user_id)" : "isPublic = 1"));
+        $query = "SELECT COUNT(*) AS len FROM Object WHERE $queryPublic AND (title LIKE '%$filter%' OR location LIKE '%$filter%');";
         $this->database->query($query);
-        $this->database->bind('user_id', $user_id);
+        // echo $query;
         $res = $this->database->fetch();
         return $res;
     }

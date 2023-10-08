@@ -53,8 +53,8 @@
                 <img src="<?= BASE_URL ?>/assets/icons/left.png" class="page-button" id="left-page-button" alt="Previous"/>
                 <div id="list-pagination">
                 </div>
-                <img src="<?= BASE_URL ?>/assets/icons/right.png" class="page-button" id="left-page-right" alt="Next"/>
-                <!-- <input id="state-page" value="1"/> -->
+                <img src="<?= BASE_URL ?>/assets/icons/right.png" class="page-button" id="right-page-button" alt="Next"/>
+                <input id="state-page" value="1"/>
             </div>
         </div>
     </body>
