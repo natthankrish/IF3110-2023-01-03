@@ -82,6 +82,7 @@ function deletePhoto(object) {
         if (this.readyState === XMLHttpRequest.DONE) {
             object.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.children[1].style.display = "none";
             refresh(12,1);
+            setupLength(1)
         }
     };
 }
@@ -146,6 +147,7 @@ submit_btn.addEventListener(
             formData.append("title", file.name);
             formData.append("date", mm + '/' + dd + '/' + yyyy);
             formData.append("location", loctextfield.value ? loctextfield.value : "No Location");
+            formData.append("size", file.size);
             console.log(file.type)
     
             if (file.type == 'video/mp4') {
@@ -161,6 +163,7 @@ submit_btn.addEventListener(
                     if (this.readyState === XMLHttpRequest.DONE) {
                         submit_btn.parentElement.parentElement.parentElement.style.display = "none";
                         refresh(12,1);
+                    setupLength(1)
                     }
                 };
             } else {
@@ -175,6 +178,7 @@ submit_btn.addEventListener(
                     if (this.readyState === XMLHttpRequest.DONE) {
                         submit_btn.parentElement.parentElement.parentElement.style.display = "none";
                         refresh(12,1);
+                    setupLength(1)
                     }
                 };
             }

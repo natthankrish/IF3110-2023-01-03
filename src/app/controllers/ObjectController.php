@@ -30,7 +30,7 @@ class ObjectController extends Controller implements ControllerInterface
                     $uploadedImage = $storageAccess->saveImage($_FILES['image']['tmp_name']);
 
                     $objectModel = $this->model('ObjectModel');
-                    $objectModel->store($_SESSION['user_id'], $_POST['title'], $uploadedImage, NULL, date("Y-m-d", strtotime($_POST['date'])),  $_POST['location'], 'Photo');
+                    $objectModel->store($_SESSION['user_id'], $_POST['title'], $uploadedImage, NULL, date("Y-m-d", strtotime($_POST['date'])),  $_POST['location'], 'Photo', $_POST['size']);
                     exit;
 
                 default:
@@ -51,7 +51,7 @@ class ObjectController extends Controller implements ControllerInterface
                     $uploadedVideo = $storageAccess->saveVideo($_FILES['video']['tmp_name']);
                     
                     $objectModel = $this->model('ObjectModel');
-                    $objectModel->store($_SESSION['user_id'], $_POST['title'], NULL, $uploadedVideo, date("Y-m-d", strtotime($_POST['date'])),  $_POST['location'], 'Video');
+                    $objectModel->store($_SESSION['user_id'], $_POST['title'], NULL, $uploadedVideo, date("Y-m-d", strtotime($_POST['date'])),  $_POST['location'], 'Video', $_POST['size']);
                     exit;
 
                 default:
@@ -183,7 +183,7 @@ class ObjectController extends Controller implements ControllerInterface
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
                     $objectModel = $this->model('ObjectModel');
-                    $object = $objectModel->getPublic((int)$_GET["perpage"], (int)((int)$_GET["page"]-1)*(int)$_GET["perpage"], $_GET["filter"]);
+                    $object = $objectModel->getPublic($_SESSION['user_id'], (int)$_GET["perpage"], (int)((int)$_GET["page"]-1)*(int)$_GET["perpage"], $_GET["filter"]);
                     
                     header('Content-Type: application/json');
                     echo json_encode(["object" => $object]);
@@ -204,7 +204,7 @@ class ObjectController extends Controller implements ControllerInterface
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'GET':
                     $objectModel = $this->model('ObjectModel');
-                    $object = $objectModel->getLengthPublic($_GET["filter"]);
+                    $object = $objectModel->getLengthPublic($_SESSION['user_id'], $_GET["filter"]);
 
                     header('Content-Type: application/json');
                     echo json_encode(["object" => $object]);
@@ -218,6 +218,49 @@ class ObjectController extends Controller implements ControllerInterface
             exit;
         }
     }
+
+    public function getPrivate()
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'GET':
+                    $objectModel = $this->model('ObjectModel');
+                    $object = $objectModel->getPrivate($_SESSION['user_id'], (int)$_GET["perpage"], (int)((int)$_GET["page"]-1)*(int)$_GET["perpage"]);
+                    
+                    header('Content-Type: application/json');
+                    echo json_encode(["object" => $object]);
+                    exit;
+
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
+
+    public function getLengthPrivate()
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'GET':
+                    $objectModel = $this->model('ObjectModel');
+                    $object = $objectModel->getLengthPrivate($_SESSION['user_id']);
+
+                    header('Content-Type: application/json');
+                    echo json_encode(["object" => $object]);
+                    exit;
+
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
+
 
     public function getPublicById()
     {

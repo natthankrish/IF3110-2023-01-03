@@ -9,11 +9,11 @@ class ObjectModel
         $this->database = new Database();
     }
 
-    public function store($user_id, $title, $url_photo, $url_video, $date, $location, $type)
+    public function store($user_id, $title, $url_photo, $url_video, $date, $location, $type, $size)
     {
         if($url_video){
             $query = 'INSERT INTO Object 
-                    (user_id, title, type, url_photo, isPublic, date, location, description, post_date, url_video) 
+                    (user_id, title, type, url_photo, isPublic, date, location, description, post_date, url_video, size) 
                     VALUES (
                         :user_id,
                         :title,
@@ -24,7 +24,8 @@ class ObjectModel
                         :location,
                         :description,
                         :post_date,
-                        :url_video
+                        :url_video,
+                        :size
                     )';
     
             $this->database->query($query);
@@ -38,11 +39,12 @@ class ObjectModel
             $this->database->bind('description', NULL);
             $this->database->bind('post_date', NULL);
             $this->database->bind('url_video', $url_video);
+            $this->database->bind('size', $size);
     
             $this->database->execute();
         }else{
             $query = 'INSERT INTO Object 
-                    (user_id, title, type, url_photo, isPublic, date, location, description, post_date) 
+                    (user_id, title, type, url_photo, isPublic, date, location, description, post_date, size) 
                     VALUES (
                         :user_id,
                         :title,
@@ -52,7 +54,8 @@ class ObjectModel
                         :date,
                         :location,
                         :description,
-                        :post_date
+                        :post_date,
+                        :size
                     )';
     
             $this->database->query($query);
@@ -65,9 +68,31 @@ class ObjectModel
             $this->database->bind('location', $location);
             $this->database->bind('description', NULL);
             $this->database->bind('post_date', NULL);
+            $this->database->bind('size', $size);
     
             $this->database->execute();
         }
+
+        // Update storage left in user
+        $query = 'SELECT storage_left FROM User WHERE user_id = :user_id';
+
+        $this->database->query($query);
+        $this->database->bind('user_id', $user_id);
+
+        $res = $this->database->fetch();
+
+        $storage_left = $res->storage_left;
+        $storage_left = $storage_left - $size;
+
+        $query = 'UPDATE User SET storage_left = :storage_left WHERE user_id = :user_id';
+
+        $this->database->query($query);
+
+        $this->database->bind('user_id', $user_id);
+        $this->database->bind('storage_left', $storage_left);
+
+        $this->database->execute();
+
     }
 
     public function getByIdUser($user_id, $limit, $offset)
@@ -90,42 +115,68 @@ class ObjectModel
         return $res;
     }
 
-    public function getPublic($limit, $offset, $filter)
+    public function getPublic($user_id, $limit, $offset, $filter)
     {
-        $query = "SELECT * FROM Object WHERE isPublic = 1 AND (title LIKE '%$filter%' OR location LIKE '%$filter%') ORDER BY title LIMIT :limit OFFSET :offset";
+        $query = "SELECT * FROM Object WHERE user_id != :user_id AND isPublic = 1 AND (title LIKE '%$filter%' OR location LIKE '%$filter%') ORDER BY title LIMIT :limit OFFSET :offset";
         $this->database->query($query);
         $this->database->bind('limit', $limit);
         $this->database->bind('offset', $offset);
+        $this->database->bind(':user_id', $user_id);
         $res = $this->database->fetchAll();
         return $res;
     }
 
-    public function getLengthPublic($filter)
+    public function getLengthPublic($user_id, $filter)
     {
-        $query = "SELECT COUNT(*) AS len FROM Object WHERE isPublic = 1 AND (title LIKE '%$filter%' OR location LIKE '%$filter%')";
+        $query = "SELECT COUNT(*) AS len FROM Object WHERE user_id != :user_id AND isPublic = 1 AND (title LIKE '%$filter%' OR location LIKE '%$filter%')";
         $this->database->query($query);
+        $this->database->bind(':user_id', $user_id);
         $res = $this->database->fetch();
         return $res;
     }
 
     public function getPublicById($user_id, $limit, $offset, $filter, $isPublic, $isSorted)
     {
-        $queryPublic = ($isPublic == "all" ? "(isPublic = 1 OR (isPublic = 0 AND user_id = $user_id))" : ($isPublic == "private" ? "(isPublic = 0 AND user_id = $user_id)" : "isPublic = 1"));
+        $queryPublic = ($isPublic == "all" ? "" : ($isPublic == "private" ? "AND isPublic = 0" : "AND isPublic = 1"));
         $querySort = ($isSorted == "1" ? 'ORDER BY title' : '');
-        $query = "SELECT * FROM Object WHERE $queryPublic AND (title LIKE '%$filter%' OR location LIKE '%$filter%') $querySort LIMIT :limit OFFSET :offset;";
+        $query = "SELECT * FROM Object WHERE user_id = :user_id $queryPublic AND (title LIKE '%$filter%' OR location LIKE '%$filter%') $querySort LIMIT :limit OFFSET :offset;";
         $this->database->query($query);
         $this->database->bind('limit', $limit);
         $this->database->bind('offset', $offset);
-        // echo $query;
+        $this->database->bind('user_id', $user_id);
+        // echo $query; 
         $res = $this->database->fetchAll();
         return $res;
     }
 
     public function getLengthPublicById($user_id, $filter, $isPublic)
     {
-        $queryPublic = ($isPublic == "all" ? "(isPublic = 1 OR (isPublic = 0 AND user_id = $user_id))" : ($isPublic == "private" ? "(isPublic = 0 AND user_id = $user_id)" : "isPublic = 1"));
-        $query = "SELECT COUNT(*) AS len FROM Object WHERE $queryPublic AND (title LIKE '%$filter%' OR location LIKE '%$filter%');";
+        $queryPublic = ($isPublic == "all" ? "" : ($isPublic == "private" ? "AND isPublic = 0" : "AND isPublic = 1"));
+        $query = "SELECT COUNT(*) AS len FROM Object WHERE user_id = :user_id $queryPublic AND (title LIKE '%$filter%' OR location LIKE '%$filter%');";
         $this->database->query($query);
+        $this->database->bind('user_id', $user_id);
+        // echo $query;
+        $res = $this->database->fetch();
+        return $res;
+    }
+
+    public function getPrivate($user_id, $limit, $offset)
+    {
+        $query = "SELECT * FROM Object WHERE :user_id = user_id AND isPublic = 1 LIMIT :limit OFFSET :offset;";
+        $this->database->query($query);
+        $this->database->bind('limit', $limit);
+        $this->database->bind('offset', $offset);
+        $this->database->bind('user_id', $user_id);
+        // echo $query; 
+        $res = $this->database->fetchAll();
+        return $res;
+    }
+
+    public function getLengthPrivate($user_id)
+    {
+        $query = "SELECT COUNT(*) AS len FROM Object WHERE :user_id = user_id AND isPublic = 1;";
+        $this->database->query($query);
+        $this->database->bind('user_id', $user_id);
         // echo $query;
         $res = $this->database->fetch();
         return $res;
@@ -229,14 +280,36 @@ class ObjectModel
 
     public function delete($user_id, $object_id)
     {
+        // update storage left
+        $query = 'SELECT size FROM Object WHERE object_id = :object_id';
+        $this->database->query($query);
+        $this->database->bind('object_id', $object_id);
+        $res = $this->database->fetch();
+        $size = $res->size;
+
+        $query = 'SELECT storage_left FROM User WHERE user_id = :user_id';
+        $this->database->query($query);
+        $this->database->bind('user_id', $user_id);
+        $res = $this->database->fetch();
+        $storage_left = $res->storage_left;
+        $storage_left = $storage_left + $size;
+
+        $query = 'UPDATE User SET storage_left = :storage_left WHERE user_id = :user_id';
+        $this->database->query($query);
+        $this->database->bind('user_id', $user_id);
+        $this->database->bind('storage_left', $storage_left);
+        $this->database->execute();
+
         $deleteCommentQuery = 'DELETE FROM Comment WHERE object_id = :object_id';
         $this->database->query($deleteCommentQuery);
         $this->database->bind('object_id', $object_id);
         $this->database->execute(); 
+
         $deleteLikeQuery = 'DELETE FROM Likes WHERE object_id = :object_id';
         $this->database->query($deleteLikeQuery);
         $this->database->bind('object_id', $object_id);
         $this->database->execute(); 
+
         $deleteObjectQuery = 'DELETE FROM Object WHERE object_id = :object_id';
         $this->database->query($deleteObjectQuery);
         $this->database->bind('object_id', $object_id);
