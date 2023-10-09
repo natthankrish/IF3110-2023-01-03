@@ -28,7 +28,7 @@ define('ADMIN_USERNAME', $_ENV['ADMIN_USERNAME']);
 define('ADMIN_PASSWORD', $_ENV['ADMIN_PASSWORD']);
 
 // Storage
-define('DEFAULT_STORAGE', 100 * 1024);    // in MB
+define('DEFAULT_STORAGE', 100 * 1024 * 1024 * 1024);
 
 // Bcrypt
 define('BCRYPT_COST', 10);
