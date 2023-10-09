@@ -18,200 +18,6 @@
 
 **Moments** Begitu banyak moment penting dalam hidup yang layak untuk diingat, entah moment bahagia, senang, ataupun sedih. Moments hadir untuk masalah tersebut. Dengan aplikasi berbasis web ini, Anda dapaet mengabadikan moment penting dalam hidup Anda dengan sangat mudah. Aplikasi ini dikembangkan menggunakan DBMS (MySQL) dan PHP murni beserta HTML, CSS, dan Javascript vanilla.
 
-## Struktur Program
-
-```
-.
-│   .env.example
-│   .gitignore
-│   docker-compose.yml
-│   Dockerfile
-│   README.md
-│
-├───scripts
-│       build-image.sh
-│
-└───src
-    ├───app
-    │   │   .htaccess
-    │   │   init.php
-    │   │
-    │   ├───components
-    │   │   ├───album
-    │   │   │       AddAlbumPage.php
-    │   │   │       AdminAlbumDetailPage.php
-    │   │   │       AlbumListView.php
-    │   │   │       UserAlbumDetailPage.php
-    │   │   │
-    │   │   ├───home
-    │   │   │       HomePage.php
-    │   │   │
-    │   │   ├───not-found
-    │   │   │       NotFoundPage.php
-    │   │   │
-    │   │   ├───song
-    │   │   │       AddSongPage.php
-    │   │   │       AdminSongDetailPage.php
-    │   │   │       SearchPage.php
-    │   │   │       UserSongDetailPage.php
-    │   │   │
-    │   │   ├───template
-    │   │   │       Aside.php
-    │   │   │       Navbar.php
-    │   │   │
-    │   │   └───user
-    │   │           LoginPage.php
-    │   │           RegisterPage.php
-    │   │           UserListPage.php
-    │   │
-    │   ├───config
-    │   │       config.php
-    │   │
-    │   ├───controllers
-    │   │       AlbumController.php
-    │   │       HomeController.php
-    │   │       NotFoundController.php
-    │   │       SongController.php
-    │   │       UserController.php
-    │   │
-    │   ├───core
-    │   │       App.php
-    │   │       Controller.php
-    │   │       Database.php
-    │   │       MP3Access.php
-    │   │       StorageAccess.php
-    │   │       Tables.php
-    │   │
-    │   ├───exceptions
-    │   │       LoggedException.php
-    │   │
-    │   ├───interfaces
-    │   │       ControllerInterface.php
-    │   │       ViewInterface.php
-    │   │
-    │   ├───middlewares
-    │   │       AuthenticationMiddleware.php
-    │   │       SongLimitMiddleware.php
-    │   │       TokenMiddleware.php
-    │   │
-    │   ├───models
-    │   │       AlbumModel.php
-    │   │       SongModel.php
-    │   │       UserModel.php
-    │   │
-    │   └───views
-    │       ├───album
-    │       │       AddAlbumView.php
-    │       │       AdminAlbumDetailView.php
-    │       │       AlbumListView.php
-    │       │       UserAlbumDetailView.php
-    │       │
-    │       ├───home
-    │       │       MainView.php
-    │       │
-    │       ├───not-found
-    │       │       NotFoundView.php
-    │       │
-    │       ├───song
-    │       │       AddSongView.php
-    │       │       AdminSongDetailView.php
-    │       │       SearchView.php
-    │       │       UserSongDetailView.php
-    │       │
-    │       └───user
-    │               LoginView.php
-    │               RegisterView.php
-    │               UserListView.php
-    │
-    ├───public
-    │   │   .htaccess
-    │   │   index.php
-    │   │
-    │   ├───images
-    │   │   ├───assets
-    │   │   │       arrow-left.svg
-    │   │   │       arrow-right-white.svg
-    │   │   │       arrow-right.svg
-    │   │   │       bars.svg
-    │   │   │       dropdown-arrow.svg
-    │   │   │       logo-dark.svg
-    │   │   │       logo-light.svg
-    │   │   │       logo-notext-dark.svg
-    │   │   │       sample.png
-    │   │   │       search.svg
-    │   │   │       user-solid.svg
-    │   │   │
-    │   │   └───icon
-    │   │           android-chrome-192x192.png
-    │   │           android-chrome-512x512.png
-    │   │           apple-touch-icon.png
-    │   │           favicon-16x16.png
-    │   │           favicon-32x32.png
-    │   │           favicon.ico
-    │   │           site.webmanifest
-    │   │
-    │   ├───javascript
-    │   │   ├───album
-    │   │   │       add-album.js
-    │   │   │       album-list.js
-    │   │   │       update-album-detail.js
-    │   │   │
-    │   │   ├───component
-    │   │   │       navbar.js
-    │   │   │
-    │   │   ├───home
-    │   │   │       home.js
-    │   │   │
-    │   │   ├───lib
-    │   │   │       debounce.js
-    │   │   │
-    │   │   ├───song
-    │   │   │       add-song.js
-    │   │   │       play-song.js
-    │   │   │       search.js
-    │   │   │       update-song.js
-    │   │   │
-    │   │   └───user
-    │   │           login.js
-    │   │           register.js
-    │   │           user-list.js
-    │   │
-    │   └───styles
-    │       ├───album
-    │       │       add-album.css
-    │       │       album-detail-admin.css
-    │       │       album-detail.css
-    │       │       album-list.css
-    │       │
-    │       ├───home
-    │       │       home.css
-    │       │
-    │       ├───not-found
-    │       │       not-found.css
-    │       │
-    │       ├───song
-    │       │       add-song.css
-    │       │       search.css
-    │       │       song-detail-admin.css
-    │       │       song-detail.css
-    │       │
-    │       ├───template
-    │       │       aside.css
-    │       │       globals.css
-    │       │       navbar.css
-    │       │
-    │       └───user
-    │               login.css
-    │               register.css
-    │               user-list.css
-    │
-    └───storage
-        ├───images
-        │       .gitkeep
-        │
-        └───songs
-                .gitkeep
-```
 
 ## Daftar _Requirement_
 
@@ -273,38 +79,141 @@
 
 ![ERD](https://github.com/natthankrish/IF3110-2023-01-03/assets/89324014/a8013554-043c-4425-928e-7e67ecfd77c1)
 
-## Pembagian Tugas
+## **Requirements**
+Browser dan Docker
 
-### _Server Side_
+## **Folder Structure**
 
-| Fitur                    | NIM      |
-| ------------------------ | -------- |
-| Login                    | 13520065 |
-| Register                 | 13520065 |
-| Home                     | 13520119 |
-| Daftar Album             | 13520119 |
-| Search, Sort, dan Filter | 13520101 |
-| Edit Lagu                | 13520101 |
-| Detail Lagu              | 13520101 |
-| Edit Album               | 13520119 |
-| Detail Album             | 13520119 |
-| Tambah Lagu              | 13520101 |
-| Tambah Album             | 13520119 |
-| Daftar User              | 13520065 |
+```.
+│   .env
+│   .gitignore
+│   compose.yml
+│   Dockerfile
+│   README.md
+│
+├───scripts
+│
+└───src
+    ├───app
+    │   │   .htaccess
+    │   │   init.php
+    │   │
+    │   ├───components
+    │   │   ├───admin
+    │   │   │
+    │   │   ├───home
+    │   │   │
+    │   │   ├───object
+    │   │   │
+    │   │   ├───user
+    │   │
+    │   ├───config
+    │   │       config.php
+    │   │
+    │   ├───controllers
+    │   │       AdminController.php
+    │   │       CommentController.php
+    │   │       HomeController.php
+    │   │       likeController.php
+    │   │       ObjectController.php
+    │   │       PageNotFoundController.php
+    │   │       UserController.php
+    │   │
+    │   ├───core
+    │   │       App.php
+    │   │       Controller.php
+    │   │       Database.php
+    │   │       StorageAccess.php
+    │   │       Tables.php
+    │   │
+    │   ├───exceptions
+    │   │       LoggedException.php
+    │   │
+    │   ├───interfaces
+    │   │       ControllerInterface.php
+    │   │       ViewInterface.php
+    │   │
+    │   ├───middlewares
+    │   │       AuthenticationMiddleware.php
+    │   │       TokenMiddleware.php
+    │   │
+    │   ├───models
+    │   │       CommentModel.php
+    │   │       LikeModel.php
+    │   │       ObjectModel.php
+    │   │       UserModel.php
+    │   │
+    │   └───views
+    │       ├───admin
+    │       │
+    │       ├───home
+    │       │
+    │       └───user
+    │
+    ├───public
+    │   │   .htaccess
+    │   │   index.php
+    │   │
+    │   ├───assets
+    │   │   ├───images
+    │   │   │
+    │   │   └───icon
+    │   │
+    │   ├───javascript
+    │   │   ├───admin
+    │   │   │
+    │   │   ├───component
+    │   │   │
+    │   │   ├───lib
+    │   │   │
+    │   │   └───user
+    │   │
+    │   └───styles
+    │       ├───admin
+    │       │
+    │       ├───home
+    │       │
+    │       ├───object
+    │       │
+    │       └───user
+    │
+    └───storage
+        ├───images
+        │       .gitkeep
+        │
+        └───songs
+                .gitkeep
+``````
 
-### _Client Side_
+## **Pembagian Kerja - Workload Breakdown**
 
-| Fitur                    | NIM      |
-| ------------------------ | -------- |
-| Login                    | 13520065 |
-| Register                 | 13520065 |
-| Home                     | 13520119 |
-| Daftar Album             | 13520119 |
-| Search, Sort, dan Filter | 13520101 |
-| Edit Lagu                | 13520101 |
-| Detail Lagu              | 13520101 |
-| Edit Album               | 13520119 |
-| Detail Album             | 13520119 |
-| Tambah Lagu              | 13520101 |
-| Tambah Album             | 13520119 |
-| Daftar User              | 13520065 |
+**Anggota Kelompok**
+
+| Nama                   | NIM      | Panggilan |
+| ---------------------- | -------- | --------- |
+| Mutawally Nawwar | 13521065 | Nawwar    |
+| Ghazi Akmal Fauzan          | 13521058 | Ghazi  |
+| Antonio Natthan Krishna     | 13521170 | Nate    |
+| Ahmad Hapinuddin    | 10023079 | Hapid     |
+
+**Server Side:**
+
+| NIM                | Nama            | Fungsionalitas                                                                                                                                                  |
+| ------------------ | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 13521065 | Nawwar | Database Design, API Development                                                                                                                            |
+| 13521058          | Ghazi     | Architecture Design (Docker, Setup Folder Structuring, etc)                                                                                          |
+| 13521058           | Ghazi       | Routing, AutoLoader, EnvLoader, Containers, Logging Middlewares                                                                      |
+| 13521058           | Ghazi       | Handlers and AJAX for admin (User and Admin Table & Details)    |
+| 13521162           | Nate          | Handlers and AJAX for user (Photos, Videos, Like, Comment) |
+| 13521065 | Nawwar | Filtering and Paging Mechanism                                                                                                                                  |
+
+**Client Side:**
+
+| NIM                | Nama            | Fungsionalitas                                                                                                                                                                                                                                                  |
+| ------------------ | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 13521162           | Nate          | UI Design, All Frontend Pages |
+| 10023079          | Hapid          | HTML Register, Manage Account |
+| 13521058           | Ghazi       | Admin Page Rendering |
+| 13521065 | Nawwar | Search Page Rendering |
+
+
