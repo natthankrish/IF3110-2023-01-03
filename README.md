@@ -82,6 +82,12 @@
 ## **Requirements**
 Browser dan Docker
 
+## BONUS
+### Google Lighthouse
+![messageImage_1696837690091](https://github.com/natthankrish/IF3110-2023-01-03/assets/92136335/69e287ff-40a4-4912-a36f-71739d262a57)
+
+### Docker
+
 ## **Folder Structure**
 
 ```.
