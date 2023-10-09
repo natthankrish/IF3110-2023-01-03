@@ -117,10 +117,15 @@ submit_btn.addEventListener(
     function () {
         if (loctextfield.value && input.value) {
             file = input.files[0];
+
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0');
+            var yyyy = today.getFullYear();
     
             const formData = new FormData();
             formData.append("title", file.name);
-            formData.append("date", '12/12/2012');
+            formData.append("date", mm + '/' + dd + '/' + yyyy);
             formData.append("location", loctextfield.value ? loctextfield.value : "No Location");
             console.log(file.type)
     
