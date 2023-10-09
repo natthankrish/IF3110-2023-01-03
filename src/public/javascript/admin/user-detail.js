@@ -62,18 +62,52 @@ window.addEventListener(
 deleteButton &&
     deleteButton.addEventListener("click", async (e) => {
         e.preventDefault();
-        const xhr = new XMLHttpRequest();
 
-        xhr.open("POST", `/public/user/delete`);
+        // Get all of user object
+        let xhr = new XMLHttpRequest();
+        xhr.open(
+            "GET",
+            `/public/user/getAllUserOwnedObjects?username=${USERNAME}&csrf_token=${CSRF_TOKEN}`
+        );
 
-        const formData = new FormData();
-        formData.append("username", USERNAME);
-        formData.append("csrf_token", CSRF_TOKEN);
-        xhr.send(formData);
-
+        xhr.send();
+        
         xhr.onreadystatechange = function () {
-            if (this.readyState === XMLHttpRequest.DONE) {
-                window.location.href = "/public/admin/users";
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                const data = JSON.parse(this.responseText);
+
+                // Delete all of user objects
+                data.forEach((object) => {
+                    let formData = new FormData();
+                    formData.append("username", USERNAME);
+                    formData.append("object_id", object['object_id']);
+                    formData.append("url_video", object['url_video']);
+                    formData.append("url_photo", object['url_photo']);
+                    formData.append("csrf_token", CSRF_TOKEN);
+
+                    xhr = new XMLHttpRequest();
+                    xhr.open("POST", `/public/object/deleteByUsername`);
+
+                    xhr.send(formData);
+                });
+                
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        xhr = new XMLHttpRequest();
+                        xhr.open("POST", `/public/user/delete`);
+
+                        formData = new FormData();
+                        formData.append("username", USERNAME);
+                        formData.append("csrf_token", CSRF_TOKEN);
+                        xhr.send(formData);
+
+                        xhr.onreadystatechange = function () {
+                            if (xhr.readyState === XMLHttpRequest.DONE) {
+                                window.location.href = "/public/admin/users";
+                            }
+                        }
+                    }
+                }
             }
         };
     });

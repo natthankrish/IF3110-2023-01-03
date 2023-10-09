@@ -143,6 +143,18 @@ class UserModel
         return $returnArr;
     }
 
+    public function getAllUserOwnedObjects($username)
+    {
+        $query = 'SELECT object_id, url_video, url_photo FROM object WHERE user_id = (SELECT user_id FROM user WHERE username = :username)';
+
+        $this->database->query($query);
+        $this->database->bind('username', $username);
+
+        $objects = $this->database->fetchAll();
+
+        return $objects;
+    }
+
     public function getAdmins($page, $loggedInAdminID)
     {
         $query = 'SELECT user_id, fullname, email, username FROM user WHERE is_admin = TRUE AND user_id != :loggedInAdminID LIMIT :limit OFFSET :offset';

@@ -588,6 +588,28 @@ class UserController extends Controller implements ControllerInterface
         }
     }
 
+    public function getAllUserOwnedObjects()
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'GET':
+                    $userModel = $this->model('UserModel');
+                    $objects = $userModel->getAllUserOwnedObjects($_GET['username']);
+
+                    header('Content-Type: application/json');
+                    echo json_encode($objects);
+                    
+                    exit;
+
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (LoggedException $e) {
+            http_response_code($e->getCode());
+            exit;
+        }
+    }
+
     public function fetch($page)
     {
         try {

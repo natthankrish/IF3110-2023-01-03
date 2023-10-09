@@ -324,4 +324,25 @@ class ObjectController extends Controller implements ControllerInterface
             exit;
         }
     }
+
+    public function deleteByUsername()
+    {
+        try {
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'POST':
+                    $objectModel = $this->model('ObjectModel');
+                    $storageAccess = new StorageAccess(StorageAccess::IMAGE_PATH);
+                    $storageAccess->deleteFile($_POST['url_photo']);
+                    $storageAccess = new StorageAccess(StorageAccess::VIDEO_PATH);
+                    $storageAccess->deleteFile($_POST['url_video']);
+                    $objectModel->deleteByUsername($_POST['username'],$_POST['object_id']);
+                    exit;
+                default:
+                    throw new LoggedException('Method Not Allowed', 405);
+            }
+        } catch (Exception $e) {
+            http_response_code(500);
+            exit;
+        }
+    }
 }

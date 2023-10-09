@@ -315,4 +315,42 @@ class ObjectModel
         $this->database->bind('object_id', $object_id);
         $this->database->execute(); 
     }
+
+    public function deleteByUsername($username, $object_id)
+    {
+        // update storage left
+        $query = 'SELECT size FROM Object WHERE object_id = :object_id';
+        $this->database->query($query);
+        $this->database->bind('object_id', $object_id);
+        $res = $this->database->fetch();
+        $size = $res->size;
+
+        $query = 'SELECT storage_left FROM User WHERE username = :username';
+        $this->database->query($query);
+        $this->database->bind('username', $username);
+        $res = $this->database->fetch();
+        $storage_left = $res->storage_left;
+        $storage_left = $storage_left + $size;
+
+        $query = 'UPDATE User SET storage_left = :storage_left WHERE username = :username';
+        $this->database->query($query);
+        $this->database->bind('username', $username);
+        $this->database->bind('storage_left', $storage_left);
+        $this->database->execute();
+
+        $deleteCommentQuery = 'DELETE FROM Comment WHERE object_id = :object_id';
+        $this->database->query($deleteCommentQuery);
+        $this->database->bind('object_id', $object_id);
+        $this->database->execute(); 
+
+        $deleteLikeQuery = 'DELETE FROM Likes WHERE object_id = :object_id';
+        $this->database->query($deleteLikeQuery);
+        $this->database->bind('object_id', $object_id);
+        $this->database->execute(); 
+
+        $deleteObjectQuery = 'DELETE FROM Object WHERE object_id = :object_id';
+        $this->database->query($deleteObjectQuery);
+        $this->database->bind('object_id', $object_id);
+        $this->database->execute(); 
+    }
 }
