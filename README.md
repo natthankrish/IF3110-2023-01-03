@@ -245,18 +245,16 @@
 
 ### Login
 
-![Login Page](![image](https://github.com/natthankrish/IF3110-2023-01-03/assets/89324014/7f546cda-0d59-4279-ad84-71a6849ba176)
-)
+![Login](https://github.com/natthankrish/IF3110-2023-01-03/assets/89324014/e061db4b-39c2-4740-9518-bdd58d99def9)
 
 ### Register
 
-![Register Page](![image](https://github.com/natthankrish/IF3110-2023-01-03/assets/89324014/bae513c6-7532-4378-9488-b8a1a8d9ce7b)
-)
+![Register](https://github.com/natthankrish/IF3110-2023-01-03/assets/89324014/a26da485-a074-4839-9ced-4c2a13bee684)
+
 
 ### Home
 
-![Home Page](![image](https://github.com/natthankrish/IF3110-2023-01-03/assets/89324014/5da29882-696c-4ef2-8e21-3a427627044e)
-)
+![Home](https://github.com/natthankrish/IF3110-2023-01-03/assets/89324014/1a903062-6089-4fa1-8106-c6a174eba6da)
 
 ### Photos
 
@@ -273,8 +271,7 @@
 
 ## _Entity Relationship Diagram_
 
-![Entity Relationship Diagram](![image](https://github.com/natthankrish/IF3110-2023-01-03/assets/89324014/c97bedb5-fca6-4621-9221-8091e04d46e6)
-)
+![ERD](https://github.com/natthankrish/IF3110-2023-01-03/assets/89324014/a8013554-043c-4425-928e-7e67ecfd77c1)
 
 ## Pembagian Tugas
 
