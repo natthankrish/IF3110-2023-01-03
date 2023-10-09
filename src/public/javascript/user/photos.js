@@ -2,10 +2,11 @@ const submit_btn = document.getElementById('submit-photo');
 const input = document.getElementById('file-input');
 const display_img = document.getElementById('add-photo-display');
 const container = document.getElementById('container');
-const listPagination = document.getElementById('list-pagination')
-const statePage = document.getElementById('state-page')
-const leftButton = document.getElementById('left-page-button')
-const rightButton = document.getElementById('right-page-button')
+const listPagination = document.getElementById('list-pagination');
+const statePage = document.getElementById('state-page');
+const leftButton = document.getElementById('left-page-button');
+const rightButton = document.getElementById('right-page-button');
+const loctextfield = document.getElementById('photo-loc');
 
 function openPopUp(object) {
     object.parentElement.parentElement.children[1].style.display = "flex";
@@ -17,6 +18,9 @@ function closePopUp(object) {
 
 function openAddPhoto(object) {
     object.parentElement.children[2].style.display = "flex";
+    display_img.src = BASE_URL + "/assets/images/no-image.png";
+    loctextfield.value = '';
+    input.value = '';
 }
 
 function closeAddPhoto(object) {
@@ -111,44 +115,46 @@ input.addEventListener('change', function(e) {
 submit_btn.addEventListener(
     "click",
     function () {
-        file = input.files[0];
-
-        const formData = new FormData();
-        formData.append("title", file.name);
-        formData.append("date", '12/12/2012');
-        formData.append("location", "HEHE");
-        console.log(file.type)
-
-        if (file.type == 'video/mp4') {
-            console.log('hello');
-            // formData.append('image', BASE_URL + "/assets/icons/edit.png");
-            formData.append('video', file);
-            formData.append("csrf_token", CSRF_TOKEN);
+        if (loctextfield.value && input.value) {
+            file = input.files[0];
     
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", "/public/object/storeVideo");
+            const formData = new FormData();
+            formData.append("title", file.name);
+            formData.append("date", '12/12/2012');
+            formData.append("location", loctextfield.value ? loctextfield.value : "No Location");
+            console.log(file.type)
     
-            xhr.send(formData);
-            xhr.onreadystatechange = function () {
-                if (this.readyState === XMLHttpRequest.DONE) {
-                    submit_btn.parentElement.parentElement.parentElement.style.display = "none";
-                    refresh(12,1);
-                }
-            };
-        } else {
-            formData.append('image', file);
-            formData.append("csrf_token", CSRF_TOKEN);
-    
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", "/public/object/storeImage");
-    
-            xhr.send(formData);
-            xhr.onreadystatechange = function () {
-                if (this.readyState === XMLHttpRequest.DONE) {
-                    submit_btn.parentElement.parentElement.parentElement.style.display = "none";
-                    refresh(12,1);
-                }
-            };
+            if (file.type == 'video/mp4') {
+                console.log('hello');
+                // formData.append('image', BASE_URL + "/assets/icons/edit.png");
+                formData.append('video', file);
+                formData.append("csrf_token", CSRF_TOKEN);
+        
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", "/public/object/storeVideo");
+        
+                xhr.send(formData);
+                xhr.onreadystatechange = function () {
+                    if (this.readyState === XMLHttpRequest.DONE) {
+                        submit_btn.parentElement.parentElement.parentElement.style.display = "none";
+                        refresh(12,1);
+                    }
+                };
+            } else {
+                formData.append('image', file);
+                formData.append("csrf_token", CSRF_TOKEN);
+        
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", "/public/object/storeImage");
+        
+                xhr.send(formData);
+                xhr.onreadystatechange = function () {
+                    if (this.readyState === XMLHttpRequest.DONE) {
+                        submit_btn.parentElement.parentElement.parentElement.style.display = "none";
+                        refresh(12,1);
+                    }
+                };
+            }
         }
     }
 );
