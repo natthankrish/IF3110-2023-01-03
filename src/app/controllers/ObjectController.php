@@ -48,12 +48,10 @@ class ObjectController extends Controller implements ControllerInterface
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'POST':
                     $storageAccess = new StorageAccess(StorageAccess::VIDEO_PATH);
-                    // $uploadedImage = $storageAccess->saveImage($_FILES['image']['tmp_name']);
-                    $uploadedImage = '0c05322d7285c39b9390374ca02908ac.jpeg';
                     $uploadedVideo = $storageAccess->saveVideo($_FILES['video']['tmp_name']);
                     
                     $objectModel = $this->model('ObjectModel');
-                    $objectModel->store($_SESSION['user_id'], $_POST['title'], $uploadedImage, $uploadedVideo, date("Y-m-d", strtotime($_POST['date'])),  $_POST['location'], 'Video');
+                    $objectModel->store($_SESSION['user_id'], $_POST['title'], NULL, $uploadedVideo, date("Y-m-d", strtotime($_POST['date'])),  $_POST['location'], 'Video');
                     exit;
 
                 default:
