@@ -41,7 +41,7 @@ window.addEventListener(
                 currentUsername.innerText = "Current Username: " + data['username'];
                 
                 // show storage up to 2 decimal places
-                usage.innerText = ((data['storage'] - data['storage_left']) / 1024).toFixed(2) + "GB / " + (data['storage'] / 1024).toFixed(2) + "GB";
+                usage.innerText = ((data['storage'] - data['storage_left']) / (1024 * 1024 * 1024)).toFixed(2) + "GB / " + (data['storage'] / (1024 * 1024 * 1024)).toFixed(2) + "GB";
             }
         };
     }, DEBOUNCE_TIMEOUT)

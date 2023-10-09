@@ -10,8 +10,8 @@ class Tables
         email           VARCHAR(256)                 UNIQUE,
         password        VARCHAR(256),
         is_admin        BOOLEAN,
-        storage         INT,
-        storage_left    INT                  
+        storage         BIGINT,
+        storage_left    BIGINT                  
     );";
 
     public const OBJECT_TABLE =
@@ -27,6 +27,7 @@ class Tables
         location        VARCHAR(256),
         description     VARCHAR(512),
         post_date       DATETIME,
+        size            BIGINT,
 
         FOREIGN KEY (user_id) REFERENCES user(user_id)
     );";
