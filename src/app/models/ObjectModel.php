@@ -90,42 +90,68 @@ class ObjectModel
         return $res;
     }
 
-    public function getPublic($limit, $offset, $filter)
+    public function getPublic($user_id, $limit, $offset, $filter)
     {
-        $query = "SELECT * FROM Object WHERE isPublic = 1 AND (title LIKE '%$filter%' OR location LIKE '%$filter%') ORDER BY title LIMIT :limit OFFSET :offset";
+        $query = "SELECT * FROM Object WHERE user_id != :user_id AND isPublic = 1 AND (title LIKE '%$filter%' OR location LIKE '%$filter%') ORDER BY title LIMIT :limit OFFSET :offset";
         $this->database->query($query);
         $this->database->bind('limit', $limit);
         $this->database->bind('offset', $offset);
+        $this->database->bind(':user_id', $user_id);
         $res = $this->database->fetchAll();
         return $res;
     }
 
-    public function getLengthPublic($filter)
+    public function getLengthPublic($user_id, $filter)
     {
-        $query = "SELECT COUNT(*) AS len FROM Object WHERE isPublic = 1 AND (title LIKE '%$filter%' OR location LIKE '%$filter%')";
+        $query = "SELECT COUNT(*) AS len FROM Object WHERE user_id != :user_id AND isPublic = 1 AND (title LIKE '%$filter%' OR location LIKE '%$filter%')";
         $this->database->query($query);
+        $this->database->bind(':user_id', $user_id);
         $res = $this->database->fetch();
         return $res;
     }
 
     public function getPublicById($user_id, $limit, $offset, $filter, $isPublic, $isSorted)
     {
-        $queryPublic = ($isPublic == "all" ? "(isPublic = 1 OR (isPublic = 0 AND user_id = $user_id))" : ($isPublic == "private" ? "(isPublic = 0 AND user_id = $user_id)" : "isPublic = 1"));
+        $queryPublic = ($isPublic == "all" ? "" : ($isPublic == "private" ? "AND isPublic = 0" : "AND isPublic = 1"));
         $querySort = ($isSorted == "1" ? 'ORDER BY title' : '');
-        $query = "SELECT * FROM Object WHERE $queryPublic AND (title LIKE '%$filter%' OR location LIKE '%$filter%') $querySort LIMIT :limit OFFSET :offset;";
+        $query = "SELECT * FROM Object WHERE user_id = :user_id $queryPublic AND (title LIKE '%$filter%' OR location LIKE '%$filter%') $querySort LIMIT :limit OFFSET :offset;";
         $this->database->query($query);
         $this->database->bind('limit', $limit);
         $this->database->bind('offset', $offset);
-        // echo $query;
+        $this->database->bind('user_id', $user_id);
+        // echo $query; 
         $res = $this->database->fetchAll();
         return $res;
     }
 
     public function getLengthPublicById($user_id, $filter, $isPublic)
     {
-        $queryPublic = ($isPublic == "all" ? "(isPublic = 1 OR (isPublic = 0 AND user_id = $user_id))" : ($isPublic == "private" ? "(isPublic = 0 AND user_id = $user_id)" : "isPublic = 1"));
-        $query = "SELECT COUNT(*) AS len FROM Object WHERE $queryPublic AND (title LIKE '%$filter%' OR location LIKE '%$filter%');";
+        $queryPublic = ($isPublic == "all" ? "" : ($isPublic == "private" ? "AND isPublic = 0" : "AND isPublic = 1"));
+        $query = "SELECT COUNT(*) AS len FROM Object WHERE user_id = :user_id $queryPublic AND (title LIKE '%$filter%' OR location LIKE '%$filter%');";
         $this->database->query($query);
+        $this->database->bind('user_id', $user_id);
+        // echo $query;
+        $res = $this->database->fetch();
+        return $res;
+    }
+
+    public function getPrivate($user_id, $limit, $offset)
+    {
+        $query = "SELECT * FROM Object WHERE :user_id = user_id AND isPublic = 1 LIMIT :limit OFFSET :offset;";
+        $this->database->query($query);
+        $this->database->bind('limit', $limit);
+        $this->database->bind('offset', $offset);
+        $this->database->bind('user_id', $user_id);
+        // echo $query; 
+        $res = $this->database->fetchAll();
+        return $res;
+    }
+
+    public function getLengthPrivate($user_id)
+    {
+        $query = "SELECT COUNT(*) AS len FROM Object WHERE :user_id = user_id AND isPublic = 1;";
+        $this->database->query($query);
+        $this->database->bind('user_id', $user_id);
         // echo $query;
         $res = $this->database->fetch();
         return $res;

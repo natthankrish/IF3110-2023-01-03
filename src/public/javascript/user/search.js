@@ -184,8 +184,8 @@ function displayPagination(len, current){
 // })
 
 buttonSearch.addEventListener('click', () => {
-    refresh(12, 1, textbox.value, "all", "0")
-    setupLength(textbox.value, "all", 1)
+    refresh(12, 1, textbox.value, filter.value, "0")
+    setupLength(textbox.value, filter.value, 1)
 })
 
 sortName.addEventListener('click', () => {
@@ -196,11 +196,11 @@ sortName.addEventListener('click', () => {
 
 filter.addEventListener('change', () => {
     if(sortName.classList.contains('active')){
-        refresh(12, 1, "", filter.value, "1")
+        refresh(12, 1, textbox.value, filter.value, "1")
     }else{
-        refresh(12, 1, "", filter.value, "0")
+        refresh(12, 1, textbox.value, filter.value, "0")
     }
-    setupLength("", filter.value, 1)
+    setupLength(textbox.value, filter.value, 1)
 })
 
 

@@ -78,6 +78,7 @@ function deletePhoto(object) {
         if (this.readyState === XMLHttpRequest.DONE) {
             object.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.children[1].style.display = "none";
             refresh(12,1);
+            setupLength(1)
         }
     };
 }
@@ -133,6 +134,7 @@ submit_btn.addEventListener(
                 if (this.readyState === XMLHttpRequest.DONE) {
                     submit_btn.parentElement.parentElement.parentElement.style.display = "none";
                     refresh(12,1);
+                    setupLength(1)
                 }
             };
         } else {
@@ -147,6 +149,7 @@ submit_btn.addEventListener(
                 if (this.readyState === XMLHttpRequest.DONE) {
                     submit_btn.parentElement.parentElement.parentElement.style.display = "none";
                     refresh(12,1);
+                    setupLength(1)
                 }
             };
         }
