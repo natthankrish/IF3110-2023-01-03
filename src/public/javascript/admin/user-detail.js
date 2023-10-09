@@ -51,7 +51,7 @@ window.addEventListener(
                 currentUsername.innerText = "Current Username: " + data['username'];
                 
                 // show storage up to 2 decimal places
-                usage.innerText = ((data['storage'] - data['storage_left']) / 1024).toFixed(2) + "GB / " + (data['storage'] / 1024).toFixed(2) + "GB";
+                usage.innerText = ((data['storage'] - data['storage_left']) / (1024 * 1024 * 1024)).toFixed(2) + "GB / " + (data['storage'] / (1024 * 1024 * 1024)).toFixed(2) + "GB";
 
                 storageUsed = data['storage'] - data['storage_left'];
             }
@@ -262,7 +262,7 @@ storageInput &&
                 storageAlert.innerText = "Invalid storage format!";
                 storageAlert.className = "alert-show";
                 storageValid = false;
-            } else if ((storage*1024) < storageUsed) {
+            } else if ((storage*1024*1024*1024) < storageUsed) {
                 storageAlert.innerText = "Storage must be greater than current usage!";
                 storageAlert.className = "alert-show";
                 storageValid = false;
@@ -281,7 +281,7 @@ storageConfirmButton &&
 
             const formData = new FormData();
             formData.append("username", USERNAME);
-            formData.append("storage", storage*1024);
+            formData.append("storage", storage*1024*1024*1024);
             formData.append("csrf_token", CSRF_TOKEN);
 
             const xhr = new XMLHttpRequest();

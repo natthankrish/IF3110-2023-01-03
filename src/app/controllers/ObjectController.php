@@ -30,7 +30,7 @@ class ObjectController extends Controller implements ControllerInterface
                     $uploadedImage = $storageAccess->saveImage($_FILES['image']['tmp_name']);
 
                     $objectModel = $this->model('ObjectModel');
-                    $objectModel->store($_SESSION['user_id'], $_POST['title'], $uploadedImage, NULL, date("Y-m-d", strtotime($_POST['date'])),  $_POST['location'], 'Photo');
+                    $objectModel->store($_SESSION['user_id'], $_POST['title'], $uploadedImage, NULL, date("Y-m-d", strtotime($_POST['date'])),  $_POST['location'], 'Photo', $_POST['size']);
                     exit;
 
                 default:
@@ -53,7 +53,7 @@ class ObjectController extends Controller implements ControllerInterface
                     $uploadedVideo = $storageAccess->saveVideo($_FILES['video']['tmp_name']);
                     
                     $objectModel = $this->model('ObjectModel');
-                    $objectModel->store($_SESSION['user_id'], $_POST['title'], $uploadedImage, $uploadedVideo, date("Y-m-d", strtotime($_POST['date'])),  $_POST['location'], 'Video');
+                    $objectModel->store($_SESSION['user_id'], $_POST['title'], $uploadedImage, $uploadedVideo, date("Y-m-d", strtotime($_POST['date'])),  $_POST['location'], 'Video', $_POST['size']);
                     exit;
 
                 default:

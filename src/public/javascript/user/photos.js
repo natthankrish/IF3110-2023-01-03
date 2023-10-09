@@ -127,6 +127,7 @@ submit_btn.addEventListener(
             formData.append("title", file.name);
             formData.append("date", mm + '/' + dd + '/' + yyyy);
             formData.append("location", loctextfield.value ? loctextfield.value : "No Location");
+            formData.append("size", file.size);
             console.log(file.type)
     
             if (file.type == 'video/mp4') {
