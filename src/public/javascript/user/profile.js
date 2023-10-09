@@ -93,16 +93,18 @@ function makePost(element) {
 
     const photoCardHTML = `
         <div class="photo-thumbnail-container">
-            <img src="${STORAGE_URL + '/' + (element['type'] == 'Photo' ? 'images' : 'videos') + '/' + element['url_photo']}" class="photo-thumbnail" onclick="openPopUp(this)"/>
+            ${element['type'] === 'Photo'
+                ? ` <img src="${STORAGE_URL + '/' + (element['type'] == 'Photo' ? 'images' : 'videos') + '/' + element['url_photo']}" class="photo-thumbnail" onclick="openPopUp(this)" id="img${element['url_photo']}"/>`
+                : ` <img class="photo-thumbnail" onclick="openPopUp(this)" id="img${element['url_photo']}"/>`
+            }
         </div>
         <div class="photo-popup-container">
             <div class="photo-popup">
                 <div class="photo-popup-img-container" id="${element['type'] == 'Photo' ? 'images' + element['url_photo'] : 'videos' + element['url_video']}">
                     ${element['type'] === 'Photo'
                         ? `<img src="${STORAGE_URL + '/' + (element['type'] == 'Photo' ? 'images' : 'videos') + '/' + element['url_photo']}" class="photo-popup-img" alt="Photo">`
-                        : `<video controls="controls" class="photo-popup-img">
-                                <source src="${STORAGE_URL + '/' + (element['type'] == 'Photo' ? 'images' : 'videos') + '/' + element['url_video']}#t=0.1" type="video/mp4">
-                           </video>`
+                        : `<video controls="controls" class="photo-popup-img" id="video${element['object_id']}" src="${STORAGE_URL + '/' + (element['type'] == 'Photo' ? 'images' : 'videos') + '/' + element['url_video']}#t=0.1" type="video/mp4" preload="metadata">
+                            </video>`
                     }
                 </div>
                 <div class="photo-popup-info-container">
@@ -175,8 +177,27 @@ function refresh(perpage, page) {
                 )
                 countLike(element['object_id']);
                 loadComment(element)
+                if (element['type'] == 'Video') {
+                    const video = document.getElementById('video' + element['object_id'])
+                    video.onloadedmetadata = function() {
+                        let secs = 0.1;
+                        if ('function' === typeof secs) {
+                            secs = secs(this.duration);
+                        }
+                        this.currentTime = Math.min(Math.max(0, (secs < 0 ? this.duration : 0) + secs), this.duration);
+                    };
+                    
+                    video.onseeked = function(e) {
+                        var canvas = document.createElement('canvas');
+                        canvas.height = video.videoHeight;
+                        canvas.width = video.videoWidth;
+                        var ctx = canvas.getContext('2d');
+                        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                        document.getElementById(element['object_id']).children[0].children[0].src = canvas.toDataURL();
+                    };
+                };
             });
-            console.log(objectArray);
+            
         }
     };
 }
