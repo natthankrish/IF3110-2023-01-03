@@ -199,7 +199,7 @@ Browser dan Docker
 | ---------------------- | -------- | --------- |
 | Mutawally Nawwar | 13521065 | Nawwar    |
 | Ghazi Akmal Fauzan          | 13521058 | Ghazi  |
-| Antonio Natthan Krishna     | 13521170 | Nate    |
+| Antonio Natthan Krishna     | 13521162 | Nate    |
 | Ahmad Hapinuddin    | 10023079 | Hapid     |
 
 **Server Side:**
